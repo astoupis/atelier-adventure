@@ -1,4 +1,10 @@
 # atelier-adventure
 Atelier Adventure
 
-Please add here a short description of your project goal
+Description of the project: <pending>
+
+Group Members:
+- Ferrari Valentina
+- Folli Garry
+- Petrov Iaroslav
+- Stoupis Alexios-Philippos
