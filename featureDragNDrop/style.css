@@ -1,0 +1,21 @@
+body{
+  display: flex; /* [1] */
+  flex-wrap: nowrap; /* [1] */
+  overflow-x: auto; /* [1] */
+}
+
+.element {
+    text-align: center;
+    margin: 10px auto 10px auto;
+    width: 80%;
+    border: 1px solid blue;
+}
+
+.droptarget {
+  border: 1px solid red;
+  flex: 0 0 auto;
+  width: 40%;
+  padding-bottom: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
