@@ -1,0 +1,97 @@
+body{
+  
+}
+
+.element {
+    text-align: center;
+    margin: 10px auto 10px auto;
+    width: 80%;
+    border: 1px solid blue;
+}
+
+.droptarget {
+  border: 1px solid red;
+  flex: 0 0 auto;
+  width: 40%;
+  padding-bottom: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body,html {
+  margin: 2px;
+  font-weight: lighter;
+  text-align: justify;
+  font-size: 14px;
+  background-color: #1C1C1E;
+  color: 	#FFFEFF;
+  height: 100%;
+  /* width: 100%; */
+}
+
+/* MAIN PAGE HEADER */
+
+header{
+  position: relative;
+  /* background-color: #FFFEFF; */
+  color: #1C1C1E;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+header>h1{
+  text-transform: uppercase;
+  font-size: 2em;
+  padding-top: 2.5vh;
+  text-align: left;
+  color: #FFFEFF
+}
+
+
+/* MAIN PAGE MAIN */
+
+main{
+  
+  /*Minimal height of the main content.
+  Can still grow and push the footer under.*/
+  min-height: 85vh;
+  /*this is the height of the footer*/
+  padding-bottom: 5vh;
+  /*this is for dividing and filling the middle
+  of the page with the three "section" navigation,
+  content and sidebar. */
+  
+  display: flex; /* [1] */
+  flex-wrap: nowrap; /* [1] */
+  overflow-x: auto; /* [1] */
+}
+
+/* MAIN PAGE COLUMNS */
+
+div.state{
+  flex:3;
+  overflow: auto;
+  border: 2px solid #FFFEFF; 
+}
+
+.state-head{
+  text-transform: uppercase;
+  color: #FFFEFF
+}
+
+.user-icon{
+  /* align-self: right; */
+
+}
+
+.user-img-menu{
+  width: 50px;
+}

@@ -1,0 +1,145 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body,html {
+  margin: 2px;
+  font-weight: lighter;
+  text-align: justify;
+  font-size: 14px;
+  background-color: #1C1C1E;
+  color: 	#FFFEFF;
+  height: 100%;
+  /* width: 100%; */
+}
+
+/* MAIN PAGE HEADER */
+
+header{
+  /* position: relative; */
+  /* background-color: #FFFEFF; */
+  color: #1C1C1E;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+header>h1{
+  flex: 4;
+  text-transform: uppercase;
+  font-size: 2em;
+  margin-left: 1vw;
+  padding-top: 2.5vh;
+  text-align: left;
+  color: #FFFEFF
+}
+
+
+/* MAIN PAGE MAIN */
+
+main{
+  min-height: 85vh;
+  padding-bottom: 5vh;
+  display: flex; /* [1] */
+  flex-wrap: nowrap; /* [1] */
+  overflow-x: auto; /* [1] */
+}
+
+/* MAIN PAGE COLUMNS */
+
+/* Column div */
+.droptarget {
+  max-width: 25vw;
+  border: 1px solid grey;
+  flex: 0 0 auto;
+  width: 40%;
+  padding-bottom: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.state-head{
+  text-align: center;
+  text-transform: uppercase;
+  color: #FFFEFF
+}
+
+
+/* STICKER */
+
+.sticker {
+  /* text centering and text to dix  */
+  min-height: 15vh;
+  margin: 10px auto 10px auto;
+  width: 80%;
+  height: auto;
+  /* border: 1px solid #FFFEFF; */
+}
+
+#e1 {
+  background-color: coral;
+}
+#e2 {
+  background-color: deeppink;
+}
+#e3 {
+  background-color: aqua;
+}
+#e4{
+  background-color: forestgreen;
+}
+
+/* is it needed?? */
+p.sticker{
+  font-size: 1.25em;
+}
+
+ul.sticker{
+  list-style: none;
+  text-align: left;
+}
+
+.sticker-task{
+  font-size: 1.5em;
+}
+
+/* IMAGES */
+
+.user-icon{
+  margin-right: 5px;
+  /* icons positioning need to fixed */
+  flex: 2;
+}
+
+.user-img-menu{
+  /* flex: 1; */
+  padding: 1px;
+  width: 5vw;
+  height: auto;
+}
+
+.user-img-sticker{
+  width: 4vw;
+  height: auto;
+}
+
+
+/* FOOTER */
+
+footer{
+  height: 5vh;
+  margin-top: -5vh;
+  padding-top: 8px;
+}
+
+.footer-credits{
+  font-size: 0.75em;
+  text-align: center;
+}
+
+
+/* Need mobile version */
+/* Need min-max page size to avoid ugly overlaps */
