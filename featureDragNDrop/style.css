@@ -12,21 +12,28 @@ body,html {
   background-color: #1C1C1E;
   color: 	#FFFEFF;
   height: 100%;
-  /* width: 100%; */
 }
 
-/* MAIN PAGE HEADER */
+h1{
+  font-family: 'Poiret One', cursive;
+}
+
+
+/* 
+ * PROJECT PAGE HEADER 
+ */
 
 header{
   /* position: relative; */
-  /* background-color: #FFFEFF; */
   color: #1C1C1E;
   height: 10vh;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  /* overflow: auto; */
 }
 
+/* Project title */
 header>h1{
   flex: 4;
   text-transform: uppercase;
@@ -37,8 +44,21 @@ header>h1{
   color: #FFFEFF
 }
 
+/* User icons/images */
+div.user-img-header{
+  margin-right: 1px;
+}
 
-/* MAIN PAGE MAIN */
+img.user-img-header{
+  padding: 1px;
+  width: 5vw;
+  height: auto;
+}
+
+
+/* 
+ * PROJECT PAGE MAIN 
+ */
 
 main{
   min-height: 85vh;
@@ -48,10 +68,9 @@ main{
   overflow-x: auto; /* [1] */
 }
 
-/* MAIN PAGE COLUMNS */
-
+/* Main columns */
 /* Column div */
-.droptarget {
+div.droptarget {
   max-width: 25vw;
   border: 1px solid grey;
   flex: 0 0 auto;
@@ -59,18 +78,23 @@ main{
   padding-bottom: 30px;
   margin-left: 10px;
   margin-right: 10px;
+  /* overflow: scroll; */
 }
-
-.state-head{
+/* Column title / state name */
+h1.state-head{
   text-align: center;
   text-transform: uppercase;
+  font-size: 1.25em;
+  margin-top: 2px;
   color: #FFFEFF
 }
 
 
-/* STICKER */
+/*
+ * STICKER 
+ */
 
-.sticker {
+div.sticker {
   /* text centering and text to dix  */
   min-height: 15vh;
   margin: 10px auto 10px auto;
@@ -79,6 +103,7 @@ main{
   /* border: 1px solid #FFFEFF; */
 }
 
+/* Sticker background colors */
 #e1 {
   background-color: coral;
 }
@@ -86,48 +111,41 @@ main{
   background-color: deeppink;
 }
 #e3 {
-  background-color: aqua;
+  background-color: lightseagreen;
 }
 #e4{
   background-color: forestgreen;
 }
 
-/* is it needed?? */
-p.sticker{
+h1.sticker{
+  padding-left: 2px;
   font-size: 1.25em;
 }
 
-ul.sticker{
-  list-style: none;
-  text-align: left;
+div.stick-desc{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.sticker-task{
-  font-size: 1.5em;
+div.stick-desc label{
+  margin-left: 3px;
+  font-weight: bold;
 }
 
-/* IMAGES */
-
-.user-icon{
-  margin-right: 5px;
-  /* icons positioning need to fixed */
-  flex: 2;
+div.stick-desc p{
+  padding-left: 2px;
+  padding-right: 2px; 
 }
 
-.user-img-menu{
-  /* flex: 1; */
-  padding: 1px;
-  width: 5vw;
-  height: auto;
-}
-
-.user-img-sticker{
+img.sticker{
   width: 4vw;
   height: auto;
 }
 
-
-/* FOOTER */
+/*
+ * FOOTER 
+ */
 
 footer{
   height: 5vh;
@@ -140,6 +158,73 @@ footer{
   text-align: center;
 }
 
+div.footer-legenda{
+  /* TODO */
+}
 
-/* Need mobile version */
-/* Need min-max page size to avoid ugly overlaps */
+img.footer-legenda{
+  /* TODO */
+}
+
+
+/*
+ * POPUP 
+ */
+
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 20vw;
+  background-color:lightgray;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  top: 5px;
+  margin-left: -20vw;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+div.usr-desc{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+div.usr-desc label{
+  margin-left: 3px;
+  font-weight: bold;
+}
+
+div.usr-desc p{
+  padding-left: 3px;
+}
