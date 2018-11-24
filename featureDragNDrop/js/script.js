@@ -38,3 +38,13 @@ document.addEventListener("drop", function(event) {
         event.target.appendChild(document.getElementById(data));
     }
 });
+
+/* 
+ * User description popup
+ */
+
+function userDesc(data) {
+    var popup = document.getElementById(data);
+    popup.classList.toggle("show");
+}
+
