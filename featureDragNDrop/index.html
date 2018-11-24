@@ -5,9 +5,12 @@
       <title>
       Project page prototype
       </title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <!-- add meta tag -->
-    <!-- add new fonts and change fonts -->
+    <!-- CSS -->
+      <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- FONTS -->
+      <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+    <!-- META -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <!-- HEADER -->
@@ -15,12 +18,65 @@
       <h1 id='project-title'>
           Web Atelier 3 - Project
       </h1>
-      <div class='user-icon'> 
+      <div class='user-img-header'> 
+        <!-- Must find a less hardcoded way to do it -->
         <!-- When passing over these images a ID card referencing the person should be displayed -->
-          <img src='images/avatar1.png' class='user-img-menu'>
-          <img src='images/avatar2.png' class='user-img-menu'>
-          <img src='images/avatar3.png' class='user-img-menu'>
-          <img src='images/avatar4.png' class='user-img-menu'>
+        <div class="popup" onclick="userDesc('myPopup1')">
+          <img src='images/avatar1.png' class='user-img-header'>
+          <span class="popuptext" id="myPopup1">
+              <div class='usr-desc'>
+                  <label>Name:</label><p>Bernard VonDent</p>
+                </div>
+                <div class='usr-desc'>
+                  <label>E-mail:</label><p>b.vondent@gmail.com</p>
+                </div>
+                <div class="usr-desc">
+                  <label>Role:</label><p>Supervisor</p>
+                </div>
+          </span>
+        </div>
+        <div class="popup" onclick="userDesc('myPopup2')">
+          <img src='images/avatar2.png' class='user-img-header'>
+          <span class="popuptext" id="myPopup2">
+            <div class='usr-desc'>
+              <label>Name:</label><p>Benny DeVin</p>
+            </div>
+            <div class='usr-desc'>
+              <label>E-mail:</label><p>b.devin@gmail.com</p>
+            </div>
+            <div class="usr-desc">
+              <label>Role:</label><p>Assistant</p>
+            </div>
+          </span>
+        </div>
+        <div class="popup" onclick="userDesc('myPopup3')">
+            <img src='images/avatar3.png' class='user-img-header'>
+            <span class="popuptext" id="myPopup3">
+              <div class='usr-desc'>
+                <label>Name:</label><p>Carl Micheal</p>
+              </div>
+              <div class='usr-desc'>
+                <label>E-mail:</label><p>c.micheal@gmail.com</p>
+              </div>
+              <div class="usr-desc">
+                <label>Role:</label><p>Programmer</p>
+              </div>
+            </span>
+          </div>
+          <div class="popup" onclick="userDesc('myPopup4')">
+            <img src='images/avatar4.png' class='user-img-header'>
+            <span class="popuptext" id="myPopup4">
+              <div class='usr-desc'>
+                <label>Name:</label><p>Jane Doe</p>
+              </div>
+              <div class='usr-desc'>
+                <label>E-mail:</label><p>j.doe@gmail.com</p>
+              </div>
+              <div class="usr-desc">
+                <label>Role:</label><p>Designer</p>
+              </div>
+            </span>
+          </div>
       </div>
     </header> 
     <!-- MAIN -->
@@ -30,19 +86,26 @@
             Suggestions
           </h1>
         <div draggable="true" id="e1" class="sticker">
-          <!-- is p useful if we have list or label? -->
-          <!-- <p class='sticker'> -->
-            <!-- can do with label end input text and divided into two columns  -->
-            <ul class='sticker'>
-              <li class='sticker-task'>Power Point</li>
-              <li>Description: Merge all the presentation information into a commplete presentation powerpoint</li>
-              <li>Due date: 25.11.2018</li>
-              <li>Assigned to: 
-                <img src='images/avatar1.png' class='user-img-sticker'>
-                <img src='images/avatar4.png' class='user-img-sticker'>
-              </li>
-            </ul>
-          <!-- </p> -->
+          <h1 class='sticker'>Power Point</h1>
+          <div class='stick-desc'>
+            <label> Description: </label>
+            <p>Create a shared power point file.</p>
+          </div>
+          <div class='stick-desc'>
+            <label> Due date: </label>
+            <p> 25.11.2018 </p>
+          </div>
+          <div class='stick-desc'>
+            <label>Assigned to:</label>
+            <p>
+              <div class="popup" onclick="userDesc('myPopup2')">
+                <img src='images/avatar2.png' class='sticker'>
+              </div>
+              <div class="popup" onclick="userDesc('myPopup4')">
+                  <img src='images/avatar4.png' class='sticker'>
+              </div>
+            </p>
+          </div>
         </div>
       </div>
       <div class="droptarget">
@@ -50,9 +113,9 @@
               To do 
             </h1>
         <div draggable="true" id="e2" class="sticker">
-          <p class='sticker'>
-            Drag me!
-          </p>
+          <h1 class='sticker'>
+            TASK
+          </h1>
         </div>
       </div>
       <div class="droptarget">
@@ -60,41 +123,51 @@
               Work in progress
             </h1>
         <div draggable="true" id="e3" class="sticker">
-          <p class='sticker'>
-            Drag me!
-          </p>
+          <h1 class='sticker'>
+            TASK
+          </h1>
         </div>
+        <div draggable="true" id="e1" class="sticker">
+            <h1 class='sticker'>
+              TASK
+            </h1>
+          </div>
       </div>
       <div class="droptarget">
           <h1 class='state-head'>
               Task under revision
             </h1>
         <div draggable="true" id="e4" class="sticker">
-          <p class='sticker'>
-            Drag me!
-          </p>
+          <h1 class='sticker'>
+            TASK
+          </h1>
         </div>
       </div>
       <div class="droptarget">
           <h1 class='state-head'>
               Done
             </h1>
-        <div draggable="true" id="e4" class="sticker">
-          <p class='sticker'>
-            Drag me!
-          </p>
+        <div draggable="true" id="e2" class="sticker">
+          <h1 class='sticker'>
+            TASK
+          </h1>
         </div>
+        <div draggable="true" id="e3" class="sticker">
+            <h1 class='sticker'>
+              TASK
+            </h1>
+          </div>
       </div>
     </main>
     <!-- FOOTER -->
     <footer>
         <p class='footer-credits'>
-            Created and Designed by a group of avarage students. 
+            Created and Designed by a group of students. 
         </p>
         <!-- Need to add a legenda -->
     </footer>
-
   </body>
+  
   <!-- SCRIPTS -->
   <script type="text/javascript" src="js/script.js"></script>
 </html>
