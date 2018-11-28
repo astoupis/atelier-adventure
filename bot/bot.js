@@ -14,8 +14,11 @@ let token = config.token;
 client.on('ready', () => {
     console.log("Connected as " + client.user.tag);
     console.log("Ready to work");
+    // Set bot status to online
     client.user.setStatus('online');
 });
+
+
 
 // Whenever there is a message...
 // "async” before a function means one simple thing:
@@ -40,7 +43,10 @@ client.on('message', async (message) => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     // take the command and make it to lower case
     const command = args.shift().toLowerCase();
+
+    // Some log statements on the server side
     console.log("Command received: " + command);
+    // Log the arguments only if they exist and connect them with space
     if (args.length !== 0) {
         console.log("Arguments: " + args.join(" "));
     }
@@ -50,14 +56,39 @@ client.on('message', async (message) => {
     if (args.length === 0) {
         // Joke command
         if (command === "joke") {
-            // react to the message
+            // react to the message with the specified unicode emoji
             message.react("👍");
             // send a joke to the channel of the message
             message.channel.send(jokesList.getJoke());
         }
+        // Wow command
+        if (command === "wow") {
+            // send a joke to the channel of the message
+            // 2nd argument optional: object
+            // object contains the path to the file or the url
+            message.channel.send( "" , {
+                file: "./gifs/wow.gif"
+            });
+        }
+        // Help command
+        if (command === "help") {
+            // send help message
+            message.channel.send("There is no help!");
+        }
+        // Hello command
+        if (command === "hello") {
+            // send hello message
+            message.channel.send(":wave: " + "Hello " + message.author + "!");
+        }
+        // Think command
+        if (command === "think") {
+            // send message
+            message.channel.send(":thinking: " + "I'm thinking...");
+        }
     }
     // unicode commands
-    if (args.length === 1){
+    // for ultra clearing
+    if (args.length === 1 || ((command === "purge") && (args[1] === "ultra"))){
         // Kick command
         if (command === "kick") {
             // take the first mentioned user of the message
@@ -66,16 +97,27 @@ client.on('message', async (message) => {
             let reason = args.slice(1).join(" ");
             // if member exists
             if (member) {
-                // attempt to kick with the specified reason
-                member.kick(reason)
-                .then((member) => {
-                    // Succesfull kick
-                    message.channel.send(":wave: " + member.displayName + " has been successfully kicked :point_right: ");
-                }).catch(() => {
-                    // Unsuccesful kick
-                    message.channel.send("Access Denied");
-                });
-
+                // if member has the kick permission
+                if(message.member.hasPermission("KICK_MEMBERS")) {
+                    // attempt to kick with the specified reason
+                    member.kick(reason)
+                    .then((member) => {
+                        // Succesfull kick
+                        // Send message to confirm (to the channel of the kick command)
+                        // member.displayName holds the String of the user
+                        message.channel.send(":wave: " + member.displayName + " has been successfully kicked :point_right: ");
+                    }).catch(() => {
+                        // Unsuccesful kick
+                        // Send message to notify of the unsuccesful kick (to the channel of the kick command)
+                        message.channel.send("Access Denied");
+                    });
+                    console.log(`Yay, the author of the message has the role!`);
+                } else {
+                    // member doesn't have the role
+                    message.channel.send("Nope, noppers, nadda.");
+                    console.log(`Nope, noppers, nadda.`);
+                }
+                
             // if member was not existant
             } else {
                 // notify the channel
@@ -97,6 +139,11 @@ client.on('message', async (message) => {
             // where # is the number as a parameter
             message.channel.bulkDelete(args[0])
             .then((messages) => {
+                // Ultra clearing
+                // (no confirmation message)
+                if (args[1] === "ultra") {
+                    return;
+                }
                 // deletion was succesful
                 // notify the channel
                 message.channel.send(`Succesfully deleted ${messages.size} messages`);
@@ -108,6 +155,7 @@ client.on('message', async (message) => {
             });
         }
     }
+    return;
     
     
 });
