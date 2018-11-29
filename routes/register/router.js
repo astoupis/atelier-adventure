@@ -6,11 +6,15 @@ const mongoose = require('mongoose');
 require('../../models');
 const User = mongoose.model('User');
 
+//GET METHOD
+//Get the registration page
 router.get('/', function(req, res) {
 
     res.render("register"); 
 });
 
+//POST METHOD
+//Create a new user
 router.post('/', function(req, res) {
     
     const user = new User({
@@ -20,16 +24,13 @@ router.post('/', function(req, res) {
 
     // save it in the database
     user.save(function(err, saved) {
-        // if everything goes well
         if (!err) {
             if (req.accepts("html")) {
                 res.redirect("/user/"+saved._id);
             } else {
                 res.json(user);
             }
-        // if something went wrong
         } else {
-            //code of response
             res.status(400).end();
         }
     });

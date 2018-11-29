@@ -3,8 +3,16 @@ const router = express.Router();
 const fetch = require('node-fetch');
 
 const mongoose = require('mongoose');
-//require('../../models/'); //TODO
-//const Favorites = mongoose.model('Favorites');
-//const config = require('../../config');
+
+//GET METHOD
+//Get the login page/popup
+router.get('/', function(req, res) {
+});
+
+//POST METHOD
+//Login action (get sesssion/create authentification token)
+router.post('/', function(req, res) {
+    
+});
 
 module.exports = router;
