@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>
+			Atelier Adventure Registration
+		</title>
+	</head>
+	<body>
+		<h1> Atelier Adventure simple registration form </h1>
+		<form action=/register method=POST>
+			Login: <input type=text name=username>
+			<br />
+			Password: <input type=password name=password>
+			<br>
+			<input type="submit" value="Register">
+		</form>
+	</body>
+</html>
+

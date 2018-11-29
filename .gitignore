@@ -63,3 +63,4 @@ typings/
 .next
 bot/config.json
 bot/yarn.lock
+yarn.lock
