@@ -19,9 +19,9 @@
         <main>
             <!-- Login form -->
             <form class="login">
-                <label class="login">Username:</label><input type="text" name="username" placeholder="Enter your username">
-                <label class="login">Password:</label><input type="text" name="password" placeholder="Enter your password">
-                <input type="button" name="login-btn" value="Login">
+                <label class="login">Username:</label><input type="text" value="" id="usr-box" name="username" placeholder="Enter your username">
+                <label class="login">Password:</label><input type="text" id="psw-box" name="password" placeholder="Enter your password">
+                <input type="button" class="button" id="login-btn" name="login-btn" value="Login">
             </form>
             <!-- not sure if we keep hit -->
             <div class="psw-recover">
@@ -29,13 +29,13 @@
                     <a class="pws-recover" href="#"> Forgot password? </a>
                 </p>
             </div>
+            <!-- Open registration popup -->
             <div class="signup">
                 <p>Not registered yet?</p>
-                <input type="button" id="signup-btn" name="signup-btn" value="Sign up" onclick="myFunction">
+                <input type="button" class="button" id="signup-btn" name="signup-btn" value="Sign up">
             </div>
             <!-- this must become a popup window -->
             <!-- Regieter form -->
-<!-- work in progress -->
             <div class="pp-register">
                 <div class="pp-content">
                         <img class="pp-closing-icon" id="register-close"src="images/closeX.png">
@@ -50,7 +50,7 @@
                                 <label class="login">Show password</label><input id="psw-checkbox" type="checkbox">
                             </div>
                         </form>
-                        <input type="submit" class="button" id="register-btn-2" name="register-btn-2" value="Sign Up">
+                        <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up">
                 </div>
             </div>
             <!-- create a popup? -->
@@ -67,4 +67,6 @@
     <!-- SCRIPTS -->
     <script type="text/javascript" src="scripts/script.js"></script>
     <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="js/fetch.js"></script>
+
 </html>

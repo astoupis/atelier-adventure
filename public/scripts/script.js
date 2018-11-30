@@ -13,15 +13,19 @@ function addListeners () {
     pswCheckbox.addEventListener("click", changePassword.bind(this));
     
     //open registration popup window 
-    document.getElementById("signup-btn").addEventListener('click', 
-    function(){
+    document.getElementById('signup-btn').addEventListener('click', function(){
         document.querySelector('.pp-register').style.display = 'flex';
     });
 
     //close registration popup window
-    document.getElementById("register-close").addEventListener('click',
-    function(){
+    document.getElementById("register-close").addEventListener('click', function(){
         document.querySelector('.pp-register').style.display = 'none';
+    });
+
+    //login post request   
+    document.getElementById('login-btn').addEventListener('click', function(){
+        doJSONRequest('POST', "/login", {'Content-Type': 'application/json'},
+        {username: document.getElementById("usr-box").value, password: document.getElementById("psw-box").value})
     });
 
 }
