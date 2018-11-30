@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Welcome - login 
+        </title>
+         <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <!-- META -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="init()">
+        <header>
+            <h1>Welcome!</h1>
+            <img class="welcome-logo" href="#">
+        </header>
+        <main>
+            <!-- Login form -->
+            <form class="login">
+                <label class="login">Username:</label><input type="text" name="username" placeholder="Enter your username">
+                <label class="login">Password:</label><input type="text" name="password" placeholder="Enter your password">
+                <input type="button" name="login-btn" value="Login">
+            </form>
+            <!-- not sure if we keep hit -->
+            <div class="psw-recover">
+                <p class="pws-recover">
+                    <a class="pws-recover" href="#"> Forgot password? </a>
+                </p>
+            </div>
+            <div class="signup">
+                <p>Not registered yet?</p>
+                <input type="button" id="signup-btn" name="signup-btn" value="Sign up" onclick="myFunction">
+            </div>
+            <!-- this must become a popup window -->
+            <!-- Regieter form -->
+<!-- work in progress -->
+            <div class="pp-register">
+                <div class="pp-content">
+                        <img class="pp-closing-icon" id="register-close"src="images/closeX.png">
+                        <form class="register-form" id="register-div">
+                            <h2 class="register">Sign up</h2>
+                            <input type="text" name="username" placeholder="USERNAME" required>
+                            <input type="text" name="firstname" placeholder="FIRST NAME" required>
+                            <input type="text" name="lastname" placeholder="LAST NAME" required>
+                            <input type="text" name="email" placeholder="E-MAIL" required>
+                            <input type="password" id="show-psw" name="password" placeholder="PASSWORD" required>
+                            <div class="form-line">
+                                <label class="login">Show password</label><input id="psw-checkbox" type="checkbox">
+                            </div>
+                        </form>
+                        <input type="submit" class="button" id="register-btn-2" name="register-btn-2" value="Sign Up">
+                </div>
+            </div>
+            <!-- create a popup? -->
+            <div class="more-info">
+                <p class="more-info">
+                    <a class="more-info" href="#"> Want more information? </a>
+                </p>
+            </div>
+        </main>
+        <footer class="footer-credits">
+        </footer>
+    </body>
+
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</html>
