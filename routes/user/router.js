@@ -159,7 +159,26 @@ router.put('/:userid', function(req, res){
 //DELETE METHOD
 //Delete a specific user completely from the server
 router.delete('/:userid', function(req, res) {
+    
+    var userId = req.params.userid;
 
+    User.findById(userId, function (err, found) {
+        if (err || !found) {
+            res.status(404).end();
+        } else {
+            found.remove(function (err, removed) {
+                if (!err) {
+                    if (req.accepts('html')) {
+                        res.status(200).end();
+                    } else {
+                        res.status(200).end();
+                    }
+                } else {
+                    res.status(400).end();
+                }
+            });
+        }
+    });
 }); 
 
 
