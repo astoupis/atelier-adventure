@@ -1,9 +1,6 @@
-var config = {};
+module.exports = {
 
-config.db =  {
-    address: "mongodb://localhost/atelier-adventure",
-    user: "",
-    password:""
+    secret: 'followthelight',
+    database: 'mongodb://localhost/atelier-adventure'
+
 };
-
-module.exports = config; 

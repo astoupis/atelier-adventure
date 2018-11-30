@@ -28,11 +28,7 @@ router.put('/:userid', function(req, res){
 
 });
 
-//POST METHOD 
-//Creat a new user
-router.post('/', function(req, res) {
-
-});
+//POST METHOD
 
 //DELETE METHOD
 //Delete a specific user completely from the server

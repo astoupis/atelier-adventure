@@ -5,10 +5,11 @@
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
-    "crypto": "^1.0.1",
     "dustjs-linkedin": "^2.7.5",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "klei-dust": "^1.0.0",
     "method-override": "^3.0.0",
     "mongoose": "^5.3.13",

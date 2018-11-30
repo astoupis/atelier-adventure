@@ -9,7 +9,8 @@ const config = require("./config");
 
 //Mongoose Server
 const mongoose = require('mongoose');
-mongoose.connect(config.db.address);
+mongoose.connect(config.database);
+app.set('superSecret', config.secret);
 
 //Dust
 app.set('views', './views');

@@ -8,12 +8,15 @@ const Schema = mongoose.Schema;
 
 
 const UserSchema = new Schema({
-    username: {type: String, required: true},
-    passwordHash: {type: String, required: true},
-    dateCreated: {type: Date, default: Date.now, required:true},
-    avatar:{ype: String},
-    boards: {type: Array, default:[], required: true},
-    assignedTasks: {type: Array, default:[], required:true}
+    firstname : {type:String, required: true},
+    lastname : {type:String, required: true},
+    email : {type:String, required: true},
+    username : {type: String, required: true},
+    passwordHash : {type: String, required: true},
+    dateCreated : {type: Date, default: Date.now, required:true},
+    avatar : {ype: String},
+    boards : {type: Array, default:[], required: true},
+    assignedTasks : {type: Array, default:[], required:true}
 });
 
 // TODO
