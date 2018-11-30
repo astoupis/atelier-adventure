@@ -13,7 +13,7 @@ const User = mongoose.model('User');
 //GET METHOD
 //Get the login page/popup
 router.get('/', function(req, res) {
-
+    
 });
 
 //POST METHOD
