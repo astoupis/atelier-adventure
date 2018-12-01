@@ -25,9 +25,17 @@ function addListeners () {
     //login post request   
     document.getElementById('login-btn').addEventListener('click', function(){
         doJSONRequest('POST', "/login", {'Content-Type': 'application/json'},
-        {username: document.getElementById("usr-box").value, password: document.getElementById("psw-box").value})
+        {username: document.getElementById("log-usr-box").value, password: document.getElementById("log-psw-box").value})
     });
 
+    // //register user request
+    document.getElementById('register-btn').addEventListener('click', function(){
+        doJSONRequest('POST', "/register", {'Content-Type': 'application/json'},
+        {firstname: document.getElementById("reg-fnm-box").value, 
+        lastname: document.getElementById("reg-lnm-box").value,
+        email: document.getElementById("reg-eml-box").value , username: document.getElementById("reg-usr-box").value, 
+        passwordHash: document.getElementById("reg-psw-box").value})
+    });
 }
 
 // Function changePassword
