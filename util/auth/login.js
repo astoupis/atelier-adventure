@@ -5,6 +5,7 @@ const SECRET = require('../../config').auth.secret;
 const TOKEN_EXPIRATION_IN_SECONDS = require('../../config').auth.expirationInSeconds;
 const NoSuchUserError = require("./AuthErrors").NoSuchUserError;
 const WrongPasswordError = require("./AuthErrors").WrongPasswordError;
+const TokenPayload = require("./TokenPayload");
 
 /**
  * Given a login credential and a password:
@@ -17,30 +18,33 @@ const WrongPasswordError = require("./AuthErrors").WrongPasswordError;
  * @version 0 (1 Dec 2018)
  * @param {string} loginCredential username or email
  * @param {string} password password
- * @returns {Promise<string> | Promise<Error>} the promise to return a token string, or an Error
+ * @returns {Promise<string>} the promise to return a token string, or an Error
  */
 function login (loginCredential, password) {
     /* ---- STAGE 1: FETCHING USER FROM DB ---- */
-    User.findMany({ $or: [
+    return User.findOne({ $or: [
         { username: loginCredential },
         { email: loginCredential }
-    ]})
+    ]}).exec()
     /* ---- STAGE 2: CHECKING IF PASSWORD IS CORRECT ---- */
-    .then(function(users) {
-        if(users.length == 0) return new NoSuchUserError();
+    .then(function(user) {
+        if(!user) return user = new NoSuchUserError();
         return Promise.all([
-            users[0],
+            user,
             bcrypt.compare(password, user.passwordHash),
         ]);
     })
     /* ---- STAGE 3: GENERATING TOKEN ---- */
     .then(function([user, passwordIsCorrect]) {
-        if(passwordIsCorrect) {
-            return jwt.sign(
-                new TokenPayload(user),
-                { expiresIn: TOKEN_EXPIRATION_IN_SECONDS }
-            );
-        } else return new WrongPasswordError();
+        return new Promise(function(resolve, reject) {
+            if(passwordIsCorrect) resolve(
+                jwt.sign(
+                    new TokenPayload(user),
+                    SECRET,
+                    { expiresIn: TOKEN_EXPIRATION_IN_SECONDS }
+                )
+            ); else reject(new WrongPasswordError());
+        });
     });
 }
 
