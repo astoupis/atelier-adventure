@@ -76,8 +76,7 @@ router.get('/:userid', function(req, res) {
             
             res.json(user);
         }
-    }
-    );
+    });
   
 });
 

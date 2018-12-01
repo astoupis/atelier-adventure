@@ -4,12 +4,22 @@ const fetch = require('node-fetch');
 
 const mongoose = require('mongoose');
 require('../../models');
-const Board = mongoose.model('List');
+
+const List = mongoose.model('List');
+const Board = mongoose.model('Board');
+
 
 //GET METHOD
 //Get or refresh all the columns and their task inside a project
-router.get('/', function(req, res) {
-  
+router.get('/:boardid', function(req, res) {
+    
+    Board.findById(req.params.boardid, function(err, found) {
+        if (!found) {
+            res.status(404).end();
+        } else{
+            
+        }
+    });
 });
 
 //Get the popup for this specific list (description as well as modification button)
@@ -26,7 +36,22 @@ router.put('/:taskid', function(req, res){
 //POST METHOD 
 //Creat a new list for an existing project
 router.post('/', function(req, res) {
-
+    
+    const list = new List({
+        name : req.body.listName
+    })
+    
+    list.save(function(err, saved) {
+        if (!err) {
+            if (req.accepts("html")) {
+                //TODO
+            } else {
+                res.json(saved);
+            }
+        } else {
+            res.status(400).end();
+        }
+    });
 
 });
 
