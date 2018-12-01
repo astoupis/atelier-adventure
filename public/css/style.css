@@ -15,7 +15,7 @@ body,html {
   font-family: 'Gill Sans';
 }
 
-h1{
+h1, h2{
   font-family: 'Poiret One', cursive;
 }
 
@@ -231,6 +231,58 @@ div.usr-desc p{
 }
 
 
+/*****************************/
+/*** Welcome / Login page ***/
+/***************************/
+
+header.login h1{
+  font-size: 2.5em;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  color: lightsalmon;
+}
+header.login h2{
+  margin: 0;
+  padding: 5px;
+  font-size: 1.25em;
+  width: 100%;
+  text-align: center;
+  color: #FFFEFF;
+}
+
+main.login{
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+main.login *{
+  margin-top: 10px;
+}
+
+form.login{
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+form.login input{
+  padding: 10px;
+  margin-top: 10px;
+}
+
+form.login label{
+  color: #FFFEFF;
+}
+
 
 
   /**********************/
@@ -294,10 +346,10 @@ div.usr-desc p{
 
 /* form submit button */
 .button{
-  width: 20%;
-  height: 10%;
+  width: 100px;
+  height: 30px;
   border-radius: 15px;
-  margin-top: 5%;
+  text-align: center;
   background-color: floralwhite;
   color: black;
   border: 2px solid black;

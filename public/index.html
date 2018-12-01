@@ -12,15 +12,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body onload="init()">
-        <header>
+        <header class="login">
             <h1>Welcome!</h1>
+            </br>
             <img class="welcome-logo" href="#">
+            </br>
+            <h2>Let's get started.</h2>
+            </br>
         </header>
-        <main>
+        <main class="login">
             <!-- Login form -->
             <form class="login">
-                <label class="login">Username:</label><input type="text" value="" id="usr-box" name="username" placeholder="Enter your username">
-                <label class="login">Password:</label><input type="text" id="psw-box" name="password" placeholder="Enter your password">
+                <input type="text" value="" id="usr-box" name="username" placeholder="USERNAME">
+                <input type="text" id="psw-box" name="password" placeholder="PASSWORD">
+                <div class="form-line">
+                        <label class="login">Show password</label><input id="psw-checkbox" type="checkbox">
+                </div>
                 <input type="button" class="button" id="login-btn" name="login-btn" value="Login">
             </form>
             <!-- not sure if we keep hit -->
@@ -60,7 +67,12 @@
                 </p>
             </div>
         </main>
-        <footer class="footer-credits">
+        <!-- FOOTER -->
+        <footer>
+            <p class='footer-credits'>
+                <!-- Created and Designed by a group of students.  -->
+            </p>
+            <!-- Need to add a legenda -->
         </footer>
     </body>
 
