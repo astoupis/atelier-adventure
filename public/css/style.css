@@ -20,8 +20,8 @@ h1, h2{
 }
 
 
-/* 
- * PROJECT PAGE HEADER 
+/*
+ * PROJECT PAGE HEADER
  */
 
 header{
@@ -57,8 +57,8 @@ img.user-img-header{
 }
 
 
-/* 
- * PROJECT PAGE MAIN 
+/*
+ * PROJECT PAGE MAIN
  */
 
 main{
@@ -92,7 +92,7 @@ h1.state-head{
 
 
 /*
- * TASK / SICKER 
+ * TASK / SICKER
  */
 
 div.sticker {
@@ -136,7 +136,7 @@ div.stick-desc label{
 
 div.stick-desc p{
   padding-left: 2px;
-  padding-right: 2px; 
+  padding-right: 2px;
 }
 
 img.sticker{
@@ -145,7 +145,7 @@ img.sticker{
 }
 
 /*
- * FOOTER 
+ * FOOTER
  */
 
 footer{
@@ -169,7 +169,7 @@ img.footer-legenda{
 
 
 /*
- * USER POPUP  <-- need to be modified 
+ * USER POPUP  <-- need to be modified
  */
 
 /* Popup container - can be anything you want */
@@ -206,7 +206,7 @@ img.footer-legenda{
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
-  from {opacity: 0;} 
+  from {opacity: 0;}
   to {opacity: 1;}
 }
 
@@ -235,6 +235,7 @@ div.usr-desc p{
 /*** Welcome / Login page ***/
 /***************************/
 
+
 header.login h1{
   font-size: 2.5em;
   margin: 0;
@@ -242,6 +243,7 @@ header.login h1{
   text-align: center;
   color: lightsalmon;
 }
+
 header.login h2{
   margin: 0;
   padding: 5px;
@@ -251,18 +253,17 @@ header.login h2{
   color: #FFFEFF;
 }
 
-main.login{
+div.login{
   position: absolute;
-  left: 10%;
-  width: 80%;
+  /* left: 10%; */
+  width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
 }
 
-main.login *{
+div.login *{
   margin-top: 10px;
 }
 
@@ -282,7 +283,6 @@ form.login input{
 form.login label{
   color: #FFFEFF;
 }
-
 
 
   /**********************/
@@ -360,7 +360,6 @@ form.login label{
   background-color: orange;
 }
 
-
 /* form closing popup icon */
 .pp-closing-icon{
   width: 15px;
@@ -370,6 +369,3 @@ form.login label{
   right: 10px;
   cursor: pointer;
 }
- 
-
-

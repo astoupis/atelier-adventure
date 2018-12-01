@@ -22,24 +22,32 @@
         </header>
         <main class="login">
             <!-- Login form -->
-            <form class="login">
-                <input type="text" value="" id="usr-box" name="username" placeholder="USERNAME">
-                <input type="text" id="psw-box" name="password" placeholder="PASSWORD">
-                <div class="form-line">
-                        <label class="login">Show password</label><input id="psw-checkbox" type="checkbox">
+            <div class="login">
+                <form class="login">
+                    <input type="text" value="" id="usr-box" name="username" placeholder="USERNAME">
+                    <input type="text" id="psw-box" name="password" placeholder="PASSWORD">
+                    <div class="form-line">
+                            <label class="login">Show password</label><input id="psw-checkbox" type="checkbox">
+                    </div>
+                    <input type="button" class="button" id="login-btn" name="login-btn" value="Login">
+                </form>
+                <!-- not sure if we keep hit -->
+                <div class="psw-recover">
+                    <p class="pws-recover">
+                        <a class="pws-recover" href="#"> Forgot password? </a>
+                    </p>
                 </div>
-                <input type="button" class="button" id="login-btn" name="login-btn" value="Login">
-            </form>
-            <!-- not sure if we keep hit -->
-            <div class="psw-recover">
-                <p class="pws-recover">
-                    <a class="pws-recover" href="#"> Forgot password? </a>
-                </p>
-            </div>
-            <!-- Open registration popup -->
-            <div class="signup">
-                <p>Not registered yet?</p>
-                <input type="button" class="button" id="signup-btn" name="signup-btn" value="Sign up">
+                <!-- Open registration popup -->
+                <div class="signup">
+                    <p>Not registered yet?</p>
+                    <input type="button" class="button" id="signup-btn" name="signup-btn" value="Sign up">
+                </div>
+                <!-- create a popup? -->
+                <div class="more-info">
+                    <p class="more-info">
+                        <a class="more-info" href="#"> Want more information? </a>
+                    </p>
+                </div>
             </div>
             <!-- this must become a popup window -->
             <!-- Regieter form -->
@@ -59,12 +67,6 @@
                         </form>
                         <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up">
                 </div>
-            </div>
-            <!-- create a popup? -->
-            <div class="more-info">
-                <p class="more-info">
-                    <a class="more-info" href="#"> Want more information? </a>
-                </p>
             </div>
         </main>
         <!-- FOOTER -->
