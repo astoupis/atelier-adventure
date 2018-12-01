@@ -149,20 +149,48 @@ router.delete('/:boardid', function(req, res) {
     
     var boardId = req.params.boardid;
 
-    Board.findById(boardId, function (err, found) {
-        if (err || !found) {
+    Board.findById(boardId, function (err, board) {
+        if (err || !board) {
             res.status(404).end();
         } else {
-            found.remove(function (err, removed) {
-                if (!err) {
-                    if (req.accepts('html')) {
-                        res.status(200).end();
+
+            let lists = board.lists;
+            
+            var promises = lists.map(function(listId) {
+                return new Promise(function(resolve, reject) {
+        
+                    List.findById(listId, function(err, found) {
+                        if (!err) {
+                            
+                            found.remove(function (err, removed) {
+                                if (!err) {
+                                    resolve();
+                                } else {
+                                    res.status(400).end();
+                                }
+                            });
+
+                        } else {
+                            res.status(400).end();
+                        }
+                    });
+                });
+            });
+              
+            Promise.all(promises)
+            .then(function() {
+                
+                board.remove(function (err, removed) {
+                    if (!err) {
+                        if (req.accepts('html')) {
+                            res.status(200).end();
+                        } else {
+                            res.status(200).end();
+                        }
                     } else {
-                        res.status(200).end();
+                        res.status(400).end();
                     }
-                } else {
-                    res.status(400).end();
-                }
+                });
             });
         }
     });
