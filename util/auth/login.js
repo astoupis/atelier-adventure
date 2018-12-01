@@ -3,8 +3,8 @@ const User = require("../../models").User;
 const bcrypt = require('bcrypt');
 const SECRET = require('../../config').auth.secret;
 const TOKEN_EXPIRATION_IN_SECONDS = require('../../config').auth.expirationInSeconds;
-const NoSuchUserError = require("./").AuthErrors.NoSuchUserError;
-const WrongPasswordError = require("./").AuthErrors.WrongPasswordError;
+const NoSuchUserError = require("./AuthErrors").NoSuchUserError;
+const WrongPasswordError = require("./AuthErrors").WrongPasswordError;
 
 /**
  * Given a login credential and a password:
@@ -12,9 +12,12 @@ const WrongPasswordError = require("./").AuthErrors.WrongPasswordError;
  * - checks, whether the given password is the true user's password
  * - generates a token, if two previous points succeeded, 
  *   else creates an error (without throwing)
+ * @author gary
+ * @author wize
+ * @version 0 (1 Dec 2018)
  * @param {string} loginCredential username or email
  * @param {string} password password
- * @returns {Promise<> | Promise<Error>}
+ * @returns {Promise<string> | Promise<Error>} the promise to return a token string, or an Error
  */
 function login (loginCredential, password) {
     /* ---- STAGE 1: FETCHING USER FROM DB ---- */
