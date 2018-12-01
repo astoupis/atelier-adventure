@@ -1,6 +1,6 @@
-/*
- * LOGIN PAGE FUNCTIONS
- */
+//=============================================================
+// LOGIN PAGE FUNCTIONS
+//=============================================================
 
 
 // Function addListeners
@@ -55,73 +55,210 @@ function changePassword () {
     }
 }
 
-/**************************************************************************************************/
+//=============================================================
+// BOARD PAGE FUNCTIONS
+//=============================================================
 
-/*
- * BOARD PAGE FUNCTIONS 
- */
+// initialization of id
+let id = 0;
 
-//Event listener attachded to the windows object (whole brswer) 
-//which detects when a draggable element is dragged
+// ID function
+function newId () {
+    return id++;
+}
+
+function addListeners2 () {
+    let inviteBtn = document.getElementById("invite-btn");
+    inviteBtn.addEventListener('click', () => {
+        document.querySelector('.pp-register').style.display = 'flex';
+        return;
+        // TODO
+        // make popup
+        // add the username in the URL to search for him by getting it from the fields of the pop-up
+        // doJSONRequest('GET', "/user/search/", {'Content-Type': 'application/json'}, undefined);
+    });
+
+    //close registration popup window
+    document.getElementById("register-close").addEventListener('click', function(){
+        document.querySelector('.pp-register').style.display = 'none';
+    }.bind(this));
+
+
+    // adds functionality to the add list button
+    let addListBtn = document.getElementById("addList-btn");
+    addListBtn.addEventListener('click', () => {
+        let parent = addListBtn.parentNode;
+
+        // create column
+        let div = document.createElement('div');
+        div.className = "droptarget";
+
+        // create title of column
+        let h1 = document.createElement('h1');
+        h1.className = "state-head";
+        h1.innerHTML = "New List";
+        h1.contentEditable = true;
+        div.appendChild(h1);
+
+        // create new task button inside column
+        newTaskButton(div);
+
+        parent.before(div);
+    });
+
+    // find all the columns and for each one of them add the new Task button
+    let columnArray = document.querySelectorAll(".droptarget");
+    columnArray.forEach((element) => {
+        newTaskButton(element);
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        let modal = document.querySelector(".pp-register");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }   
+}
+
+
+
+// function for creating the button for new tasks
+function newTaskButton (div) {
+    // create new task button
+    let outerDiv = document.createElement("div");
+    outerDiv.style.textAlign = "center";
+    // create the button
+    let input = document.createElement('input');
+    input.value = "Create new task";
+    input.type = "button";
+    input.className = "newTask-btn";
+    input.name = "newTask-btn";
+    input.style.textAlign = "center"
+    // append button to div
+    outerDiv.appendChild(input);
+    div.appendChild(outerDiv);
+    // add listener to the button
+    input.addEventListener('click', (event) => {
+        let target = event.target;
+        let taskDiv = newTask();
+        target.parentNode.before(taskDiv);
+    });
+    
+}
+
+// function for creating a new task
+function newTask () {
+    // create taskdiv
+    let taskDiv = document.createElement('div');
+    // make it draggable
+    taskDiv.draggable = true;
+    // give it an id
+    taskDiv.id = "task" + newId();
+    // class
+    taskDiv.className = "sticker";
+    taskDiv.style.backgroundColor = getColor();
+    // create title of the task
+    let taskh1 = document.createElement('h1');
+    // class
+    taskh1.className = "sticker";
+    // default title
+    taskh1.innerHTML = "New Task";
+    // make it editable
+    taskh1.contentEditable = true;
+    taskDiv.appendChild(taskh1);
+
+    return taskDiv;
+}
+
+// generate a random color between four colors
+function getColor () {
+    let random = Math.floor(Math.random() * 4) + 1;
+    if (random === 1) {
+        return "forestgreen";
+    } else if (random === 2) {
+        return "coral";
+    } else if (random === 3) {
+        return "lightseagreen";
+    } else {
+        return "deeppink"
+    }
+}
+
+// Event listener attached to the window (whole broswer) 
+// which detects when a draggable element is dragged
 document.addEventListener("dragstart", function(event) {
-    //we attach the id of the element inside a transfer object to get it again at the drop event (laster event)
-    //Here we have only attached the id of the element dragged
+    // we attach the id of the element inside a transfer object 
+    // to get it again at the drop event (later event)
     event.dataTransfer.setData('text', event.target.id); 
 
-    //the dragged element see his opacity changed
+    // change opacity of the dragged element
     event.target.style.opacity = "0.4";
 });
 
-//Event listener for adding something during the drag
-//which is when the element is simply dragged and we keep the mouse on the element
+// Event listener attached to the window (whole browser)
+// which detects when an element is simply dragged and we keep the mouse on the element
 document.addEventListener("drag", function(event) {
-  event.preventDefault();
+    // prevent default
+    event.preventDefault();
 });
 
-//Event listener for adding something when the drag ends
-//which is when we release the mouse button (it does not matter here if the element is in a dropzone or not)
+// Event listener attached to the window (whole browser)
+// which detects when an element is released from a drag event
+// doesn't matter if the element is in a dropzone
 document.addEventListener("dragend", function(event) {
+    // change opacity of the dragged element
     event.target.style.opacity = "1";
 });
 
-//Event listener when the draggable object (which are the element with the class droptarget in html) enter a dropzone 
+// Event listener attached to the window (whole browser)
+// which detects when a dragged element enters a dropzone
 document.addEventListener("dragenter", function(event) {
-    //the dropzone element have their border in dotted red
+    // if we drag the element through a dropzone
     if ( event.target.className == "droptarget" ) {
+        // change the style of the border
         event.target.style.border = "3px dotted red";
     }
 });
 
-//Event listener when the draggable object is over a dropzone
+// Event listener attached to the window (whole browser)
+// which detects when the dragged object is over a dropzone
 document.addEventListener("dragover", function(event) {
+    // prevent default
     event.preventDefault();
 });
 
-//Event listener when the draggable object leave the dropzone
+// Event listener attached to the window (whole browser)
+// which detects when the dragged object leaves a dropzone
 document.addEventListener("dragleave", function(event) {
-    //we simple remove the dotted effect of the dropzone
+    // if we drag the element from a dropzone
     if ( event.target.className == "droptarget" ) {
+        // change the border style
         event.target.style.border = "";
     }
 });
 
-//Event listener when the draggable object is dropped in the dropzone
+// Event listener attached to the window (whole browser)
+// which detects when the dragged object is dropped
 document.addEventListener("drop", function(event) {
+    // prevent default
     event.preventDefault();
-
+    // if dropped over a dropzone
     if ( event.target.className == "droptarget" ) {
-        
-        event.target.style.border = ""; //the event target get again his normal border
-        
-        var data = event.dataTransfer.getData("text"); //we get the id of the element inside the transfer obejct that we initialized
-    
-        event.target.appendChild(document.getElementById(data)); //we append the element get with the idea inside the div drop zone
+        // change border
+        event.target.style.border = "";
+        // we get the id of the element from inside the transfer object that we initialized
+        let data = event.dataTransfer.getData("text");
+        // appending before the create new task button by tracking with the ID
+        event.target.lastElementChild.before(document.getElementById(data));
     }
 });
 
-
+// function for showing the user description
 function userDesc(data){
+    // track the popup element
     let popup = document.getElementById(data);
-    console.log(popup);
+    // console.log(popup);
+    // make it visible
     popup.classList.toggle("show");
 }
