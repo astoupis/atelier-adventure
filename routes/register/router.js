@@ -18,10 +18,8 @@ router.get('/', function(req, res) {
 //POST METHOD
 //Create a new user
 router.post('/', function(req, res) {
-
     bcrypt.hash(req.body.password, saltRounds).then(function(hash) {
         // Store hash in your password DB
-
         const user = new User({
             firstname : req.body.firstname, 
             lastname : req.body.lastname,
@@ -34,7 +32,7 @@ router.post('/', function(req, res) {
         user.save(function(err, saved) {
             if (!err) {
                 if (req.accepts("html")) {
-                    //res.redirect("/login/");
+                    res.redirect("/login");
                 } else {
                     res.json(saved);
                 }

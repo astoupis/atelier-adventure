@@ -19,7 +19,7 @@ router.get('/search', function(req, res) {
 
 //get the page for this specific user
 router.get('/:userid', function(req, res) {
-  
+
 });
 
 //PUT METHOD

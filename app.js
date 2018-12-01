@@ -7,6 +7,11 @@ const methodOverride = require('method-override');
 const app = express();
 const config = require("./config");
 
+module.paths.push(__dirname + "/util");
+console.log(module.paths);
+
+
+
 //Mongoose Server
 const mongoose = require('mongoose');
 mongoose.connect(config.database);

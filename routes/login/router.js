@@ -13,7 +13,7 @@ const User = mongoose.model('User');
 //GET METHOD
 //Get the login page/popup
 router.get('/', function(req, res) {
-    
+	res.render("login");
 });
 
 //POST METHOD
@@ -30,7 +30,7 @@ router.post('/', function(req, res) {
         if (err) throw err;
         
         if (!user) {
-            res.json({ success: false, message: 'Authentication failed. User not found.' });
+        	res.json({ success: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
             // check if password matches
             bcrypt.compare(givenPassword, user.passwordHash, function(err, response) {
@@ -58,11 +58,6 @@ router.post('/', function(req, res) {
             });
         }
     });
-    /*
-    bcrypt.compare(givenPassword, hash, function(err, res) {
-        // res == true
-    });
-    */
 });
 
 module.exports = router;
