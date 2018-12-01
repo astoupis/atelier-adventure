@@ -43,7 +43,7 @@ function addListeners () {
 // to text and vice versa
 function changePassword () {
     // track the element by ID
-    let pswText = document.getElementById("show-psw");
+    let pswText = document.getElementById("log-psw-box");
     // if the type of the element is password
     if (pswText.type === "password") {
         // change type to text
