@@ -3,66 +3,15 @@ const router = express.Router();
 
 const mongoose = require('mongoose');
 require('../../models');
-<<<<<<< HEAD
-
-const List = mongoose.model('List');
-const Board = mongoose.model('Board');
-
-
-//GET METHOD
-//Get all the columns of a project
-router.get('/:boardid', function(req, res) {
-
-    var listOfLists = []
-    
-    Board.findById(req.params.boardid, function(err, found) {
-        if (!found) {
-            res.status(404).end();
-        } else{
-            
-            let lists = found.lists;
-            
-            var promises = lists.map(function(listId) {
-                return new Promise(function(resolve, reject) {
-        
-                    List.findById(listId, function(err, found) {
-                        if (!err) {
-                            listOfLists.push(found);
-                            resolve();
-                        } else {
-                            res.status(400).end();
-                        }
-                    });
-                });
-            });
-        
-              
-            Promise.all(promises)
-            .then(function() {
-                res.json(listOfLists); 
-            });
-        }
-    });
-});
-=======
 
 const Task = mongoose.model('Task');
 const List = mongoose.model('List');
 const Board = mongoose.model('Board');
 
->>>>>>> a2255b4552ed939433b38b8f01aea50cd13dbdb4
 
 //GET METHOD
 //Get the popup for this specific list (description as well as modification button)
 router.get('/:listid', function(req, res) {
-<<<<<<< HEAD
-  
-});
-
-//PUT METHOD
-//Modify a specific list for an existing project
-router.put('/:listid', function(req, res){
-=======
     
     List.findById(req.params.listid, function(err, found) {
         if (!found) {
@@ -97,7 +46,6 @@ router.put('/:listid', function(req, res){
         }
     }); 
 
->>>>>>> a2255b4552ed939433b38b8f01aea50cd13dbdb4
 
 });
 
@@ -105,23 +53,6 @@ router.put('/:listid', function(req, res){
 //Creat a new list for an existing project
 router.post('/', function(req, res) {
     
-<<<<<<< HEAD
-    const list = new List({
-        name : req.body.listName
-    })
-    
-    list.save(function(err, saved) {
-        if (!err) {
-            if (req.accepts("html")) {
-                //TODO
-            } else {
-                res.json(saved);
-            }
-        } else {
-            res.status(400).end();
-        }
-    });
-=======
     let boardId = req.body.boardId;
 
     const list = new List({
@@ -149,7 +80,6 @@ router.post('/', function(req, res) {
             res.status(400).end();
         }
     }); 
->>>>>>> a2255b4552ed939433b38b8f01aea50cd13dbdb4
 
 });
 

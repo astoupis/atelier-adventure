@@ -39,10 +39,7 @@ app.use('/register', routers.register);
 app.use('/users', routers.user); 
 app.use('/board', routers.board);
 app.use('/list', routers.list); 
-<<<<<<< HEAD
-=======
 app.use('/task', routers.task); 
->>>>>>> a2255b4552ed939433b38b8f01aea50cd13dbdb4
 
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {

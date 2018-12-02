@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require("../../util/auth");
 
 
 const mongoose = require('mongoose');
@@ -37,8 +38,6 @@ router.get('/:boardid/users', function(req, res) {
             res.json(found.users);
         }
     });
-<<<<<<< HEAD
-=======
 });
 
 //Get all the columns of a project
@@ -74,7 +73,6 @@ router.get('/:boardid/lists', function(req, res) {
             });
         }
     });
->>>>>>> a2255b4552ed939433b38b8f01aea50cd13dbdb4
 });
 
 //PUT METHOD
@@ -95,82 +93,100 @@ router.put('/:boardid/name', function(req, res){
 //then he can invite other users
 router.post('/', function(req, res) {
 
-    //The array is initialized with the current user who create it
-    let boardId = req.body.userId;
-    let arrayUser = [boardId];
-    let arrayList = [];
-    let arrayListId = [];
+    auth.authenticate(req)
+    .then(function(payload) {
+        //The array is initialized with the current user who create it
+        let userId = payload._id;
+        let arrayUser = [userId];
+        let arrayList = [];
+        let arrayListId = [];
+        let boardName = req.body.name;
 
-    if (req.body.list1) arrayList.push(req.body.list1);
-    if (req.body.list2) arrayList.push(req.body.list2);
-    if (req.body.list3) arrayList.push(req.body.list3);
-    if (req.body.list4) arrayList.push(req.body.list4);
-    if (req.body.list5) arrayList.push(req.body.list5);
+        if (req.body.list1) arrayList.push(req.body.list1);
+        if (req.body.list2) arrayList.push(req.body.list2);
+        if (req.body.list3) arrayList.push(req.body.list3);
+        if (req.body.list4) arrayList.push(req.body.list4);
+        if (req.body.list5) arrayList.push(req.body.list5);
 
-    var promises = arrayList.map(function(name) {
-        return new Promise(function(resolve, reject) {
+        var promises = arrayList.map(function(name) {
+            return new Promise(function(resolve, reject) {
+                
+                list = new List({
+                    name: name
+                })
+
+                list.save(function(err, saved) {
+                    if (!err) {
+                        arrayListId.push(saved._id);
+                        resolve();
+                    } else {
+                        res.status(400).end();
+                    }
+                });
+            });
+        });
+
+        
+        Promise.all(promises)
+        .then(function() { 
+            console.log('all dropped)'); 
             
-            list = new List({
-                name: name
+            const board = new Board({
+                name : boardName, 
+                users : arrayUser,
+                lists : arrayListId
             })
-
-            list.save(function(err, saved) {
+            
+            console.log(board); 
+            
+            board.save(function(err, saved) {
                 if (!err) {
-                    arrayListId.push(saved._id);
-                    resolve();
+                    if (req.accepts("html")) {
+                        //TODO
+                    } else {
+                        res.json(saved);
+                    }
                 } else {
                     res.status(400).end();
                 }
             });
-        });
+        }).catch(console.error);
+
+    })
+    .catch(function(error) {
+        res.json(error);
     });
 
-      
-    Promise.all(promises)
-    .then(function() { 
-        
-        console.log('all dropped)'); 
-        
-        const board = new Board({
-            name : req.body.name, 
-            users : arrayUser,
-            lists : arrayListId
-        })
-        
-        console.log(board); 
-        
-        board.save(function(err, saved) {
-            if (!err) {
-                if (req.accepts("html")) {
-                    //TODO
-                } else {
-                    res.json(saved);
-                }
-            } else {
-                res.status(400).end();
-            }
-        });
-    }).catch(console.error);
+    
 });
 
 //Put a new existing user inside the project
-router.post('/:boardid/:userid', function (req,res){
+router.post('/:boardid/:userid', function (req,res) {
     
-    var board = {}
+    auth.authenticate(req)
+    .then(function(payload) {
+        var board = {}
 
-    Board.findById(req.params.boardid, function(err, found) {
-        if (!found) {
-            res.status(404).end();
-        } else {
-            board = found;
-            board.users.push(req.params.userid);
+        Board.findById(req.params.boardid, function(err, found) {
+            if (!found) {
+                res.status(404).end();
+            } else {
+                board = found;
+                if(!board.users.includes(payload._id)) {
+                    res.status(403).end();
+                    return;
+                }
+                board.users.push(req.params.userid);
 
-            Board.findByIdAndUpdate(req.params.boardid, board).then(data => {
-                res.json(data); 
-            }); 
-        }
+                Board.findByIdAndUpdate(req.params.boardid, board).then(data => {
+                    res.json(data); 
+                }); 
+            }
+        });
+    })
+    .catch(function(error) {
+        res.json(error);
     });
-
 }); 
 
 //PUT METHOD 
@@ -217,11 +233,6 @@ router.delete('/:boardid', function(req, res) {
               
             Promise.all(promises)
             .then(function() {
-<<<<<<< HEAD
-                
-=======
-
->>>>>>> a2255b4552ed939433b38b8f01aea50cd13dbdb4
                 board.remove(function (err, removed) {
                     if (!err) {
                         if (req.accepts('html')) {

@@ -20,7 +20,6 @@ router.post('/', function(req, res) {
     auth.login(req.body.username, req.body.password)
     .then(function(tokenString) {
         res.set("Set-Cookie", "token=" + tokenString + "; Max-Age=" + config.auth.expirationInSeconds);
-
         if(req.accepts("html")) res.redirect("/");
         else res.json({ 
             success: true, 
@@ -29,7 +28,6 @@ router.post('/', function(req, res) {
         });
     })
     .catch(function(error) {
-        console.log("CATCH")
         res.set("Set-Cookie", "token=invalid.cookie.value");
         if(req.accepts("html")) res.redirect("/");
         else res.json({

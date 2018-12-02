@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require("../../util/auth");
 
+
 //GET METHOD
 //If session is active get the user page
 //If session is not active, get the login/regsitration page
