@@ -13,12 +13,13 @@ const TokenPayload = require("./TokenPayload");
  * - checks, whether the given password is the true user's password
  * - generates a token, if two previous points succeeded, 
  *   else creates an error (without throwing)
- * @author gary
+ * @author banane54
  * @author wize
  * @version 0 (1 Dec 2018)
  * @param {string} loginCredential username or email
  * @param {string} password password
- * @returns {Promise<string>} the promise to return a token string, or an Error
+ * @returns {Promise<string>} the promise to return a token string, which fails with an {Error}, 
+ *                            if the token cannot be given (e.g. when wrong password)
  */
 function login (loginCredential, password) {
     /* ---- STAGE 1: FETCHING USER FROM DB ---- */
@@ -37,13 +38,17 @@ function login (loginCredential, password) {
     /* ---- STAGE 3: GENERATING TOKEN ---- */
     .then(function([user, passwordIsCorrect]) {
         return new Promise(function(resolve, reject) {
-            if(passwordIsCorrect) resolve(
+            if(passwordIsCorrect) {
                 jwt.sign(
-                    new TokenPayload(user),
-                    SECRET,
-                    { expiresIn: TOKEN_EXPIRATION_IN_SECONDS }
-                )
-            ); else reject(new WrongPasswordError());
+                    new TokenPayload(user), 
+                    SECRET, 
+                    { expiresIn: TOKEN_EXPIRATION_IN_SECONDS },
+                    function(error, token) {
+                        if(error) reject(error);
+                        resolve(token);
+                    }
+                );
+            } else reject(new WrongPasswordError());
         });
     });
 }
