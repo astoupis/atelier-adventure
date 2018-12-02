@@ -8,6 +8,8 @@ const INVALID_TOKEN = "a.b.c";
  * If the argument is request, the token search goes in priority:
  * - Authorization header **(must have type `config.auth.type`, or will be rejected)**
  * - Cookie with name `config.auth.cookie`
+ * @author wize
+ * @version 0 (2 Dec 2018)
  * @param {string | Express.Request} tokenOrRequest the token string or the request, 
  *                                                        which contains token to be verified
  * @returns {Promise<Object>} a Promise with the payload object of the given token, 
