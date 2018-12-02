@@ -93,8 +93,8 @@ router.put('/:boardid/name', function(req, res){
 router.post('/', function(req, res) {
 
     //The array is initialized with the current user who create it
-    let boardId = req.body.userId;
-    let arrayUser = [boardId];
+    let userId = req.body.userId;
+    let arrayUser = [userId];
     let arrayList = [];
     let arrayListId = [];
 
