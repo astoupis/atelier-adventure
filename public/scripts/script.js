@@ -7,10 +7,26 @@
 // which adds the listeners for various buttons
 // such as the checkbox button
 function addListeners () {
-    // track the element by ID
-    let pswCheckbox = document.getElementById("psw-checkbox");
-    // add the event listener to the checkbox
-    pswCheckbox.addEventListener("click", changePassword.bind(this));
+    
+    //show passaword for login
+    document.getElementById("log-psw-checkbox").addEventListener('click', function(){
+        let pswText = document.getElementById("log-psw-box");
+        if (pswText.type === "password") {
+            pswText.type = "text";
+        } else {
+            pswText.type = "password";
+        }
+    });
+
+    //show password for register 
+    document.getElementById("reg-psw-checkbox").addEventListener('click', function(){
+        let pswText = document.getElementById("reg-psw-box");
+        if (pswText.type === "password") {
+            pswText.type = "text";
+        } else {
+            pswText.type = "password";
+        }
+    });
     
     //open registration popup window 
     document.getElementById('signup-btn').addEventListener('click', function(){
@@ -38,22 +54,24 @@ function addListeners () {
     });
 }
 
-// Function changePassword
-// which changes the password from hidden (i.e. asterisks)
-// to text and vice versa
-function changePassword () {
-    // track the element by ID
-    let pswText = document.getElementById("show-psw");
-    // if the type of the element is password
-    if (pswText.type === "password") {
-        // change type to text
-        pswText.type = "text";
-    } else {
-        // in case it's text (or anything else which shouldn't happen)
-        // change it to password
-        pswText.type = "password";
-    }
-}
+// // Function changePassword
+// // which changes the password from hidden (i.e. asterisks)
+// // to text and vice versa
+// function changePassword () {
+//     // track the element by ID
+//     //This id does not exists 
+//     //can we do it with class? 
+//     let pswText = document.getElementById("show-psw");
+//     // if the type of the element is password
+//     if (pswText.type === "password") {
+//         // change type to text
+//         pswText.type = "text";
+//     } else {
+//         // in case it's text (or anything else which shouldn't happen)
+//         // change it to password
+//         pswText.type = "password";
+//     }
+// }
 
 /**************************************************************************************************/
 
