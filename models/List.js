@@ -9,8 +9,8 @@ const Schema = mongoose.Schema;
 
 const ListSchema = new Schema({
     name: {type: String, required: true},
-    tasks: {type: Array, default:[], required: true},
-    board: {type: Object, required:true}
+    tasks: {type: Array, default:[]}
+    
 });
 
 // TODO
