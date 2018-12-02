@@ -37,6 +37,44 @@ router.get('/:boardid/users', function(req, res) {
             res.json(found.users);
         }
     });
+<<<<<<< HEAD
+=======
+});
+
+//Get all the columns of a project
+router.get('/:boardid/lists', function(req, res) {
+
+    var listOfLists = []
+    
+    Board.findById(req.params.boardid, function(err, found) {
+        if (!found) {
+            res.status(404).end();
+        } else{
+            
+            let lists = found.lists;
+            
+            var promises = lists.map(function(listId) {
+                return new Promise(function(resolve, reject) {
+        
+                    List.findById(listId, function(err, found) {
+                        if (!err) {
+                            listOfLists.push(found);
+                            resolve();
+                        } else {
+                            res.status(400).end();
+                        }
+                    });
+                });
+            });
+        
+              
+            Promise.all(promises)
+            .then(function() {
+                res.json(listOfLists); 
+            });
+        }
+    });
+>>>>>>> a2255b4552ed939433b38b8f01aea50cd13dbdb4
 });
 
 //PUT METHOD
@@ -179,7 +217,11 @@ router.delete('/:boardid', function(req, res) {
               
             Promise.all(promises)
             .then(function() {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> a2255b4552ed939433b38b8f01aea50cd13dbdb4
                 board.remove(function (err, removed) {
                     if (!err) {
                         if (req.accepts('html')) {
