@@ -34,7 +34,7 @@ router.post('/', function(req, res) {
         if(req.accepts("html")) res.redirect("/");
         else res.json({
             success: false, 
-            message: error,
+            message: error.message,
         });
     });
 });
