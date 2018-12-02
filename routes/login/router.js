@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
-
+const config = require('../../config');
 const auth = require("../../util/auth");
 
 const mongoose = require('mongoose');
@@ -18,11 +18,24 @@ router.get('/', function(req, res) {
 //Login action (get sesssion/create authentification token)
 router.post('/', function(req, res) {
     auth.login(req.body.username, req.body.password)
-    .then(function(result) {
-            res.json({ success: true, token: result, message: "Enjoy your token!" });
+    .then(function(tokenString) {
+        res.set("Set-Cookie", "token=" + tokenString + "; Max-Age=" + config.auth.expirationInSeconds);
+
+        if(req.accepts("html")) res.redirect("/");
+        else res.json({ 
+            success: true, 
+            token: tokenString, 
+            message: "Enjoy your token!" , 
+        });
     })
     .catch(function(error) {
-        res.json({ success: false, message: error.message });
+        console.log("CATCH")
+        res.set("Set-Cookie", "token=invalid.cookie.value");
+        if(req.accepts("html")) res.redirect("/");
+        else res.json({
+            success: false, 
+            message: error,
+        });
     });
 });
 
