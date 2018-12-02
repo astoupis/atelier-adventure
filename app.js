@@ -6,6 +6,7 @@ const dust = require('klei-dust');
 const methodOverride = require('method-override');
 const app = express();
 const config = require("./config");
+const cookieParser = require('cookie-parser');
 
 module.paths.push(__dirname + "/util");
 console.log(module.paths);
@@ -23,6 +24,9 @@ app.engine('dust', dust.dust);
 app.set('view engine', 'dust');
 app.set('view options', {layout: false});
 app.use(express.static(__dirname + '/public'));
+
+//Cookie parser
+app.use(cookieParser());
 
 //Body parser
 app.use(bodyParser.json({type: 'application/json', limit: '50mb', extended: true}));
