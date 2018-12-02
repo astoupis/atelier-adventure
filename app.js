@@ -8,9 +8,6 @@ const app = express();
 const config = require("./config");
 const cookieParser = require('cookie-parser');
 
-module.paths.push(__dirname + "/util");
-console.log(module.paths);
-
 
 
 //Mongoose Server
