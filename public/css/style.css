@@ -306,8 +306,8 @@ form.login label{
 
 /* Content */
 .pp-content{
-  width: 500px;
-  height: 350px;
+  width: 600px;
+  height: 450px;
   background-color: floralwhite;
   text-align: center;
   position: relative;
@@ -356,7 +356,8 @@ form.login label{
 }
 
 .button:hover{
-  background-color: orange;
+  background-color: lightsalmon;
+  cursor: pointer;
 }
 
 
@@ -370,5 +371,88 @@ form.login label{
   cursor: pointer;
 }
  
+  /**********************/
+ /***** User Page ******/
+/**********************/
+
+.pp-mod-line{
+  /* background-color: #1C1C1E; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mod_avatar{
+  width: 50px;
+  height: 50px;
+}
+
+#importAvatar{
+  color: black;
+  margin-left: 95px;
+}
+
+#importAvatar:hover{
+  color: black;
+  margin-left: 95px;
+}
+
+.usr-info-line{
+  display: flex;
+  flex-direction: row;
+}
+
+.usr-info-line label{
+  color: lightsalmon;
+  /* font-weight: bold; */
+  padding: 5px;
+}
+
+.usr-info-line p{
+  padding: 5px;
+}
+
+.usr-info{
+  position: absolute;
+  top:5px;
+  right: 15px;
+}
+
+.my_avatar{
+  width: 70px;
+  height: 70px;
+}
+
+#display-board{
+  margin-left: 10px;
+  padding: 2px;
+}
+
+#display-board input{
+  margin-top: 10px;
+}
 
 
+
+/* BOARD PREVIEW */
+
+div.board-one{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 20vw;
+  height: 20vh;
+  /* background-color: black; */
+  background-color: rgba(0,0,0,0.7);
+  text-align: center;
+  border: 2px solid rgba(0,0,0,0.7);
+}
+
+div.board-one:hover{
+  border-color: lightsalmon;
+  cursor: pointer;
+}
+
+p.board-one{
+  padding-top:8vh;
+}

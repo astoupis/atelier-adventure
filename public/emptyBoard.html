@@ -13,8 +13,8 @@
     </head>
     <body onload="addListeners2()">
         <header>
-            <h1 id='project-title'>
-                Web Atelier 3 - Project
+            <h1 id='project-title' contenteditable="true">
+                New Project
             </h1>
             <input type="button" id="invite-btn" name="invite-btn" value="Invite">
             <div class='user-img-header'>
@@ -35,57 +35,7 @@
                         </div>
                     </span>
                 </div>
-                <div class="popup" onclick="userDesc('myPopup2')">
-                    <img src='images/avatar2.png' class='user-img-header'>
-                    <span class="popuptext" id="myPopup2">
-                        <div class='usr-desc'>
-                            <label>Name:</label>
-                            <p>Benny DeVin</p>
-                        </div>
-                        <div class='usr-desc'>
-                            <label>E-mail:</label>
-                            <p>b.devin@gmail.com</p>
-                        </div>
-                        <div class="usr-desc">
-                            <label>Role:</label>
-                            <p>Assistant</p>
-                        </div>
-                    </span>
-                </div>
-                <div class="popup" onclick="userDesc('myPopup3')">
-                    <img src='images/avatar3.png' class='user-img-header'>
-                    <span class="popuptext" id="myPopup3">
-                    <div class='usr-desc'>
-                        <label>Name:</label>
-                        <p>Carl Micheal</p>
-                    </div>
-                    <div class='usr-desc'>
-                        <label>E-mail:</label>
-                        <p>c.micheal@gmail.com</p>
-                    </div>
-                    <div class="usr-desc">
-                        <label>Role:</label>
-                        <p>Programmer</p>
-                    </div>
-                    </span>
-                </div>
-                <div class="popup" onclick="userDesc('myPopup4')">
-                    <img src='images/avatar4.png' class='user-img-header'>
-                    <span class="popuptext" id="myPopup4">
-                    <div class='usr-desc'>
-                        <label>Name:</label>
-                        <p>Jane Doe</p>
-                    </div>
-                    <div class='usr-desc'>
-                        <label>E-mail:</label>
-                        <p>j.doe@gmail.com</p>
-                    </div>
-                    <div class="usr-desc">
-                        <label>Role:</label>
-                        <p>Designer</p>
-                    </div>
-                    </span>
-                </div>
+                
             </div>
 
         </header>
@@ -101,27 +51,19 @@
                 <!-- Task -->
                 <div draggable="true" id="task-2" class="sticker movable-task" style="background-color: forestgreen"">
                     <h1 class='sticker'>
-                        Power Point
+                        Task 1
                     </h1>
-                    <div class='stick-desc'>
-                        <label> Description: </label>
-                        <p>Create a shared power point file.</p>
-                    </div>
-                    <div class='stick-desc'>
-                        <label> Due date: </label>
-                        <p> 25.11.2018 </p>
-                    </div>
-                    <div class='stick-desc'>
-                        <label>Assigned to:</label>
-                        <p>
-                            <div class="popup" onclick="userDesc('myPopup2')">
-                                <img src='images/avatar2.png' class='sticker'>
-                            </div>
-                            <div class="popup" onclick="userDesc('myPopup4')">
-                                <img src='images/avatar4.png' class='sticker'>
-                            </div>
-                        </p>
-                    </div>
+                    
+                </div>
+            </div>
+            <div draggable="true" class="droptarget movable-column" id="column-3">
+                <h1 class="state-head" contenteditable="true">
+                    Doing 
+                </h1>
+                <div draggable="true" id="task-3" class="sticker movable-task" style="background-color: deeppink">
+                    <h1 class='sticker'>
+                        Task 2
+                    </h1>
                 </div>
             </div>
             <div draggable="true" class="droptarget movable-column" id="column-1">
@@ -130,7 +72,7 @@
                 </h1>
                 <div draggable="true" id="task-1" class="sticker movable-task" style="background-color: coral">
                     <h1 class='sticker'>
-                        TASK
+                        Task 3
                     </h1>
                 </div>
             </div>

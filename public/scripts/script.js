@@ -33,16 +33,29 @@ function addListeners () {
         document.querySelector('.pp-register').style.display = 'flex';
     });
 
-    //close registration popup window
+    //close registration popup window when clicking on closing btn 
     document.getElementById("register-close").addEventListener('click', function(){
         document.querySelector('.pp-register').style.display = 'none';
     });
 
+    //close registration popup window when clicking outside modal
+    window.onclick = function(event) {
+        let modal = document.querySelector(".pp-register");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    } 
+
     //login post request   
-    document.getElementById('login-btn').addEventListener('click', function(){
-        doJSONRequest('POST', "/login", {'Content-Type': 'application/json'},
-        {username: document.getElementById("log-usr-box").value, password: document.getElementById("log-psw-box").value})
-    });
+    // document.getElementById('login-btn').addEventListener('click', function(){
+    //     doJSONRequest('POST', "/login", {'Content-Type': 'application/json'},
+    //     {username: document.getElementById("log-usr-box").value, password: document.getElementById("log-psw-box").value})
+    // });
+
+    // redirect to user page when click on login button 
+    document.getElementById("login-btn").addEventListener('click', function(){
+        window.location.href = "./userpage.html";
+    })
 
     // //register user request
     document.getElementById('register-btn').addEventListener('click', function(){
@@ -55,36 +68,20 @@ function addListeners () {
 }
 
 
-// // Function changePassword
-// // which changes the password from hidden (i.e. asterisks)
-// // to text and vice versa
-// function changePassword () {
-//     // track the element by ID
-//     //This id does not exists 
-//     //can we do it with class? 
-//     let pswText = document.getElementById("show-psw");
-//     // if the type of the element is password
-//     if (pswText.type === "password") {
-//         // change type to text
-//         pswText.type = "text";
-//     } else {
-//         // in case it's text (or anything else which shouldn't happen)
-//         // change it to password
-//         pswText.type = "password";
-//     }
-// }
-
-
 //=============================================================
 // BOARD PAGE FUNCTIONS
 //=============================================================
-
+let dragLock = "";
 // initialization of id
 let id = 0;
 
 // ID function
 function newId () {
     return id++;
+}
+let iD = 0;
+function newID () {
+    return iD++;
 }
 
 function addListeners2 () {
@@ -111,7 +108,9 @@ function addListeners2 () {
 
         // create column
         let div = document.createElement('div');
-        div.className = "droptarget";
+        div.className = "droptarget movable-column";
+        div.draggable = true;
+        //addListenersCol(div);
 
         // create title of column
         let h1 = document.createElement('h1');
@@ -132,14 +131,32 @@ function addListeners2 () {
         newTaskButton(element);
     });
 
+    let taskArray = document.querySelectorAll("h1.sticker");
+    taskArray.forEach((element) => {
+        element.contentEditable = true;
+    });
+
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         let modal = document.querySelector(".pp-register");
         if (event.target === modal) {
             modal.style.display = "none";
         }
-    }   
+    }
+    
+    let movableColArr = document.querySelectorAll(".movable-column");
+    let movableTaskArr = document.querySelectorAll(".movable-task");
+
+    // movableTaskArr.forEach((element) => {
+    //     addListenersTask(element);
+    // });
+
+    // movableColArr.forEach((element) => {
+    //     addListenersCol(element); 
+    // });
+    
 }
+
 
 // function for creating the button for new tasks
 function newTaskButton (div) {
@@ -173,7 +190,7 @@ function newTask () {
     // give it an id
     taskDiv.id = "task" + newId();
     // class
-    taskDiv.className = "sticker";
+    taskDiv.className = "sticker movable-task";
     taskDiv.style.backgroundColor = getColor();
     // create title of the task
     let taskh1 = document.createElement('h1');
@@ -184,6 +201,7 @@ function newTask () {
     // make it editable
     taskh1.contentEditable = true;
     taskDiv.appendChild(taskh1);
+    //addListenersTask(taskDiv);
 
     return taskDiv;
 }
@@ -208,7 +226,8 @@ document.addEventListener("dragstart", function(event) {
     // we attach the id of the element inside a transfer object 
     // to get it again at the drop event (later event)
     event.dataTransfer.setData('text', event.target.id); 
-
+    dragLock = event.target;
+    console.log(dragLock);
     // change opacity of the dragged element
     event.target.style.opacity = "0.4";
 });
@@ -226,16 +245,19 @@ document.addEventListener("drag", function(event) {
 document.addEventListener("dragend", function(event) {
     // change opacity of the dragged element
     event.target.style.opacity = "1";
+    dragLock = "";
 });
 
 // Event listener attached to the window (whole browser)
 // which detects when a dragged element enters a dropzone
 document.addEventListener("dragenter", function(event) {
-    // if we drag the element through a dropzone
-    if ( event.target.className == "droptarget" ) {
-        // change the style of the border
-        event.target.style.border = "3px dotted red";
-    }
+    event.preventDefault();
+    if ((event.target.className) &&
+        (event.target.className === "droptarget movable-column")) {
+            if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+                event.target.style.border = "3px dotted red";
+            }        
+        }
 });
 
 // Event listener attached to the window (whole browser)
@@ -248,10 +270,12 @@ document.addEventListener("dragover", function(event) {
 // Event listener attached to the window (whole browser)
 // which detects when the dragged object leaves a dropzone
 document.addEventListener("dragleave", function(event) {
-    // if we drag the element from a dropzone
-    if ( event.target.className == "droptarget" ) {
-        // change the border style
-        event.target.style.border = "";
+    event.preventDefault;
+    if ((event.target.className) &&
+    (event.target.className === "droptarget movable-column")) {
+        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+            event.target.style.border = "";
+        }       
     }
 });
 
@@ -260,15 +284,31 @@ document.addEventListener("dragleave", function(event) {
 document.addEventListener("drop", function(event) {
     // prevent default
     event.preventDefault();
-    // if dropped over a dropzone
-    if ( event.target.className == "droptarget" ) {
-        // change border
-        event.target.style.border = "";
-        // we get the id of the element from inside the transfer object that we initialized
-        let data = event.dataTransfer.getData("text");
-        // appending before the create new task button by tracking with the ID
-        event.target.lastElementChild.before(document.getElementById(data));
+    let data = event.dataTransfer.getData("text");
+    if ((event.target.className) && (event.target.className === "droptarget movable-column")) {
+
+        if (dragLock.className && dragLock.className === "sticker movable-task"){
+            event.target.lastElementChild.before(dragLock);
+        }
+
+        if (dragLock.className && dragLock.className === "droptarget movable-column"){
+            event.target.after(dragLock);
+            console.log(event.target);
+        }
+        
     }
+
+    // if ((event.target.className) && (event.target.className === "droptarget-column")){
+    //     if (dragLock.className && dragLock.className === "droptarget movable-column"){
+    //         console.log(event.target);
+    //         console.log("hello")
+    //         //event.target.lastElementChild.before(document.getElementById(data));
+    //     }
+    // }
+
+
+    event.target.style.border = "";
+    dragLock = "";
 });
 
 // function for showing the user description
@@ -279,3 +319,152 @@ function userDesc(data){
     // make it visible
     popup.classList.toggle("show");
 }
+
+
+// add listeners to a task
+function addListenersTask (element) {
+    element.addEventListener('drag', (event) => {
+        event.preventDefault();
+    });
+    
+    element.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text', event.target.id);
+        event.target.style.opacity = "0.4";
+        dragLock = element;
+    });
+
+    element.addEventListener('dragend', (event) => {
+        event.target.style.opacity = "1";
+        dragLock = "";
+    });
+}
+
+// add listeners to a column
+function addListenersCol (element) {
+    element.addEventListener('drop', (event) => {
+        // prevent default
+        event.preventDefault();
+        let data = event.dataTransfer.getData("text");
+
+        if ((event.target.className) && (document.getElementById(data)) &&
+        (event.target.className === "droptarget movable-column")) {
+
+            if (document.getElementById(data).className === "sticker movable-task"){
+                event.target.lastElementChild.before(document.getElementById(data));
+            }
+
+            if (document.getElementById(data).className === "droptarget movable-column"){
+                console.log(event.target);
+                //event.target.lastElementChild.before(document.getElementById(data));
+            }
+            
+        }
+
+
+        event.target.style.border = "";
+        dragLock = "";
+    });
+
+    element.addEventListener('dragenter', (event) => {
+        event.preventDefault();
+        if ((event.target.className) &&
+        (event.target.className === "droptarget movable-column")) {
+            if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+                event.target.style.border = "3px dotted red";
+                return;
+            }         
+        }
+        if ((event.target.className) &&
+        (event.target.className === "droptarget-column")) {
+            if(dragLock && dragLock.className && dragLock.className === "droptarget movable-column"){
+                event.target.style.border = "3px dotted red";
+                return;
+            } 
+        }
+        
+    });
+
+    element.addEventListener('dragleave', (event) => {
+        event.preventDefault;
+        if ((event.target.className) &&
+        (event.target.className === "droptarget movable-column")) {
+            // change border
+            event.target.style.border = "";        
+        }
+    });
+
+    element.addEventListener('dragover', (event) =>{
+        event.preventDefault();
+    });
+}
+
+
+//=============================================================
+// USER PAGE FUNCTIONS
+//=============================================================
+function addListeners3() {
+
+    //show passaword for modification
+    document.getElementById("mod-psw-checkbox").addEventListener('click', function(){
+        let oldPswText = document.getElementById("old-psw-box");
+        let newPswText = document.getElementById("new-psw-box");
+        if (oldPswText.type === "password" || newPswText.type == "password") {
+            oldPswText.type = "text";
+            newPswText.type = "type";
+        } else {
+            oldPswText.type = "password";
+            newPswText.type = "password";
+        }
+    });
+
+    //open modification popup window 
+    document.getElementById('modity-btn').addEventListener('click', function(){
+        document.querySelector('.pp-register').style.display = 'flex';
+    });
+
+    //close modification popup window when clicking on closing btn 
+    document.getElementById("register-close").addEventListener('click', function(){
+        document.querySelector('.pp-register').style.display = 'none';
+    });
+
+    //close modification popup window when clicking outside modal
+    window.onclick = function(event) {
+        let modal = document.querySelector(".pp-register");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    } 
+    //saving modifications
+    document.getElementById("save-mod-btn").addEventListener('click', function(){
+        // get user get password
+        // if (document.getElementById("old-psw-box").value == user.password){ //continue
+        //transform image into string toDataURL() --> ??
+        let image = (document.getElementById("importAvatar").value);
+        console.log(image);
+        //check if they have changed or not 
+        //if not leave standard 
+        doJSONRequest('PUT', "/user/:userid", {'Content-Type': 'application/json'},
+        {firstname: document.getElementById("mod-fnm-box").value, 
+        lastname: document.getElementById("mod-lnm-box").value,
+        email: document.getElementById("mod-eml-box").value , username: document.getElementById("mod-usr-box").value, 
+        passwordHash: document.getElementById("new-psw-box").value})
+    });
+
+    //Everytime user logs in we need to getBoards() and getTasks() to render 
+    
+    //get all the boards (Objects) saved in the user (Object)
+
+    //get all the tasks (Objects) saved in the user (Object)
+
+    // redirect to board page when click on new board button 
+    document.getElementById("new-board-btn").addEventListener('click', function(){
+        //create a empty board and ridirect to that 
+        window.location.href = "./emptyBoard.html";
+    });
+
+    // redirect to board page when click on board preview 
+    document.getElementById("board-one").addEventListener('click', function(){
+        window.location.href = "./board.html";
+    });
+}
+
