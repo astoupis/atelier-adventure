@@ -15,7 +15,7 @@ console.log(module.paths);
 
 //Mongoose Server
 const mongoose = require('mongoose');
-mongoose.connect(config.database);
+mongoose.connect(config.database, {useNewUrlParser: true});
 app.set('superSecret', config.secret);
 
 //Dust
@@ -39,6 +39,10 @@ const routers = require('./routes/routers');
 app.use('/', routers.root);
 app.use('/login', routers.login);
 app.use('/register', routers.register);
+app.use('/users', routers.user); 
+app.use('/board', routers.board);
+app.use('/list', routers.list); 
+app.use('/task', routers.task); 
 
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {
