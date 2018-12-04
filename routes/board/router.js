@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require("../../util/auth");
+//const auth = require("../../util/auth");
 
 
 const mongoose = require('mongoose');
@@ -93,8 +93,7 @@ router.put('/:boardid/name', function(req, res){
 //then he can invite other users
 router.post('/', function(req, res) {
 
-    auth.authenticate(req)
-    .then(function(payload) {
+    req.auth.then(function(payload) {
         //The array is initialized with the current user who create it
         let userId = payload._id;
         let arrayUser = [userId];
@@ -129,15 +128,12 @@ router.post('/', function(req, res) {
         
         Promise.all(promises)
         .then(function() { 
-            console.log('all dropped)'); 
-            
+
             const board = new Board({
                 name : boardName, 
                 users : arrayUser,
                 lists : arrayListId
             })
-            
-            console.log(board); 
             
             board.save(function(err, saved) {
                 if (!err) {
@@ -148,6 +144,7 @@ router.post('/', function(req, res) {
                     }
                 } else {
                     res.status(400).end();
+                    console.log(err); 
                 }
             });
         }).catch(console.error);
@@ -163,8 +160,7 @@ router.post('/', function(req, res) {
 //Put a new existing user inside the project
 router.post('/:boardid/:userid', function (req,res) {
     
-    auth.authenticate(req)
-    .then(function(payload) {
+    req.auth.then(function(payload) {
         var board = {}
 
         Board.findById(req.params.boardid, function(err, found) {
