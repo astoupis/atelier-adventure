@@ -11,7 +11,7 @@ require('../../models');
 //GET METHOD
 //Get the login page/popup
 router.get('/', function(req, res) {
-	res.render("index");
+	res.render("login");
 });
 
 //POST METHOD
