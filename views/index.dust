@@ -79,7 +79,10 @@
     </body>
 
     <!-- SCRIPTS -->
+    <script src="dustjs-linkedin/dust-core.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="scripts/script.js"></script>
     <script type="text/javascript" src="js/fetch.js"></script>
+    <script src="js/views.js"></script>
+    
 
 </html>
