@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const dust = require('klei-dust');
 const methodOverride = require('method-override');
+
 const app = express();
 const config = require("./config");
 const cookieParser = require('cookie-parser');
@@ -17,7 +18,7 @@ mongoose.connect(config.database, {useNewUrlParser: true});
 app.set('superSecret', config.secret);
 
 //Dust
-app.set('views', './views');
+app.set('views', __dirname + '/views');
 app.engine('dust', dust.dust);
 app.set('view engine', 'dust');
 app.set('view options', {layout: false});

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Your profile
+        </title>
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <!-- META -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="addListeners3()">
+        <header>
+            <h1 class="usr-pg-title"> Welcome to your profile!</h1>
+        </header>
+        <main>
+            <div class="usr-info">
+                <!-- get user display the info -->
+                <img class="my_avatar" src="images/avatar1.png">
+                <div class="usr-info-line">
+                    <label>Username:</label><p>bvond17</p>
+                </div>
+                <div class="usr-info-line">
+                    <label>First name:</label><p>Bernard</p>
+                </div>
+                <div class="usr-info-line">
+                    <label>Last name:</label><p>VonDent</p>
+                </div>
+                <div class="usr-info-line">
+                    <label>E-mail:</label><p>b.vondent@gmail.com</p>
+                </div>
+                <!-- create a popup like register to modify the profile of the user and submit the changes -->
+                <!-- modify or change? -->
+                <input type="button" class="button" id="modity-btn" value="Modify your profile">
+            </div>
+            </br>
+            <div id="display-board">
+                <div class="usr-boards">
+                    <h2 class="usr-board-list">Your boards.</h2>
+                    <div class="posted-boards">
+                        <!-- automatically display boards if any -->
+                        <div class="board-one" id="board-one">
+                            <p class="board-one">
+                                    WEB ATELIER 3 - PROJECT
+                            </p>
+                        </div>
+                    </div>
+                    <!-- add new board -->
+                    <input type="button" id="new-board-btn" class="button" value="New board">
+                </div>
+            </div>
+            <!-- <div class="usr-tasks">
+                <h2 class="usr-task-list">Your tasks.</h2>
+                <div class="posted-tasks"> -->
+                <!-- automatically display tasks assigned to user if any -->
+                <!-- </div>
+            </div> -->
+
+            <!-- modify profile popup -->
+            <div class="pp-register">
+                    <div class="pp-content">
+                            <img class="pp-closing-icon" id="register-close" src="images/closeX.png">
+                            <form class="register-form" id="register-div">
+                                <!-- change or modify -->
+                                <h2 class="register">Change your profile</h2>
+                                <div class="pp-mod-line">
+                                     <!-- check css and change class -->
+                                    <img class="mod_avatar" src="images/avatar1.png">
+                                    <input id="importAvatar" type="file">
+                                </div>
+                                <!-- is it possible to load usr "old" data and use them as placeholders? -->
+                                <input type="text" id="mod-usr-box" name="username" placeholder="USERNAME" required>
+                                <input type="text" id="mod-fnm-box" name="firstname" placeholder="FIRST NAME" required>
+                                <input type="text" id="mod-lnm-box" name="lastname" placeholder="LAST NAME" required>
+                                <input type="email" id="mod-eml-box" name="email" placeholder="E-MAIL" required>
+                                <!-- old password new password -->
+                                <input type="password" id="old-psw-box" name="password" placeholder="OLD PASSWORD" required>
+                                <input type="password" id="new-psw-box" name="password" placeholder="NEW PASSWORD" required>
+                                <div class="form-line">
+                                    <!-- chack css and change class -->
+                                    <!-- not working -->
+                                    <label class="login">Show password</label><input id="mod-psw-checkbox" type="checkbox">
+                                </div>
+                            </form>
+                            <input type="submit" class="button" id="save-mod-btn" name="save-mod-btn" value="Save">
+                    </div>
+                </div>
+        </main>
+        <footer>
+            <p class='footer-credits'>
+                Created and Designed by a group of students. 
+            </p>
+            <!-- Need to add a legenda -->
+        </footer>
+    </body>
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="js/fetch.js"></script>
+</html>

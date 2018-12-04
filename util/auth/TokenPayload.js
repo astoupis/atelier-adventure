@@ -19,9 +19,6 @@ class TokenPayload {
 			username: user.username,
 		}
 	}
-
-
-	
 }
 
 module.exports = TokenPayload;

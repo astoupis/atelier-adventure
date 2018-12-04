@@ -16,5 +16,8 @@
     "node-fetch": "^2.3.0",
     "path": "^0.12.7",
     "cookie-parser": "^1.4.3"
+  },
+  "scripts": {
+    "dustc": "cd ./views; dustc *.dust partials/*.dust -o ../public/js/views.js"
   }
 }

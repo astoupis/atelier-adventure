@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Welcome - login 
+        </title>
+         <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <!-- META -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="addListeners()">
+        <header class="login">
+            <h1>Welcome!</h1>
+            </br>
+            <img class="welcome-logo" href="#">
+            </br>
+            <h2>Let's get started.</h2>
+            </br>
+        </header>
+        <main class="login">
+            <!-- Login form -->
+            <div class="login">
+                <form class="login">
+                    <input type="text" value="" id="log-usr-box" name="username" placeholder="USERNAME">
+                    <input type="password" id="log-psw-box" name="password" placeholder="PASSWORD">
+                    <div class="form-line">
+                            <label class="login">Show password</label><input id="log-psw-checkbox" type="checkbox">
+                    </div>
+                    <input type="button" class="button" id="login-btn" name="login-btn" value="Login">
+                </form>
+                <!-- not sure if we keep hit -->
+                <!-- <div class="psw-recover">
+                    <p class="pws-recover">
+                        <a class="pws-recover" href="#"> Forgot password? </a>
+                    </p>
+                </div> -->
+                <!-- Open registration popup -->
+                <div class="signup">
+                    <p>Not registered yet?</p>
+                    <input type="button" class="button" id="signup-btn" name="signup-btn" value="Sign up">
+                </div>
+                <!-- create a popup? -->
+                <!-- <div class="more-info">
+                    <p class="more-info">
+                        <a class="more-info" href="#"> Want more information? </a>
+                    </p>
+                </div> -->
+            </div>
+            <!-- this must become a popup window -->
+            <!-- Regieter form -->
+            <div class="pp-register">
+                <div class="pp-content">
+                        <img class="pp-closing-icon" id="register-close"src="images/closeX.png">
+                        <form class="register-form" id="register-div">
+                            <h2 class="register">Sign up</h2>
+                            <input type="text" id="reg-usr-box" name="username" placeholder="USERNAME" required>
+                            <input type="text" id="reg-fnm-box" name="firstname" placeholder="FIRST NAME" required>
+                            <input type="text" id="reg-lnm-box" name="lastname" placeholder="LAST NAME" required>
+                            <input type="text" id="reg-eml-box" name="email" placeholder="E-MAIL" required>
+                            <input type="password" id="reg-psw-box" name="password" placeholder="PASSWORD" required>
+                            <div class="form-line">
+                                <label class="login">Show password</label><input id="reg-psw-checkbox" type="checkbox">
+                            </div>
+                        </form>
+                        <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up">
+                </div>
+            </div>
+        </main>
+        <!-- FOOTER -->
+        <footer>
+            <p class='footer-credits'>
+                <!-- Created and Designed by a group of students.  -->
+            </p>
+            <!-- Need to add a legenda -->
+        </footer>
+    </body>
+
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="js/fetch.js"></script>
+
+</html>
