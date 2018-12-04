@@ -45,6 +45,7 @@ app.use('/users', routers.user);
 app.use('/board', routers.board);
 app.use('/list', routers.list); 
 app.use('/task', routers.task); 
+app.use('/logout', routers.logout);
 
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {

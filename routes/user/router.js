@@ -58,24 +58,30 @@ router.get('/search', function(req, res) {
 //get the page for this specific user
 //Authentification needed
 router.get('/:userid', function(req, res) {
-    User.findById(req.params.userid, function(err, found) {
-        if (!found) {
-            res.status(404).end();
-        } else if (req.accepts("html")) {
-            res.render("userTemplate", {result: found});
-        } else if (req.accepts("json")) {
-            
-            var user = {
-                _id : found._id,
-                boards : found.boards,
-                assignedTasks : found.assignedTasks,
-                firstname : found.firstname,
-                lastname : found.lastname,
-                dateCreated : found.dateCreated
+
+    req.auth.then(function(payload) {
+        User.findById(req.params.userid, function(err, found) {
+            if (!found) {
+                res.status(404).end();
+            } else if (req.accepts("html")) {
+                res.render("userTemplate", {result: found});
+            } else if (req.accepts("json")) {
+                
+                var user = {
+                    _id : found._id,
+                    boards : found.boards,
+                    assignedTasks : found.assignedTasks,
+                    firstname : found.firstname,
+                    lastname : found.lastname,
+                    dateCreated : found.dateCreated
+                }
+                
+                res.json(user);
             }
-            
-            res.json(user);
-        }
+        })
+    })
+    .catch(function(error) {
+        res.redirect('/login'); 
     });
   
 });
