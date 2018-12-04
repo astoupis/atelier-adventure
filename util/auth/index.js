@@ -4,5 +4,6 @@ module.exports = {
     "TokenPayload" : require("./TokenPayload"),
     "login" : require("./login"),
     "authenticate" : require("./authenticate"),
+    "loginMiddleware" : require("./authenticateMiddleware"),
 };
 

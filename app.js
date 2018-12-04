@@ -8,9 +8,7 @@ const methodOverride = require('method-override');
 const app = express();
 const config = require("./config");
 const cookieParser = require('cookie-parser');
-
-module.paths.push(__dirname + "/util");
-console.log(module.paths);
+const loginMiddleware = require("./util/auth").loginMiddleware;
 
 
 
@@ -28,6 +26,9 @@ app.use(express.static(__dirname + '/public'));
 
 //Cookie parser
 app.use(cookieParser());
+
+//Login
+app.use(loginMiddleware);
 
 //Body parser
 app.use(bodyParser.json({type: 'application/json', limit: '50mb', extended: true}));

@@ -15,7 +15,7 @@ class TokenPayload {
 	 */
 	constructor(user) {
 		return {
-			id: user._id,
+			_id: user._id,
 			username: user.username,
 		}
 	}

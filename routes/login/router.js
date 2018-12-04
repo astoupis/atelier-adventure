@@ -34,7 +34,6 @@ router.post('/', function(req, res) {
         
     })
     .catch(function(error) {
-        console.log("CATCH")
         res.set("Set-Cookie", "token=invalid.cookie.value");
         if(req.accepts("html")) {
             res.redirect("/");
