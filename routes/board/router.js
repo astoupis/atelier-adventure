@@ -176,7 +176,7 @@ router.post('/:boardid/:userid', function (req,res) {
                     res.status(403).end();
                     return;
                 }
-                board.users.push(req.params.userid);
+                board.users.addToSet(req.params.userid);
 
                 Board.findByIdAndUpdate(req.params.boardid, board).then(data => {
                     res.json(data); 

@@ -9,7 +9,7 @@ const Schema = mongoose.Schema;
 
 const ListSchema = new Schema({
     name: {type: String, required: true},
-    tasks: {type: Array, default:[]}
+    tasks: [{type: Schema.Types.ObjectId, ref: 'Category', default:[], required:true}]
     
 });
 
