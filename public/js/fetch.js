@@ -89,15 +89,14 @@ function doJSONRequest(method, url, headers, body){
  /*******************/
 /*******************/ 
 
-function getBoardPrev(){
+function getBoardPrev(id){
 
     // take all the the board ids and render all the boards 
-    doFetchRequest('GET', "/board/:boardid",{'Accept': 'application/json'}, undefined)
-    .then((response) => {
-       return response.json(); })
+    doJSONRequest('GET', "/board/" + id,{}, undefined)
     .then((board)=>{
       //need to create a board_partial to render 
-      dust.render('board_partial', {result: board} ,function(err, dataOut) {
+      console.log(board);
+      dust.render('board_partial', {board} ,function(err, dataOut) {
                      // out contains the rendered HTML string.
                      document.getElementById('posted-boards').innerHTML = dataOut;
       });
