@@ -62,6 +62,14 @@ function addListeners () {
         email: document.getElementById("reg-eml-box").value , 
         username: document.getElementById("reg-usr-box").value, 
         password: document.getElementById("reg-psw-box").value})
+        .then((data)=>{
+            document.querySelector(".pp-register").style.display = "none";
+        })
+        .catch((error)=>{
+            console.log(error);
+        });
+        
+        
     });
 }
 

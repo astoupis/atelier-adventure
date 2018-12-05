@@ -50,11 +50,11 @@
                 </div> -->
             </div>
             <!-- this must become a popup window -->
-            <!-- Regieter form -->
+            <!-- Register form -->
             <div class="pp-register">
                 <div class="pp-content">
                         <img class="pp-closing-icon" id="register-close"src="images/closeX.png">
-                        <form method="POST" action="/register" class="register-form" id="register-div">
+                        <form class="register-form" id="register-div">
                             <h2 class="register">Sign up</h2>
                             <input type="text" id="reg-usr-box" name="username" placeholder="USERNAME" required>
                             <input type="text" id="reg-fnm-box" name="firstname" placeholder="FIRST NAME" required>
@@ -64,9 +64,9 @@
                             <div class="form-line">
                                 <label class="login">Show password</label><input id="reg-psw-checkbox" type="checkbox">
                             </div>
-                            <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up">
+                            <!-- <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up"> -->
                         </form>
-                        <!-- <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up"> -->
+                        <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up">
                 </div>
             </div>
         </main>
