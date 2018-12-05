@@ -62,7 +62,20 @@ router.get('/:userid', function(req, res) {
         if (!found) {
             res.status(404).end();
         } else if (req.accepts("html")) {
-            res.render("userTemplate", {result: found});
+            
+            var user = {
+                _id : found._id,
+                boards : found.boards,
+                assignedTasks : found.assignedTasks,
+                firstname : found.firstname,
+                lastname : found.lastname,
+                username : found.username,
+                email : found.email,
+                dateCreated : found.dateCreated
+            }
+
+            res.render("userpage", {result:user});
+
         } else if (req.accepts("json")) {
             
             var user = {
@@ -71,6 +84,8 @@ router.get('/:userid', function(req, res) {
                 assignedTasks : found.assignedTasks,
                 firstname : found.firstname,
                 lastname : found.lastname,
+                username : found.username,
+                email : found.email,
                 dateCreated : found.dateCreated
             }
             

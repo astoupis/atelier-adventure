@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 require('../../models');
 const Board = mongoose.model('Board');
 const List = mongoose.model('List');
+const User = mongoose.model('User');
 
 //GET METHOD
 //Get the board with all element or refresh the board completely
@@ -92,7 +93,7 @@ router.put('/:boardid/name', function(req, res){
 //Need an authorization, create a new board with the user who create it as admin, 
 //then he can invite other users
 router.post('/', function(req, res) {
-
+    
     req.auth.then(function(payload) {
         //The array is initialized with the current user who create it
         let userId = payload._id;
@@ -135,13 +136,22 @@ router.post('/', function(req, res) {
                 lists : arrayListId
             })
             
-            board.save(function(err, saved) {
+            board.save(function(err, savedBoard) {
                 if (!err) {
-                    if (req.accepts("html")) {
-                        //TODO
-                    } else {
-                        res.json(saved);
-                    }
+                    User.findById(payload._id, function(err, userFound) {
+                        if (!err) {
+                            let userBoards = userFound.boards; 
+                            userBoards.addToSet(savedBoard._id); 
+                            
+                            User.findByIdAndUpdate(payload._id, {boards:userBoards}).then(function(){
+                                res.json(savedBoard); 
+                            });
+                        }
+                        else{
+                            res.status(400).end();
+                        }
+                    }); 
+                    
                 } else {
                     res.status(400).end();
                     console.log(err); 
@@ -152,9 +162,7 @@ router.post('/', function(req, res) {
     })
     .catch(function(error) {
         res.json(error);
-    });
-
-    
+    });  
 });
 
 //Put a new existing user inside the project

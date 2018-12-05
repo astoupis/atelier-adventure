@@ -1,15 +1,78 @@
+<!DOCTYPE html>
 <html>
-	<head>
-    	<title>Login form</title>
-	</head>
-	<body>
-		<h1>Atelier Adventure simple login </h1>
-		<form action="/login" method="POST">
-			Username: <input type="text" name="username">
-			<br>
-			Password: <input type="password" name="password">
-			<br>
-			<input type="submit" value="Login">
-		</form>
-	</body>
+    <head>
+        <title>
+            Welcome - login 
+        </title>
+         <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <!-- META -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="addListeners()">
+        <header class="login">
+            <h1>Welcome!</h1>
+            </br>
+            <img class="welcome-logo" href="#">
+            </br>
+            <h2>Let's get started.</h2>
+            </br>
+        </header>
+        <main class="login">
+            <!-- Login form -->
+            <div class="login">
+                <form class="login" method="POST" action="/login">
+                    <input type="text" value="" id="log-usr-box" name="username" placeholder="USERNAME">
+                    <input type="password" id="log-psw-box" name="password" placeholder="PASSWORD">
+                    <div class="form-line">
+                            <label class="login">Show password</label><input id="log-psw-checkbox" type="checkbox">
+                    </div>
+                    <!-- <span id="login-btn">Login</span> -->
+                    <input type="submit" class="button" id="login-btn" name="login-btn" value="Login">
+                </form>
+                <!-- Open registration popup -->
+                <div class="signup">
+                    <p>Not registered yet?</p>
+                    <span id="signup-btn">Sign up.</span>
+                </div>
+            </div>
+            <!-- this must become a popup window -->
+            <!-- Register form -->
+            <div class="pp-register">
+                <div class="pp-content">
+                        <img class="pp-closing-icon" id="register-close"src="images/closeX.png">
+                        <form class="register-form" id="register-div">
+                            <h2 class="register">Sign up</h2>
+                            <input type="text" id="reg-usr-box" name="username" placeholder="USERNAME" required>
+                            <input type="text" id="reg-fnm-box" name="firstname" placeholder="FIRST NAME" required>
+                            <input type="text" id="reg-lnm-box" name="lastname" placeholder="LAST NAME" required>
+                            <input type="text" id="reg-eml-box" name="email" placeholder="E-MAIL" required>
+                            <input type="password" id="reg-psw-box" name="password" placeholder="PASSWORD" required>
+                            <div class="form-line">
+                                <label class="login">Show password</label><input id="reg-psw-checkbox" type="checkbox">
+                            </div>
+                            <!-- <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up"> -->
+                        </form>
+                        <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up">
+                </div>
+            </div>
+        </main>
+        <!-- FOOTER -->
+        <footer>
+            <p class='footer-credits'>
+                <!-- Created and Designed by a group of students.  -->
+            </p>
+            <!-- Need to add a legenda -->
+        </footer>
+    </body>
+
+    <!-- SCRIPTS -->
+    <script src="dustjs-linkedin/dust-core.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="js/fetch.js"></script>
+    <script src="js/views.js"></script>
+    
+
 </html>

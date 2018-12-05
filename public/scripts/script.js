@@ -62,6 +62,14 @@ function addListeners () {
         email: document.getElementById("reg-eml-box").value , 
         username: document.getElementById("reg-usr-box").value, 
         password: document.getElementById("reg-psw-box").value})
+        .then((data)=>{
+            document.querySelector(".pp-register").style.display = "none";
+        })
+        .catch((error)=>{
+            console.log(error);
+        });
+        
+        
     });
 }
 
@@ -103,7 +111,6 @@ function addListeners2 () {
     let addListBtn = document.getElementById("addList-btn");
     addListBtn.addEventListener('click', () => {
         let parent = addListBtn.parentNode;
-
         // create column
         let div = document.createElement('div');
         div.className = "droptarget movable-column";
@@ -228,6 +235,7 @@ document.addEventListener("dragstart", function(event) {
     console.log(dragLock);
     // change opacity of the dragged element
     event.target.style.opacity = "0.4";
+    document.body.style.cursor = "grab";
 });
 
 // Event listener attached to the window (whole browser)
@@ -235,6 +243,8 @@ document.addEventListener("dragstart", function(event) {
 document.addEventListener("drag", function(event) {
     // prevent default
     event.preventDefault();
+    document.body.style.cursor = "grabbing";
+    
 });
 
 // Event listener attached to the window (whole browser)
@@ -244,6 +254,7 @@ document.addEventListener("dragend", function(event) {
     // change opacity of the dragged element
     event.target.style.opacity = "1";
     dragLock = "";
+    document.body.style.cursor = "default";
 });
 
 // Event listener attached to the window (whole browser)
@@ -401,7 +412,7 @@ function addListenersCol (element) {
 // USER PAGE FUNCTIONS
 //=============================================================
 function addListeners3() {
-
+    console.log("addListeners3")
     //show passaword for modification
     document.getElementById("mod-psw-checkbox").addEventListener('click', function(){
         let oldPswText = document.getElementById("old-psw-box");
