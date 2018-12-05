@@ -96,7 +96,7 @@ function getBoardPrev(id){
     .then((board)=>{
       //need to create a board_partial to render 
       console.log(board);
-      dust.render('board_partial', {board} ,function(err, dataOut) {
+      dust.render('partials\/board_partial', {board} ,function(err, dataOut) {
                      // out contains the rendered HTML string.
                      document.getElementById('posted-boards').innerHTML = dataOut;
       });
