@@ -103,7 +103,6 @@ function addListeners2 () {
     let addListBtn = document.getElementById("addList-btn");
     addListBtn.addEventListener('click', () => {
         let parent = addListBtn.parentNode;
-
         // create column
         let div = document.createElement('div');
         div.className = "droptarget movable-column";
@@ -228,6 +227,7 @@ document.addEventListener("dragstart", function(event) {
     console.log(dragLock);
     // change opacity of the dragged element
     event.target.style.opacity = "0.4";
+    document.body.style.cursor = "grab";
 });
 
 // Event listener attached to the window (whole browser)
@@ -235,6 +235,8 @@ document.addEventListener("dragstart", function(event) {
 document.addEventListener("drag", function(event) {
     // prevent default
     event.preventDefault();
+    document.body.style.cursor = "grabbing";
+    
 });
 
 // Event listener attached to the window (whole browser)
@@ -244,6 +246,7 @@ document.addEventListener("dragend", function(event) {
     // change opacity of the dragged element
     event.target.style.opacity = "1";
     dragLock = "";
+    document.body.style.cursor = "default";
 });
 
 // Event listener attached to the window (whole browser)
