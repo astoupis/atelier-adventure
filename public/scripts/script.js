@@ -412,7 +412,6 @@ function addListenersCol (element) {
 // USER PAGE FUNCTIONS
 //=============================================================
 function addListeners3() {
-    console.log("addListeners3")
     //show passaword for modification
     document.getElementById("mod-psw-checkbox").addEventListener('click', function(){
         let oldPswText = document.getElementById("old-psw-box");
@@ -459,12 +458,6 @@ function addListeners3() {
         passwordHash: document.getElementById("new-psw-box").value})
     });
 
-    //Everytime user logs in we need to getBoards() and getTasks() to render 
-    
-    //get all the boards (Objects) saved in the user (Object)
-
-    //get all the tasks (Objects) saved in the user (Object)
-
     // redirect to board page when click on new board button 
     document.getElementById("new-board-btn").addEventListener('click', function(){
         //create a empty board and ridirect to that 
@@ -474,6 +467,14 @@ function addListeners3() {
     // redirect to board page when click on board preview 
     document.getElementById("board-one").addEventListener('click', function(){
         window.location.href = "./board.html";
+    });
+    //get user 
+    //(method, url, headers, body)
+    doJSONRequest('GET', '/user', {}, undefined)
+    .then((user)=>{
+        user.boards.forEach((element)=>{
+            console.log(element);
+        });
     });
 }
 

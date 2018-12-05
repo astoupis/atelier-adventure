@@ -11,7 +11,8 @@ function doFetchRequest(method, url, headers, body){
             else {
                 return fetch(url, {
                     method: method,
-                    headers: headers
+                    headers: headers,
+                    credentials: "same-origin"
                 });
             }
         }
@@ -80,3 +81,23 @@ function doJSONRequest(method, url, headers, body){
     }
     throw err;
 }
+
+
+  /*******************/
+ /*******************/
+/*******************/ 
+
+function getBoardPrev(){
+
+    // take all the the board ids and render all the boards 
+    doFetchRequest('GET', "/board/:boardid",{'Accept': 'application/json'}, undefined)
+    .then((response) => {
+       return response.json(); })
+    .then((board)=>{
+      //need to create a board_partial to render 
+      dust.render('board_partial', {result: board} ,function(err, dataOut) {
+                     // out contains the rendered HTML string.
+                     document.getElementById('posted-boards').innerHTML = dataOut;
+      });
+    });
+};
