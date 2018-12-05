@@ -69,6 +69,7 @@ router.get('/:userid', function(req, res) {
                 assignedTasks : found.assignedTasks,
                 firstname : found.firstname,
                 lastname : found.lastname,
+                username : found.username,
                 email : found.email,
                 dateCreated : found.dateCreated
             }
@@ -83,6 +84,7 @@ router.get('/:userid', function(req, res) {
                 assignedTasks : found.assignedTasks,
                 firstname : found.firstname,
                 lastname : found.lastname,
+                username : found.username,
                 email : found.email,
                 dateCreated : found.dateCreated
             }
