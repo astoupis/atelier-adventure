@@ -85,10 +85,7 @@ let id = 0;
 function newId () {
     return id++;
 }
-let iD = 0;
-function newID () {
-    return iD++;
-}
+
 
 function addListeners2 () {
     let inviteBtn = document.getElementById("invite-btn");
