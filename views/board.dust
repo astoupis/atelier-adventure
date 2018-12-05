@@ -92,6 +92,7 @@
         
         <!-- MAIN -->
         <main class="droptarget-column">
+            <div class="hidden-div">
             <!-- Column -->
             <div draggable="true" class="droptarget movable-column" id="column-2">
                 <!-- Title of column -->
