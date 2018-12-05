@@ -396,12 +396,11 @@ function addListeners3() {
     document.getElementById("board-one").addEventListener('click', function(){
         window.location.href = "./board.html";
     });
-    //get user 
-    //(method, url, headers, body)
+    //get user + get board array 
     doJSONRequest('GET', '/user', {}, undefined)
     .then((user)=>{
         user.boards.forEach((element)=>{
-            console.log(element);
+            getBoardPrev(element);
         });
     });
 }
