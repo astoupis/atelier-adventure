@@ -29,25 +29,14 @@
                     <div class="form-line">
                             <label class="login">Show password</label><input id="log-psw-checkbox" type="checkbox">
                     </div>
+                    <!-- <span id="login-btn">Login</span> -->
                     <input type="submit" class="button" id="login-btn" name="login-btn" value="Login">
                 </form>
-                <!-- not sure if we keep hit -->
-                <!-- <div class="psw-recover">
-                    <p class="pws-recover">
-                        <a class="pws-recover" href="#"> Forgot password? </a>
-                    </p>
-                </div> -->
                 <!-- Open registration popup -->
                 <div class="signup">
                     <p>Not registered yet?</p>
-                    <input type="button" class="button" id="signup-btn" name="signup-btn" value="Sign up">
+                    <span id="signup-btn">Sign up.</span>
                 </div>
-                <!-- create a popup? -->
-                <!-- <div class="more-info">
-                    <p class="more-info">
-                        <a class="more-info" href="#"> Want more information? </a>
-                    </p>
-                </div> -->
             </div>
             <!-- this must become a popup window -->
             <!-- Register form -->

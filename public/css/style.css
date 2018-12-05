@@ -20,6 +20,7 @@ h1, h2{
 }
 
 
+
 /* 
  * PROJECT PAGE HEADER 
  */
@@ -343,10 +344,27 @@ form.login label{
   margin-top: 5%;
 }
 
+div.signup{
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
+div.signup #signup-btn{
+  color: lightsalmon;
+  margin-left: 5px;
+  cursor: pointer;
+
+}
+
+/* Used in general need to change it */
+
 /* form submit button */
 .button{
+  font-size: 0.75em;
   width: 100px;
   height: 30px;
+  padding: 5px;
   border-radius: 15px;
   text-align: center;
   background-color: floralwhite;
@@ -360,6 +378,20 @@ form.login label{
   cursor: pointer;
 }
 
+#login-btn{
+  background-color: floralwhite;
+  color: black;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#login-btn:hover{
+  background-color: lightsalmon;
+  cursor: pointer;
+}
 
 /* form closing popup icon */
 .pp-closing-icon{

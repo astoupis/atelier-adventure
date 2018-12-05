@@ -140,10 +140,10 @@ router.post('/', function(req, res) {
                 if (!err) {
                     User.findById(payload._id, function(err, userFound) {
                         if (!err) {
-                            let boards = userFound.boards; 
-                            boards.push(savedBoard._id); 
+                            let userBoards = userFound.boards; 
+                            userBoards.addToSet(savedBoard._id); 
                             
-                            User.findByIdAndUpdate(payload._id, {boards}).then(function(){
+                            User.findByIdAndUpdate(payload._id, {boards:userBoards}).then(function(){
                                 res.json(savedBoard); 
                             });
                         }

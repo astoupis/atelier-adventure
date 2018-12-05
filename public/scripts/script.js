@@ -433,7 +433,7 @@ function addListenersCol (element) {
 // USER PAGE FUNCTIONS
 //=============================================================
 function addListeners3() {
-
+    console.log("addListeners3")
     //show passaword for modification
     document.getElementById("mod-psw-checkbox").addEventListener('click', function(){
         let oldPswText = document.getElementById("old-psw-box");
