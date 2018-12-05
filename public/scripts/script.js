@@ -236,7 +236,6 @@ document.addEventListener("dragstart", function(event) {
     // to get it again at the drop event (later event)
     event.dataTransfer.setData('text', event.target.id); 
     dragLock = event.target;
-    console.log(dragLock);
     // change opacity of the dragged element
     event.target.style.opacity = "0.4";
     document.body.style.cursor = "grab";
@@ -327,16 +326,6 @@ document.addEventListener("drop", function(event) {
             
         }
     }
-
-    // if ((event.target.className) && (event.target.className === "droptarget-column")){
-    //     if (dragLock.className && dragLock.className === "droptarget movable-column"){
-    //         console.log(event.target);
-    //         console.log("hello")
-    //         //event.target.lastElementChild.before(document.getElementById(data));
-    //     }
-    // }
-
-
     event.target.style.border = "";
     dragLock = "";
 });
@@ -349,85 +338,6 @@ function userDesc(data){
     // make it visible
     popup.classList.toggle("show");
 }
-
-
-// add listeners to a task
-function addListenersTask (element) {
-    element.addEventListener('drag', (event) => {
-        event.preventDefault();
-    });
-    
-    element.addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text', event.target.id);
-        event.target.style.opacity = "0.4";
-        dragLock = element;
-    });
-
-    element.addEventListener('dragend', (event) => {
-        event.target.style.opacity = "1";
-        dragLock = "";
-    });
-}
-
-// add listeners to a column
-function addListenersCol (element) {
-    element.addEventListener('drop', (event) => {
-        // prevent default
-        event.preventDefault();
-        let data = event.dataTransfer.getData("text");
-
-        if ((event.target.className) && (document.getElementById(data)) &&
-        (event.target.className === "droptarget movable-column")) {
-
-            if (document.getElementById(data).className === "sticker movable-task"){
-                event.target.lastElementChild.before(document.getElementById(data));
-            }
-
-            if (document.getElementById(data).className === "droptarget movable-column"){
-                console.log(event.target);
-                //event.target.lastElementChild.before(document.getElementById(data));
-            }
-            
-        }
-
-
-        event.target.style.border = "";
-        dragLock = "";
-    });
-
-    element.addEventListener('dragenter', (event) => {
-        event.preventDefault();
-        if ((event.target.className) &&
-        (event.target.className === "droptarget movable-column")) {
-            if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
-                event.target.style.border = "3px dotted red";
-                return;
-            }         
-        }
-        if ((event.target.className) &&
-        (event.target.className === "droptarget-column")) {
-            if(dragLock && dragLock.className && dragLock.className === "droptarget movable-column"){
-                event.target.style.border = "3px dotted red";
-                return;
-            } 
-        }
-        
-    });
-
-    element.addEventListener('dragleave', (event) => {
-        event.preventDefault;
-        if ((event.target.className) &&
-        (event.target.className === "droptarget movable-column")) {
-            // change border
-            event.target.style.border = "";        
-        }
-    });
-
-    element.addEventListener('dragover', (event) =>{
-        event.preventDefault();
-    });
-}
-
 
 //=============================================================
 // USER PAGE FUNCTIONS
