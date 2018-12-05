@@ -93,6 +93,49 @@
         <!-- MAIN -->
         <main class="droptarget-column">
             <div class="hidden-div">
+            </div>
+            <!-- Column -->
+            <div draggable="true" class="droptarget movable-column" id="column-2">
+                <!-- Title of column -->
+                <h1 class="state-head" contenteditable="true">
+                    To Do
+                </h1>
+                <!-- Task -->
+                <div draggable="true" id="task-2" class="sticker movable-task" style="background-color: forestgreen"">
+                    <h1 class='sticker'>
+                        Power Point
+                    </h1>
+                    <div class='stick-desc'>
+                        <label> Description: </label>
+                        <p>Create a shared power point file.</p>
+                    </div>
+                    <div class='stick-desc'>
+                        <label> Due date: </label>
+                        <p> 25.11.2018 </p>
+                    </div>
+                    <div class='stick-desc'>
+                        <label>Assigned to:</label>
+                        <p>
+                            <div class="popup" onclick="userDesc('myPopup2')">
+                                <img src='images/avatar2.png' class='sticker'>
+                            </div>
+                            <div class="popup" onclick="userDesc('myPopup4')">
+                                <img src='images/avatar4.png' class='sticker'>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div draggable="true" class="droptarget movable-column" id="column-1">
+                <h1 class="state-head" contenteditable="true">
+                    Done 
+                </h1>
+                <div draggable="true" id="task-1" class="sticker movable-task" style="background-color: coral">
+                    <h1 class='sticker'>
+                        TASK
+                    </h1>
+                </div>
+            </div>
             <div>
                 <input type="button" id="addList-btn" name="addList-btn" value="Add List">
             </div>
@@ -118,6 +161,5 @@
     <!-- SCRIPTS -->
     <script type="text/javascript" src="scripts/script.js"></script>
     <script type="text/javascript" src="js/fetch.js"></script>
-    <script type="text/javascript" src="js/views.js"></script>
 
 </html>
