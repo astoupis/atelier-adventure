@@ -5,7 +5,7 @@
             Your profile
         </title>
         <!-- CSS -->
-        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
         <!-- FONTS -->
         <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
         <!-- META -->

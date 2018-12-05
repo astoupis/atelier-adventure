@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', function(req, res) {
     
     req.auth.then(function(payload) {
-        console.log(payload)
+        
         res.redirect('/user/' + payload._id); 
     })
     .catch(function(error) {

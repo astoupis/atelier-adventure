@@ -8,6 +8,40 @@ const User = mongoose.model('User');
 const bcrypt = require('bcrypt')
 
 //GET METHOD
+//get the page for this specific user
+//Authentification needed
+router.get('/:userid', function(req, res) {
+   
+
+
+    req.auth.then(function(payload) {
+        User.findById(req.params.userid, function(err, found) {
+            if (!found) {
+                res.status(404).end();
+            } else if (req.accepts("html")) {
+                
+                res.render("userpage");
+            } else if (req.accepts("json")) {
+                
+                var user = {
+                    _id : found._id,
+                    boards : found.boards,
+                    assignedTasks : found.assignedTasks,
+                    firstname : found.firstname,
+                    lastname : found.lastname,
+                    dateCreated : found.dateCreated
+                }
+                
+                res.json(user);
+            }
+        })
+    })
+    .catch(function(error) {
+        res.redirect('/login'); 
+    });
+  
+});
+
 //Get a list of all the user of the plateform
 router.get('/all', function(req, res) {
 
@@ -53,37 +87,6 @@ router.get('/search', function(req, res) {
         res.json(userArray);
     });
 
-});
-
-//get the page for this specific user
-//Authentification needed
-router.get('/:userid', function(req, res) {
-
-    req.auth.then(function(payload) {
-        User.findById(req.params.userid, function(err, found) {
-            if (!found) {
-                res.status(404).end();
-            } else if (req.accepts("html")) {
-                res.render("userTemplate", {result: found});
-            } else if (req.accepts("json")) {
-                
-                var user = {
-                    _id : found._id,
-                    boards : found.boards,
-                    assignedTasks : found.assignedTasks,
-                    firstname : found.firstname,
-                    lastname : found.lastname,
-                    dateCreated : found.dateCreated
-                }
-                
-                res.json(user);
-            }
-        })
-    })
-    .catch(function(error) {
-        res.redirect('/login'); 
-    });
-  
 });
 
 //PUT METHOD
