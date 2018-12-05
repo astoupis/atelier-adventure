@@ -64,15 +64,15 @@ img.user-img-header{
 main{
   min-height: 85vh;
   padding-bottom: 5vh;
-  display: flex; /* [1] */
-  flex-wrap: nowrap; /* [1] */
-  overflow-x: auto; /* [1] */
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 /* Main columns */
 /* Column div */
 div.droptarget {
-  max-width: 25vw;
+  max-width: 20vw;
   border: 1px solid grey;
   flex: 0 0 auto;
   width: 40%;
@@ -81,6 +81,19 @@ div.droptarget {
   margin-right: 10px;
   /* overflow: scroll; */
 }
+
+/* Hidden columns */
+div.hidden-div{
+  display: none;
+  background-color: red;
+  min-width: 50px;
+  width: 2px;
+  max-width:15vw;
+}
+div.hidden-div:hover{
+  display: block;
+}
+
 /* Column title / state name */
 h1.state-head{
   text-align: center;
