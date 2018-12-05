@@ -1,3 +1,4 @@
+{#result}
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,23 +14,23 @@
     </head>
     <body onload="addListeners3()">
         <header>
-            <h1 class="usr-pg-title"> Welcome to your profile!</h1>
+            <h1 class="usr-pg-title"> Welcome {firstname} {lastname}!</h1>
         </header>
         <main>
             <div class="usr-info">
                 <!-- get user display the info -->
                 <img class="my_avatar" src="images/avatar1.png">
                 <div class="usr-info-line">
-                    <label>Username:</label><p>bvond17</p>
+                    <label>Username:</label><p>{username}</p>
                 </div>
                 <div class="usr-info-line">
-                    <label>First name:</label><p>Bernard</p>
+                    <label>First name:</label><p>{firstname}</p>
                 </div>
                 <div class="usr-info-line">
-                    <label>Last name:</label><p>VonDent</p>
+                    <label>Last name:</label><p>{lastname}</p>
                 </div>
                 <div class="usr-info-line">
-                    <label>E-mail:</label><p>b.vondent@gmail.com</p>
+                    <label>E-mail:</label><p>{email}</p>
                 </div>
                 <!-- create a popup like register to modify the profile of the user and submit the changes -->
                 <!-- modify or change? -->
@@ -100,3 +101,4 @@
     <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript" src="js/fetch.js"></script>
 </html>
+{/result}
