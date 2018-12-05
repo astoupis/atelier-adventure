@@ -77,7 +77,9 @@ function doJSONRequest(method, url, headers, body){
         return doFetchRequest(method, url, headers, JSON.stringify(body)).then((result) => result.json());
     }
     if (method === "GET" || method === "DELETE"){
-        return doFetchRequest(method, url, headers, body).then((result) => result.json());
+        return doFetchRequest(method, url, headers, body).then((result) => {
+            return result.json()
+        });
     }
     throw err;
 }
