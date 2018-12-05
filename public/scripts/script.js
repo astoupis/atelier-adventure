@@ -127,12 +127,27 @@ function addListeners2 () {
         // create new task button inside column
         newTaskButton(div);
 
+        let hiddenDiv = document.createElement('div');
+        hiddenDiv.className = "hidden-div";
+        // hiddenDiv.style.backgroundColor = "red";
+        // hiddenDiv.style.width = "5px";
+        
+
+
         parent.before(div);
+        parent.before(hiddenDiv);
     });
 
     // find all the columns and for each one of them add the new Task button
     let columnArray = document.querySelectorAll(".droptarget");
     columnArray.forEach((element) => {
+        let hiddenDiv = document.createElement('div');
+        hiddenDiv.className = "hidden-div";
+        // hiddenDiv.style.backgroundColor = "red";
+        hiddenDiv.style.minWidth = "1px";
+        hiddenDiv.style.width = "1px";
+
+        element.after(hiddenDiv);
         newTaskButton(element);
     });
 
@@ -148,17 +163,6 @@ function addListeners2 () {
             modal.style.display = "none";
         }
     }
-    
-    let movableColArr = document.querySelectorAll(".movable-column");
-    let movableTaskArr = document.querySelectorAll(".movable-task");
-
-    // movableTaskArr.forEach((element) => {
-    //     addListenersTask(element);
-    // });
-
-    // movableColArr.forEach((element) => {
-    //     addListenersCol(element); 
-    // });
     
 }
 
@@ -261,12 +265,18 @@ document.addEventListener("dragend", function(event) {
 // which detects when a dragged element enters a dropzone
 document.addEventListener("dragenter", function(event) {
     event.preventDefault();
-    if ((event.target.className) &&
-        (event.target.className === "droptarget movable-column")) {
-            if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
-                event.target.style.border = "3px dotted red";
-            }        
+    if ((event.target.className) && (event.target.className === "droptarget movable-column")) {
+        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+            event.target.style.border = "3px dotted red";
+        }        
+    }
+    if ((event.target.className) && (event.target.className === "hidden-div")) {
+        if(dragLock && dragLock.className && dragLock.className === "droptarget movable-column"){
+            event.target.style.border = "20px dotted red";
+            event.target.style.width = "25vw";
         }
+    }
+
 });
 
 // Event listener attached to the window (whole browser)
@@ -280,11 +290,17 @@ document.addEventListener("dragover", function(event) {
 // which detects when the dragged object leaves a dropzone
 document.addEventListener("dragleave", function(event) {
     event.preventDefault;
-    if ((event.target.className) &&
-    (event.target.className === "droptarget movable-column")) {
+    if ((event.target.className) && (event.target.className === "droptarget movable-column")) {
         if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
             event.target.style.border = "";
         }       
+    }
+    if ((event.target.className) && (event.target.className === "hidden-div")) {
+        if (dragLock.className && dragLock.className === "droptarget movable-column"){
+            event.target.style.border = "";
+            event.target.style.minWidth = "1px";
+            event.target.style.width = "1px";
+        }
     }
 });
 
@@ -299,12 +315,17 @@ document.addEventListener("drop", function(event) {
         if (dragLock.className && dragLock.className === "sticker movable-task"){
             event.target.lastElementChild.before(dragLock);
         }
-
-        if (dragLock.className && dragLock.className === "droptarget movable-column"){
-            event.target.after(dragLock);
-            console.log(event.target);
-        }
         
+    }
+    if ((event.target.className) && (event.target.className === "hidden-div")) {
+        if (dragLock.className && dragLock.className === "droptarget movable-column"){
+            let hiddenDiv = dragLock.nextElementSibling;
+            event.target.after(dragLock);
+            dragLock.after(hiddenDiv);
+            event.target.style.minWidth = "1px";
+            event.target.style.width = "1px";
+            
+        }
     }
 
     // if ((event.target.className) && (event.target.className === "droptarget-column")){
