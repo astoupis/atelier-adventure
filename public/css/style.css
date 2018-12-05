@@ -19,6 +19,13 @@ h1, h2{
   font-family: 'Poiret One', cursive;
 }
 
+/* Hidden columns */
+div.hidden-div{
+  min-width: 1px;
+  width: 1px;
+  max-width:25vw;
+}
+
 
 
 /* 
@@ -103,20 +110,6 @@ div.sticker {
   width: 80%;
   height: auto;
   /* border: 1px solid #FFFEFF; */
-}
-
-/* Sticker background colors */
-#e1 {
-  background-color: coral;
-}
-#e2 {
-  background-color: deeppink;
-}
-#e3 {
-  background-color: lightseagreen;
-}
-#e4{
-  background-color: forestgreen;
 }
 
 h1.sticker{

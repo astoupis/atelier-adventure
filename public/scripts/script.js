@@ -85,10 +85,7 @@ let id = 0;
 function newId () {
     return id++;
 }
-let iD = 0;
-function newID () {
-    return iD++;
-}
+
 
 function addListeners2 () {
     let inviteBtn = document.getElementById("invite-btn");
@@ -127,12 +124,27 @@ function addListeners2 () {
         // create new task button inside column
         newTaskButton(div);
 
+        let hiddenDiv = document.createElement('div');
+        hiddenDiv.className = "hidden-div";
+        // hiddenDiv.style.backgroundColor = "red";
+        // hiddenDiv.style.width = "5px";
+        
+
+
         parent.before(div);
+        parent.before(hiddenDiv);
     });
 
     // find all the columns and for each one of them add the new Task button
     let columnArray = document.querySelectorAll(".droptarget");
     columnArray.forEach((element) => {
+        let hiddenDiv = document.createElement('div');
+        hiddenDiv.className = "hidden-div";
+        // hiddenDiv.style.backgroundColor = "red";
+        hiddenDiv.style.minWidth = "1px";
+        hiddenDiv.style.width = "1px";
+
+        element.after(hiddenDiv);
         newTaskButton(element);
     });
 
@@ -148,17 +160,6 @@ function addListeners2 () {
             modal.style.display = "none";
         }
     }
-    
-    let movableColArr = document.querySelectorAll(".movable-column");
-    let movableTaskArr = document.querySelectorAll(".movable-task");
-
-    // movableTaskArr.forEach((element) => {
-    //     addListenersTask(element);
-    // });
-
-    // movableColArr.forEach((element) => {
-    //     addListenersCol(element); 
-    // });
     
 }
 
@@ -232,7 +233,6 @@ document.addEventListener("dragstart", function(event) {
     // to get it again at the drop event (later event)
     event.dataTransfer.setData('text', event.target.id); 
     dragLock = event.target;
-    console.log(dragLock);
     // change opacity of the dragged element
     event.target.style.opacity = "0.4";
     document.body.style.cursor = "grab";
@@ -261,12 +261,18 @@ document.addEventListener("dragend", function(event) {
 // which detects when a dragged element enters a dropzone
 document.addEventListener("dragenter", function(event) {
     event.preventDefault();
-    if ((event.target.className) &&
-        (event.target.className === "droptarget movable-column")) {
-            if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
-                event.target.style.border = "3px dotted red";
-            }        
+    if ((event.target.className) && (event.target.className === "droptarget movable-column")) {
+        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+            event.target.style.border = "3px dotted red";
+        }        
+    }
+    if ((event.target.className) && (event.target.className === "hidden-div")) {
+        if(dragLock && dragLock.className && dragLock.className === "droptarget movable-column"){
+            event.target.style.border = "20px dotted red";
+            event.target.style.width = "25vw";
         }
+    }
+
 });
 
 // Event listener attached to the window (whole browser)
@@ -280,11 +286,17 @@ document.addEventListener("dragover", function(event) {
 // which detects when the dragged object leaves a dropzone
 document.addEventListener("dragleave", function(event) {
     event.preventDefault;
-    if ((event.target.className) &&
-    (event.target.className === "droptarget movable-column")) {
+    if ((event.target.className) && (event.target.className === "droptarget movable-column")) {
         if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
             event.target.style.border = "";
         }       
+    }
+    if ((event.target.className) && (event.target.className === "hidden-div")) {
+        if (dragLock.className && dragLock.className === "droptarget movable-column"){
+            event.target.style.border = "";
+            event.target.style.minWidth = "1px";
+            event.target.style.width = "1px";
+        }
     }
 });
 
@@ -299,23 +311,18 @@ document.addEventListener("drop", function(event) {
         if (dragLock.className && dragLock.className === "sticker movable-task"){
             event.target.lastElementChild.before(dragLock);
         }
-
-        if (dragLock.className && dragLock.className === "droptarget movable-column"){
-            event.target.after(dragLock);
-            console.log(event.target);
-        }
         
     }
-
-    // if ((event.target.className) && (event.target.className === "droptarget-column")){
-    //     if (dragLock.className && dragLock.className === "droptarget movable-column"){
-    //         console.log(event.target);
-    //         console.log("hello")
-    //         //event.target.lastElementChild.before(document.getElementById(data));
-    //     }
-    // }
-
-
+    if ((event.target.className) && (event.target.className === "hidden-div")) {
+        if (dragLock.className && dragLock.className === "droptarget movable-column"){
+            let hiddenDiv = dragLock.nextElementSibling;
+            event.target.after(dragLock);
+            dragLock.after(hiddenDiv);
+            event.target.style.minWidth = "1px";
+            event.target.style.width = "1px";
+            
+        }
+    }
     event.target.style.border = "";
     dragLock = "";
 });
@@ -329,90 +336,10 @@ function userDesc(data){
     popup.classList.toggle("show");
 }
 
-
-// add listeners to a task
-function addListenersTask (element) {
-    element.addEventListener('drag', (event) => {
-        event.preventDefault();
-    });
-    
-    element.addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text', event.target.id);
-        event.target.style.opacity = "0.4";
-        dragLock = element;
-    });
-
-    element.addEventListener('dragend', (event) => {
-        event.target.style.opacity = "1";
-        dragLock = "";
-    });
-}
-
-// add listeners to a column
-function addListenersCol (element) {
-    element.addEventListener('drop', (event) => {
-        // prevent default
-        event.preventDefault();
-        let data = event.dataTransfer.getData("text");
-
-        if ((event.target.className) && (document.getElementById(data)) &&
-        (event.target.className === "droptarget movable-column")) {
-
-            if (document.getElementById(data).className === "sticker movable-task"){
-                event.target.lastElementChild.before(document.getElementById(data));
-            }
-
-            if (document.getElementById(data).className === "droptarget movable-column"){
-                console.log(event.target);
-                //event.target.lastElementChild.before(document.getElementById(data));
-            }
-            
-        }
-
-
-        event.target.style.border = "";
-        dragLock = "";
-    });
-
-    element.addEventListener('dragenter', (event) => {
-        event.preventDefault();
-        if ((event.target.className) &&
-        (event.target.className === "droptarget movable-column")) {
-            if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
-                event.target.style.border = "3px dotted red";
-                return;
-            }         
-        }
-        if ((event.target.className) &&
-        (event.target.className === "droptarget-column")) {
-            if(dragLock && dragLock.className && dragLock.className === "droptarget movable-column"){
-                event.target.style.border = "3px dotted red";
-                return;
-            } 
-        }
-        
-    });
-
-    element.addEventListener('dragleave', (event) => {
-        event.preventDefault;
-        if ((event.target.className) &&
-        (event.target.className === "droptarget movable-column")) {
-            // change border
-            event.target.style.border = "";        
-        }
-    });
-
-    element.addEventListener('dragover', (event) =>{
-        event.preventDefault();
-    });
-}
-
-
 //=============================================================
 // USER PAGE FUNCTIONS
 //=============================================================
 function addListeners3() {
-    console.log("addListeners3")
     //show passaword for modification
     document.getElementById("mod-psw-checkbox").addEventListener('click', function(){
         let oldPswText = document.getElementById("old-psw-box");
@@ -459,12 +386,6 @@ function addListeners3() {
         passwordHash: document.getElementById("new-psw-box").value})
     });
 
-    //Everytime user logs in we need to getBoards() and getTasks() to render 
-    
-    //get all the boards (Objects) saved in the user (Object)
-
-    //get all the tasks (Objects) saved in the user (Object)
-
     // redirect to board page when click on new board button 
     document.getElementById("new-board-btn").addEventListener('click', function(){
         //create a empty board and ridirect to that 
@@ -474,6 +395,14 @@ function addListeners3() {
     // redirect to board page when click on board preview 
     document.getElementById("board-one").addEventListener('click', function(){
         window.location.href = "./board.html";
+    });
+    //get user 
+    //(method, url, headers, body)
+    doJSONRequest('GET', '/user', {}, undefined)
+    .then((user)=>{
+        user.boards.forEach((element)=>{
+            console.log(element);
+        });
     });
 }
 
