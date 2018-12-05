@@ -1,0 +1,5 @@
+<div class="board-one" id="board-one">
+        <p class="board-one">
+                {name}
+        </p>
+</div>

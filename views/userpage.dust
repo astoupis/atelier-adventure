@@ -42,11 +42,6 @@
                     <h2 class="usr-board-list">Your boards.</h2>
                     <div class="posted-boards">
                         <!-- automatically display boards if any -->
-                        <div class="board-one" id="board-one">
-                            <p class="board-one">
-                                    WEB ATELIER 3 - PROJECT
-                            </p>
-                        </div>
                     </div>
                     <!-- add new board -->
                     <input type="button" id="new-board-btn" class="button" value="New board">

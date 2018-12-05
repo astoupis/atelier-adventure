@@ -371,6 +371,7 @@ function addListeners3() {
         }
     } 
     //saving modifications
+    //TODO
     document.getElementById("save-mod-btn").addEventListener('click', function(){
         // get user get password
         // if (document.getElementById("old-psw-box").value == user.password){ //continue
@@ -392,10 +393,7 @@ function addListeners3() {
         window.location.href = "./emptyBoard.html";
     });
 
-    // redirect to board page when click on board preview 
-    document.getElementById("board-one").addEventListener('click', function(){
-        window.location.href = "./board.html";
-    });
+
     //get user + get board array 
     doJSONRequest('GET', '/user', {}, undefined)
     .then((user)=>{

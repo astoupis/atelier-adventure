@@ -85,9 +85,9 @@ function doJSONRequest(method, url, headers, body){
 }
 
 
-  /*******************/
- /*******************/
-/*******************/ 
+  /***************************/
+ /**Board preview rendering**/
+/***************************/ 
 
 function getBoardPrev(id){
 
