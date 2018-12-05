@@ -55,6 +55,36 @@ router.get('/search', function(req, res) {
 
 });
 
+
+// get the page for the user, which is the token owner
+// Authentication needed
+// TODO
+router.get('/', function(req, res) {
+    req.auth.then(function(payload) {
+        User.findById(payload._id).exec()
+        .then(function(found) {
+            var user = {
+                _id : found._id,
+                boards : found.boards,
+                assignedTasks : found.assignedTasks,
+                firstname : found.firstname,
+                lastname : found.lastname,
+                username : found.username,
+                email : found.email,
+                dateCreated : found.dateCreated
+            };
+            res.json(user);
+        })
+        .catch(function(error) {
+            res.json(error);
+        });
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
+});
+
+
 //get the page for this specific user
 //Authentification needed
 router.get('/:userid', function(req, res) {
