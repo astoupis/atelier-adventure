@@ -99,7 +99,7 @@ router.post('/', function(req, res) {
         let userId = payload._id;
         let arrayUser = [userId];
         let arrayList = [];
-        let setListId = new Set();
+        let arrayListId = [];
         let boardName = req.body.name;
 
         if (req.body.list1) arrayList.push(req.body.list1);
@@ -117,7 +117,7 @@ router.post('/', function(req, res) {
 
                 list.save(function(err, saved) {
                     if (!err) {
-                        arrayListId.add(saved._id);
+                        arrayListId.push(saved._id);
                         resolve();
                     } else {
                         res.status(400).end();
@@ -140,10 +140,10 @@ router.post('/', function(req, res) {
                 if (!err) {
                     User.findById(payload._id, function(err, userFound) {
                         if (!err) {
-                            let boards = userFound.boards; 
-                            boards.addToSet(savedBoard._id); 
+                            let userBoards = userFound.boards; 
+                            userBoards.addToSet(savedBoard._id); 
                             
-                            User.findByIdAndUpdate(payload._id, {boards}).then(function(){
+                            User.findByIdAndUpdate(payload._id, {boards:userBoards}).then(function(){
                                 res.json(savedBoard); 
                             });
                         }
