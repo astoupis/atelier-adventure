@@ -19,7 +19,7 @@
         <main>
             <div class="usr-info">
                 <!-- get user display the info -->
-                <img class="my_avatar" src="images/avatar1.png">
+                <img class="my_avatar" src="/images/avatar1.png">
                 <div class="usr-info-line">
                     <label>Username:</label><p>{username}</p>
                 </div>
@@ -55,22 +55,24 @@
             <!-- modify profile popup -->
             <div class="pp-register">
                     <div class="pp-content">
-                            <img class="pp-closing-icon" id="register-close" src="images/closeX.png">
+                            <img class="pp-closing-icon" id="register-close" src="/images/closeX.png">
                             <form class="register-form" id="register-div">
                                 <!-- change or modify -->
                                 <h2 class="register">Change your profile</h2>
                                 <div class="pp-mod-line">
                                      <!-- check css and change class -->
-                                    <img class="mod_avatar" src="images/avatar1.png">
+                                     <!-- this need to be changed -->
+                                    <img class="mod_avatar" src="/images/avatar1.png">
                                     <input id="importAvatar" type="file">
                                 </div>
                                 <!-- is it possible to load usr "old" data and use them as placeholders? -->
                                 <input type="text" id="mod-usr-box" name="username" placeholder="{username}" required>
-                                <input type="text" id="mod-fnm-box" name="firstname" placeholder="FIRST NAME" required>
-                                <input type="text" id="mod-lnm-box" name="lastname" placeholder="LAST NAME" required>
-                                <input type="email" id="mod-eml-box" name="email" placeholder="E-MAIL" required>
+                                <input type="text" id="mod-fnm-box" name="firstname" placeholder="{firstname}" required>
+                                <input type="text" id="mod-lnm-box" name="lastname" placeholder="{lastname}" required>
+                                <input type="email" id="mod-eml-box" name="email" placeholder="{email}" required>
                                 <!-- old password new password -->
                                 <input type="password" id="old-psw-box" name="password" placeholder="OLD PASSWORD" required>
+                                <!-- modify the PUT request ! check old password is right and save new password  -->
                                 <input type="password" id="new-psw-box" name="password" placeholder="NEW PASSWORD" required>
                                 <div class="form-line">
                                     <!-- chack css and change class -->
