@@ -16,10 +16,11 @@ router.get('/', function(req, res) {
 });
 
 //POST METHOD
-//Create a new user
+//Create a new user !==Finished==!
 router.post('/', function(req, res) {
     bcrypt.hash(req.body.password, saltRounds).then(function(hash) {
         // Store hash in your password DB
+
         const user = new User({
             firstname : req.body.firstname, 
             lastname : req.body.lastname,
@@ -37,8 +38,7 @@ router.post('/', function(req, res) {
                     res.json(saved);
                 }
             } else {
-                console.log(err);
-                res.status(400).end();
+                res.json(err).status(400).end(); 
             }
         });
     });
