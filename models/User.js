@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     passwordHash : {type: String, required: true},
     dateCreated : {type: Date, default: Date.now, required:true},
     avatar : {type: String},
-    boards : {type: Array, default:[], required: true},
+    boards : [{type: Schema.Types.ObjectId, ref: 'Board', default:[], required:true}],
     assignedTasks : {type: Array, default:[], required:true}
 });
 
