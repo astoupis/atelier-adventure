@@ -20,6 +20,7 @@ h1, h2{
 }
 
 
+
 /* 
  * PROJECT PAGE HEADER 
  */
@@ -64,15 +65,15 @@ img.user-img-header{
 main{
   min-height: 85vh;
   padding-bottom: 5vh;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  display: flex; /* [1] */
+  flex-wrap: nowrap; /* [1] */
+  overflow-x: auto; /* [1] */
 }
 
 /* Main columns */
 /* Column div */
 div.droptarget {
-  max-width: 20vw;
+  max-width: 25vw;
   border: 1px solid grey;
   flex: 0 0 auto;
   width: 40%;
@@ -81,19 +82,6 @@ div.droptarget {
   margin-right: 10px;
   /* overflow: scroll; */
 }
-
-/* Hidden columns */
-div.hidden-div{
-  display: none;
-  background-color: red;
-  min-width: 50px;
-  width: 2px;
-  max-width:15vw;
-}
-div.hidden-div:hover{
-  display: block;
-}
-
 /* Column title / state name */
 h1.state-head{
   text-align: center;
@@ -356,10 +344,27 @@ form.login label{
   margin-top: 5%;
 }
 
+div.signup{
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
+div.signup #signup-btn{
+  color: lightsalmon;
+  margin-left: 5px;
+  cursor: pointer;
+
+}
+
+/* Used in general need to change it */
+
 /* form submit button */
 .button{
+  font-size: 0.75em;
   width: 100px;
   height: 30px;
+  padding: 5px;
   border-radius: 15px;
   text-align: center;
   background-color: floralwhite;
@@ -373,6 +378,20 @@ form.login label{
   cursor: pointer;
 }
 
+#login-btn{
+  background-color: floralwhite;
+  color: black;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#login-btn:hover{
+  background-color: lightsalmon;
+  cursor: pointer;
+}
 
 /* form closing popup icon */
 .pp-closing-icon{
