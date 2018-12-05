@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require("../../util/auth");
+//const auth = require("../../util/auth");
 
 
 const mongoose = require('mongoose');
@@ -127,15 +127,12 @@ router.post('/', function(req, res) {
         
         Promise.all(promises)
         .then(function() { 
-            console.log('all dropped)'); 
-            
+
             const board = new Board({
                 name : boardName, 
                 users : arrayUser,
                 lists : arrayListId
             })
-            
-            console.log(board); 
             
             board.save(function(err, saved) {
                 if (!err) {
@@ -146,6 +143,7 @@ router.post('/', function(req, res) {
                     }
                 } else {
                     res.status(400).end();
+                    console.log(err); 
                 }
             });
         }).catch(console.error);
@@ -161,8 +159,7 @@ router.post('/', function(req, res) {
 //Put a new existing user inside the project
 router.post('/:boardid/:userid', function (req,res) {
     
-    auth.authenticate(req)
-    .then(function(payload) {
+    req.auth.then(function(payload) {
         var board = {}
 
         Board.findById(req.params.boardid, function(err, found) {
@@ -174,7 +171,7 @@ router.post('/:boardid/:userid', function (req,res) {
                     res.status(403).end();
                     return;
                 }
-                board.users.push(req.params.userid);
+                board.users.addToSet(req.params.userid);
 
                 Board.findByIdAndUpdate(req.params.boardid, board).then(data => {
                     res.json(data); 
