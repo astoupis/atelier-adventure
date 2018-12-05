@@ -52,13 +52,6 @@
                     <input type="button" id="new-board-btn" class="button" value="New board">
                 </div>
             </div>
-            <!-- <div class="usr-tasks">
-                <h2 class="usr-task-list">Your tasks.</h2>
-                <div class="posted-tasks"> -->
-                <!-- automatically display tasks assigned to user if any -->
-                <!-- </div>
-            </div> -->
-
             <!-- modify profile popup -->
             <div class="pp-register">
                     <div class="pp-content">
@@ -72,7 +65,7 @@
                                     <input id="importAvatar" type="file">
                                 </div>
                                 <!-- is it possible to load usr "old" data and use them as placeholders? -->
-                                <input type="text" id="mod-usr-box" name="username" placeholder="USERNAME" required>
+                                <input type="text" id="mod-usr-box" name="username" placeholder="{username}" required>
                                 <input type="text" id="mod-fnm-box" name="firstname" placeholder="FIRST NAME" required>
                                 <input type="text" id="mod-lnm-box" name="lastname" placeholder="LAST NAME" required>
                                 <input type="email" id="mod-eml-box" name="email" placeholder="E-MAIL" required>
@@ -97,8 +90,7 @@
         </footer>
     </body>
     <!-- SCRIPTS -->
-    <script type="text/javascript" src="scripts/script.js"></script>
-    <script type="text/javascript" src="main.js"></script>
-    <script type="text/javascript" src="js/fetch.js"></script>
+    <script type="text/javascript" src="/scripts/script.js"></script>
+    <script type="text/javascript" src="/js/fetch.js"></script>
 </html>
 {/result}
