@@ -40,7 +40,7 @@
             <div id="display-board">
                 <div class="usr-boards">
                     <h2 class="usr-board-list">Your boards.</h2>
-                    <div class="posted-boards">
+                    <div id="posted-boards">
                         <!-- automatically display boards if any -->
                     </div>
                     <!-- add new board -->
@@ -89,5 +89,8 @@
     <!-- SCRIPTS -->
     <script type="text/javascript" src="/scripts/script.js"></script>
     <script type="text/javascript" src="/js/fetch.js"></script>
+    <script type="text/javascript" src="/dustjs-linkedin/dust-core.min.js"></script>
+    <script type="text/javascript" src="/js/views.js"></script>
+
 </html>
 {/result}
