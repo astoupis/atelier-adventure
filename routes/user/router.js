@@ -125,6 +125,7 @@ router.get('/:userid', function(req, res) {
   
 });
 
+
 //PUT METHOD
 //Modify the details of a specific user
 //Email, password, firstname, lastname, username, 
