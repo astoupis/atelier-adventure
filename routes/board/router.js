@@ -14,7 +14,7 @@ const User = mongoose.model('User');
 //Authorization
 router.get('/:boardid', function(req, res) {
     req.auth.then(function(payload) {
-        Board.findById(req.params.boardid).populate('users', '-passwordHash', ).populate('lists').exec(function(err, found) {
+        Board.findById(req.params.boardid).populate('users', ['-passwordHash','-boards']).populate('lists').exec(function(err, found) {
             if (!found) {
                 res.status(404).end();
             } else if (req.accepts("html")) {
