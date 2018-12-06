@@ -64,13 +64,19 @@ router.post('/', function(req, res) {
         })
 
         Board.findById(boardId, function(err, boardFound){
-
-            if (!err && boardFound){
-                
-                if(!boardFound.users.toString().includes(payload._id)){
+            if (!err && boardFound) {
+                let forbidden = true;
+                for(let i = 0; i < boardFound.users.length; i++){
+                    if(boardFound.users[i].toString() === payload._id) {
+                        forbidden = false;
+                        break;
+                    }
+                }
+                if(forbidden) {
                     res.status(403).end(); 
                     return; 
                 }
+
 
                 list.save(function(err, saved) {
                     if (!err && saved) { 
