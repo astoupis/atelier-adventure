@@ -54,7 +54,7 @@ function addListeners () {
     });
 
 
-    // //register user request
+    //register user request
     document.getElementById('register-btn').addEventListener('click', function(){
         doJSONRequest('POST', "/register", {'Content-Type': 'application/json'},
         {firstname: document.getElementById("reg-fnm-box").value, 
@@ -380,17 +380,19 @@ function addListeners3() {
         console.log(image);
         //check if they have changed or not 
         //if not leave standard 
-        doJSONRequest('PUT', "/user/:userid", {'Content-Type': 'application/json'},
+        doJSONRequest('PUT', "/user", {'Content-Type': 'application/json'},
         {firstname: document.getElementById("mod-fnm-box").value, 
         lastname: document.getElementById("mod-lnm-box").value,
         email: document.getElementById("mod-eml-box").value , username: document.getElementById("mod-usr-box").value, 
-        passwordHash: document.getElementById("new-psw-box").value})
+        password: document.getElementById("new-psw-box").value})
     });
 
     // redirect to board page when click on new board button 
     document.getElementById("new-board-btn").addEventListener('click', function(){
-        //create a empty board and ridirect to that 
-        window.location.href = "./emptyBoard.html";
+        doJSONRequest('POST','/board', {'Content-Type': 'application/json'}, null)
+        .then((board)=>{
+            //need to render the board using board.dust 
+        })
     });
 
 

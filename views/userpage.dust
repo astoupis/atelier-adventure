@@ -66,7 +66,7 @@
                                 <input type="text" id="mod-lnm-box" name="lastname" placeholder="{lastname}" required>
                                 <input type="email" id="mod-eml-box" name="email" placeholder="{email}" required>
                                 <!-- old password new password -->
-                                <input type="password" id="old-psw-box" name="password" placeholder="OLD PASSWORD" required>
+                                <!-- <input type="password" id="old-psw-box" name="password" placeholder="OLD PASSWORD" required> -->
                                 <!-- modify the PUT request ! check old password is right and save new password  -->
                                 <input type="password" id="new-psw-box" name="password" placeholder="NEW PASSWORD" required>
                                 <div class="form-line">
