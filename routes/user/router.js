@@ -128,75 +128,64 @@ router.get('/:userid', function(req, res) {
 //PUT METHOD
 //Modify the details of a specific user
 //Email, password, firstname, lastname, username, 
-router.put('/:userid', function(req, res){
-    var userId = req.params.userid; 
-    var user = {}
+router.put('/', function(req, res){
 
-    //Assign the different values which don't create problem if duplicate
-    if (req.body.firstname){
-        user.firstname = req.body.firstname;
-    }
+    req.auth.then(function(payload) {
+        
+        var userId = {_id : payload._id}; 
+        var user = {}
 
-    if (req.body.lastname){
-        user.lastname = req.body.lastname;
-    }
-
-    if (req.body.email){
-        user.email = req.body.email
-    }
-
-    //Assign the username and check the validity of this later
-    if (req.body.username){
-
-            User.find({username: req.body.username})
-                .then(found => {
-                    console.log(found)
-                    
-                    if (found.length === 0){
-
-                        user.username = req.body.username;
-                        
-                        if (req.body.password){
-                            
-                            bcrypt.hash(req.body.password, 10).then(function(hash) {
-                                user.password = hash; 
-
-                                User.findByIdAndUpdate(userId, user)
-                                .then(data => {
-                                    res.json(data); 
-                                }); 
-
-                            });
-
-                        }else{
-                            
-                            User.findByIdAndUpdate(userId, user)
-                                .then(data => {
-                                    res.json(data); 
-                                }); 
-                        }
-
-                    }else{
-                        console.log('here')
-                        res.status(403).end();
-                    }
-                });
-
-    }else{
-        if (req.body.password){
-
-            bcrypt.hash(req.body.password, 10).then(function(hash) {
-                user.password = hash; 
-
-                User.findByIdAndUpdate(userId, user)
-                    .then(data => {
-                        res.json(data); 
-                    }); 
-            });
-
+        //Assign the different values which don't create problem if duplicate
+        if (req.body.firstname){
+            user.firstname = req.body.firstname;
         }
 
-    }
+        if (req.body.lastname){
+            user.lastname = req.body.lastname;
+        }
+
+        if (req.body.email){
+            user.email = req.body.email; 
+        }
+
+        if (req.body.username){
+            user.username = req.body.username;
+        }
+
+        if (req.body.password){
+            
+            bcrypt.hash(req.body.password, 10).then(function(hash) {
+                user.passwordHash = hash; 
+
+                User.findOneAndUpdate(userId, user, {runValidators: true, context: 'query' },
+                function(err) {
+                    if (err){
+                        res.json(err).end();
+                    }else{
+                        res.json(user).end(); 
+                    }
+                })
+
+            });
+
+        }else{
+            
+                User.findOneAndUpdate(userId, user, {runValidators: true, context: 'query' },
+                function(err) {
+                    if (err){
+                        res.json(err).end();
+                    }else{
+                        res.json(user).end(); 
+                    }
+                });
+                
+            }
+                
+
+    
+    }).catch(function(error) {
+        res.json(error);
+    });
 
 });
 
