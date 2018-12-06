@@ -523,3 +523,10 @@ div.board-one:hover{
 p.board-one{
   padding-top:8vh;
 }
+
+.hidden-task{
+  
+  width: 1;
+  height: 10px;
+  
+}

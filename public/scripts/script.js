@@ -133,6 +133,14 @@ function addListeners2 () {
 
         parent.before(div);
         parent.before(hiddenDiv);
+
+        // doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},{})
+        // .then((data) => {
+        //     console.log(data);
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        // });
     });
 
     // find all the columns and for each one of them add the new Task button
@@ -151,6 +159,13 @@ function addListeners2 () {
     let taskArray = document.querySelectorAll("h1.sticker");
     taskArray.forEach((element) => {
         element.contentEditable = true;
+    });
+
+    let createdTasks = document.querySelectorAll(".movable-task");
+    createdTasks.forEach((element) => {
+        let hiddenTaskDiv = document.createElement('div');
+        hiddenTaskDiv.className = "hidden-task";
+        element.after(hiddenTaskDiv);
     });
 
     // When the user clicks anywhere outside of the modal, close it
@@ -184,6 +199,10 @@ function newTaskButton (div) {
         let target = event.target;
         let taskDiv = newTask();
         target.parentNode.before(taskDiv);
+
+        let hiddenTaskDiv = document.createElement('div');
+        hiddenTaskDiv.className = "hidden-task";
+        taskDiv.after(hiddenTaskDiv);
     });    
 }
 
@@ -207,7 +226,6 @@ function newTask () {
     // make it editable
     taskh1.contentEditable = true;
     taskDiv.appendChild(taskh1);
-    //addListenersTask(taskDiv);
 
     return taskDiv;
 }
@@ -272,6 +290,13 @@ document.addEventListener("dragenter", function(event) {
             event.target.style.width = "25vw";
         }
     }
+    if ((event.target.className) && (event.target.className === "hidden-task")) {
+        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+            event.target.style.border = "20px dotted red";
+            event.target.style.height = "30px";
+
+        }
+    }
 
 });
 
@@ -298,6 +323,12 @@ document.addEventListener("dragleave", function(event) {
             event.target.style.width = "1px";
         }
     }
+    if ((event.target.className) && (event.target.className === "hidden-task")) {
+        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+            event.target.style.border = "";
+            event.target.style.height = "10px";
+        }
+    }
 });
 
 // Event listener attached to the window (whole browser)
@@ -321,6 +352,16 @@ document.addEventListener("drop", function(event) {
             event.target.style.minWidth = "1px";
             event.target.style.width = "1px";
             
+        }
+    }
+
+    if ((event.target.className) && (event.target.className === "hidden-task")) {
+        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+            let hiddenDiv = dragLock.nextElementSibling;
+            event.target.after(dragLock);
+            dragLock.after(hiddenDiv);
+            event.target.style.border = "";
+            event.target.style.height = "10px";
         }
     }
     event.target.style.border = "";

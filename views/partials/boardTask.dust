@@ -1,24 +1,27 @@
+
 <div draggable="true" id="task-2" class="sticker movable-task" style="background-color: forestgreen"">
-        <h1 class='sticker'>
-            Power Point
-        </h1>
-        <div class='stick-desc'>
-            <label> Description: </label>
-            <p>Create a shared power point file.</p>
-        </div>
-        <div class='stick-desc'>
-            <label> Due date: </label>
-            <p> 25.11.2018 </p>
-        </div>
-        <div class='stick-desc'>
-            <label>Assigned to:</label>
-            <p>
-                <div class="popup" onclick="userDesc('myPopup2')">
-                    <img src='/images/avatar2.png' class='sticker'>
-                </div>
-                <div class="popup" onclick="userDesc('myPopup4')">
-                    <img src='/images/avatar4.png' class='sticker'>
-                </div>
-            </p>
-        </div>
+    <h1 class='sticker'>
+        {name}
+    </h1>
+    <div class='stick-desc'>
+        <label> Description: </label>
+        <p>{description}</p>
     </div>
+    <div class='stick-desc'>
+        <label> Due date: </label>
+        <p> {dueDate} </p>
+    </div>
+    <!-- <div class='stick-desc'>
+        <label>Assigned to:</label>
+        <p>
+            <div class="popup" onclick="userDesc('myPopup2')">
+                <img src='/images/avatar2.png' class='sticker'>
+            </div>
+            <div class="popup" onclick="userDesc('myPopup4')">
+                <img src='/images/avatar4.png' class='sticker'>
+            </div>
+        </p>
+    </div> -->
+</div>
+<div class="hidden-task">
+</div>
