@@ -7,6 +7,7 @@ require('../../models');
 const Task = mongoose.model('Task');
 const List = mongoose.model('List');
 const Board = mongoose.model('Board');
+const User = mongoose.model('User');
 
 
 //GET METHOD
@@ -53,33 +54,46 @@ router.put('/:listid', function(req, res){
 //Creat a new list for an existing project
 router.post('/', function(req, res) {
     
-    let boardId = req.body.boardId;
 
-    const list = new List({
-        name : req.body.listName
-    })
+    req.auth.then(function(payload) {
+        
+        let boardId = req.body.boardId;
+        
+        const list = new List({
+            name : req.body.listName
+        })
 
-    Board.findById(boardId, function(err, found){
+        Board.findById(boardId, function(err, boardFound){
 
-        if (!err && found){
-            list.save(function(err, saved) {
-                if (!err && saved) { 
-                    
-                    let lists = found.lists; 
-                    lists.push(saved._id);
-                    
-                    Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
-                        res.json(data); 
-                    }); 
-                    
-                } else {
-                    res.status(400).end();
+            if (!err && boardFound){
+                
+                if(!boardFound.users.toString().includes(payload._id)){
+                    res.status(403).end(); 
+                    return; 
                 }
-            });
-        }else{
-            res.status(400).end();
-        }
-    }); 
+
+                list.save(function(err, saved) {
+                    if (!err && saved) { 
+                        
+                        let lists = boardFound.lists; 
+                        lists.push(saved._id);
+                        
+                        Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
+                            res.json(data); 
+                        }); 
+                        
+                    } else {
+                        res.status(400).end();
+                    }
+                });
+            }else{
+                res.status(400).end();
+            }
+        });
+
+    }).catch(function(error) {
+        res.json(error);
+    });
 
 });
 
