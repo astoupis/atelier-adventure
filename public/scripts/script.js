@@ -373,17 +373,13 @@ function addListeners3() {
     //saving modifications
     //TODO
     document.getElementById("save-mod-btn").addEventListener('click', function(){
-        // get user get password
-        // if (document.getElementById("old-psw-box").value == user.password){ //continue
-        //transform image into string toDataURL() --> ??
-        let image = (document.getElementById("importAvatar").value);
-        console.log(image);
-        //check if they have changed or not 
-        //if not leave standard 
+        //TODO 
+        //updating image as well
         doJSONRequest('PUT', "/user", {'Content-Type': 'application/json'},
         {firstname: document.getElementById("mod-fnm-box").value, 
         lastname: document.getElementById("mod-lnm-box").value,
-        email: document.getElementById("mod-eml-box").value , username: document.getElementById("mod-usr-box").value, 
+        email: document.getElementById("mod-eml-box").value , 
+        username: document.getElementById("mod-usr-box").value, 
         password: document.getElementById("new-psw-box").value})
     });
 
@@ -395,7 +391,6 @@ function addListeners3() {
         })
     });
 
-
     //get user + get board array 
     doJSONRequest('GET', '/user', {}, undefined)
     .then((user)=>{
@@ -403,5 +398,19 @@ function addListeners3() {
             getBoardPrev(element);
         });
     });
-}
 
+    //create avatar image (non popup)
+    //document.getElementById("usr-img").style.backgroundColor = "orange";
+    let fname = document.getElementById("usr-img-f").innerHTML;
+    let lname = document.getElementById("usr-img-l").innerHTML;
+    document.getElementById("usr-img-f").innerHTML = fname.charAt(0);
+    document.getElementById("usr-img-l").innerHTML = lname.charAt(0);
+
+    //create avatar image (popup)
+    //document.getElementById("usr-img").style.backgroundColor = "orange";
+    let fname2 = document.getElementById("usr-img-f-2").innerHTML;
+    let lname2 = document.getElementById("usr-img-l-2").innerHTML;
+    document.getElementById("usr-img-f-2").innerHTML = fname2.charAt(0);
+    document.getElementById("usr-img-l-2").innerHTML = lname2.charAt(0);
+
+}

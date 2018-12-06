@@ -19,7 +19,10 @@
         <main>
             <div class="usr-info">
                 <!-- get user display the info -->
-                <img class="my_avatar" src="/images/avatar1.png">
+                <div class="usr-image" id="usr-img">
+                    <p id="usr-img-f">{firstname}</p>
+                    <p id="usr-img-l">{lastname}</p>
+                </div>
                 <div class="usr-info-line">
                     <label>Username:</label><p>{username}</p>
                 </div>
@@ -34,7 +37,7 @@
                 </div>
                 <!-- create a popup like register to modify the profile of the user and submit the changes -->
                 <!-- modify or change? -->
-                <input type="button" class="button" id="modity-btn" value="Modify your profile">
+                <input type="button" class="button" id="modity-btn" value="Modify profile">
             </div>
             </br>
             <div id="display-board">
@@ -55,10 +58,12 @@
                                 <!-- change or modify -->
                                 <h2 class="register">Change your profile</h2>
                                 <div class="pp-mod-line">
-                                     <!-- check css and change class -->
-                                     <!-- this need to be changed -->
-                                    <img class="mod_avatar" src="/images/avatar1.png">
-                                    <input id="importAvatar" type="file">
+                                    <!-- TODO -->
+                                     <div class="usr-image-2" id="usr-img-2">
+                                        <p id="usr-img-f-2">{firstname}</p>
+                                        <p id="usr-img-l-2">{lastname}</p>
+                                     </div>
+                                    <!-- <img class="mod_avatar" src="/images/avatar1.png"> -->
                                 </div>
                                 <!-- is it possible to load usr "old" data and use them as placeholders? -->
                                 <input type="text" id="mod-usr-box" name="username" placeholder="{username}" required>

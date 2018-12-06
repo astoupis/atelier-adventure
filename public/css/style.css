@@ -357,7 +357,10 @@ div.signup #signup-btn{
   font-size: 0.75em;
   width: 100px;
   height: 30px;
-  padding: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
   border-radius: 15px;
   text-align: center;
   background-color: floralwhite;
@@ -407,7 +410,9 @@ div.signup #signup-btn{
   justify-content: center;
   align-items: center;
 }
-
+h1.mod-usr{
+  color: black;
+}
 .mod_avatar{
   width: 50px;
   height: 50px;
@@ -458,13 +463,50 @@ div.signup #signup-btn{
   margin-top: 10px;
 }
 
+/* USER AVATAR USER PAGE */
 
+.usr-image{
+  width: 7vw;
+  height: 7vh;
+  margin: 5px;
+  background-color: lightsalmon;
+  display: flex;
+  display: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  font-size: 2em;
+  font-weight: bold;
+  color: #1C1C1E;
+  border: 2px solid black;
+  border-radius: 100%;
+}
+.usr-image-2{
+  width: 7vw;
+  height: 7vh;
+  margin: 5px;
+  background-color: lightsalmon;
+  display: flex;
+  display: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  font-size: 2em;
+  font-weight: bold;
+  color: #1C1C1E;
+  border: 2px solid black;
+  border-radius: 100%;
+}
 
 /* BOARD PREVIEW */
+#posted-boards{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 
 div.board-one{
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px;
   width: 20vw;
   height: 20vh;
   /* background-color: black; */
