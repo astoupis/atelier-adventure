@@ -13,16 +13,20 @@ const User = mongoose.model('User');
 //Get the board with all element or refresh the board completely
 //Authorization
 router.get('/:boardid', function(req, res) {
-    
-    Board.findById(req.params.boardid, function(err, found) {
-        if (!found) {
-            res.status(404).end();
-        } else if (req.accepts("html")) {
-            res.render("userTemplate", {result: found});
-        } else if (req.accepts("json")) {
-            res.json(found);
-        }
-    });
+    req.auth.then(function(payload) {
+        Board.findById(req.params.boardid).populate('users', ['-passwordHash', '-boards']).populate('lists').exec(function(err, found) {
+            if (!found) {
+                res.status(404).end();
+            } else if (req.accepts("html")) {
+                res.render("board", found);
+            } else if (req.accepts("json")) {
+                res.json(found);
+            }
+        });
+    })
+    .catch(function(error) {
+        res.json(error);
+    });  
 
 });
 
