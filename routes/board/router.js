@@ -14,11 +14,19 @@ const User = mongoose.model('User');
 //Authorization
 router.get('/:boardid', function(req, res) {
     req.auth.then(function(payload) {
+<<<<<<< HEAD
         Board.findById(req.params.boardid).populate('users', ['-passwordHash', '-boards']).populate('lists').exec(function(err, found) {
             if (!found) {
                 res.status(404).end();
             } else if (req.accepts("html")) {
                 res.render("board", found);
+=======
+        Board.findById(req.params.boardid).populate('users', ['-passwordHash','-boards']).populate('lists').exec(function(err, found) {
+            if (!found) {
+                res.status(404).end();
+            } else if (req.accepts("html")) {
+                res.render("board", {result: found});
+>>>>>>> e9881451982e942ab513afccfb34a468e029abea
             } else if (req.accepts("json")) {
                 res.json(found);
             }
@@ -26,8 +34,12 @@ router.get('/:boardid', function(req, res) {
     })
     .catch(function(error) {
         res.json(error);
+<<<<<<< HEAD
     });  
 
+=======
+    });
+>>>>>>> e9881451982e942ab513afccfb34a468e029abea
 });
 
 //Get a list of the users associated with this board
