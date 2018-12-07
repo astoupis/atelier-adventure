@@ -143,7 +143,6 @@ function addListeners2 () {
         parent.before(hiddenDiv);
 
         let boardId = document.querySelector(".droptarget-column").id;
-        console.log(boardId)
         doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},
         {boardId: boardId,
         listName: "New List"})
@@ -231,11 +230,55 @@ function newTaskButton (div) {
     input.addEventListener('click', (event) => {
         let target = event.target;
         let taskDiv = newTask();
+
+        let descDiv = document.createElement('div');
+        let descLabel = document.createElement('label');
+        descDiv.className = "stick-desc";
+        descLabel.innerHTML = " Description: ";
+        let descPara = document.createElement('p');
+        descPara.innerHTML = "New Description";
+
+        let dateDiv = document.createElement('div');
+        let dateLabel = document.createElement('label');
+        dateDiv.className = "stick-desc";
+        dateLabel.innerHTML = " Due date: ";
+        let datePara = document.createElement('p');
+        datePara.innerHTML = "12.12.1996";
+
+        
+        descDiv.appendChild(descLabel);
+        descDiv.appendChild(descPara);
+
+        dateDiv.appendChild(dateLabel);
+        dateDiv.appendChild(datePara);
+
+        taskDiv.appendChild(descDiv);
+        taskDiv.appendChild(dateDiv);
+
         target.parentNode.before(taskDiv);
 
         let hiddenTaskDiv = document.createElement('div');
         hiddenTaskDiv.className = "hidden-task";
         taskDiv.after(hiddenTaskDiv);
+
+        let taskName = taskDiv.firstChild.innerHTML;
+        let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
+        let listId = taskDiv.parentNode.id;
+        let boardId = document.querySelector(".droptarget-column").id;
+        doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
+        {boardId: boardId,
+        listId: listId,
+        taskName: taskName,
+        taskDescription: taskDesc
+        })
+        .then((data) =>{
+            console.log(data);
+            taskDiv.id = data._id;
+            
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     });    
 }
 

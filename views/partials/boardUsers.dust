@@ -9,9 +9,9 @@
             <label>E-mail:</label>
             <p>{email}</p>
         </div>
-        <div class="usr-desc">
+        <!-- <div class="usr-desc">
             <label>Role:</label>
             <p>Supervisor</p>
-        </div>
+        </div> -->
     </span>
 </div>
