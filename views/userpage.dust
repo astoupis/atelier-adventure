@@ -16,13 +16,14 @@
             <!-- automatically inserted -->
         </header>
         <main>
-            <div class="usr-info" id="usr-info">
-                <!-- get user display the info -->
-                <!-- automatically inserted -->
+            <!-- get user display the info -->
+            <div class="usr-info">
+                <div id="usr-info">
+                    <!-- automatically inserted -->
+                </div>
+                <input type="button" class="button" id="modity-btn" value="Modify profile">
             </div>
             <!-- create a popup like register to modify the profile of the user and submit the changes -->
-            <!-- modify or change? -->
-            <input type="button" class="button" id="modity-btn" value="Modify profile">
             </br>
             <div id="display-board">
                 <div class="usr-boards">
