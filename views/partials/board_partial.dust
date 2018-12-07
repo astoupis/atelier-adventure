@@ -1,4 +1,4 @@
-<div class="board-one" id="board-one">
+<div class="board-one" id="{_id}" data-board="{_id}">
         <p class="board-one">
                 {name}
         </p>

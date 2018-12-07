@@ -379,17 +379,7 @@ function addListeners3() {
         password: document.getElementById("new-psw-box").value})
         .then((data)=>{
             document.querySelector(".pp-register").style.display = "none";
-            userUpdate()
-            // TODO
-            // doJSONRequest('GET', "/user", {}, undefined)
-            // .then((user) => {
-            //     dust.render('userpage', user, function(err, dataOut) {
-            //         // document.querySelector('html').innerHTML = dataOut
-            //         document.open('text/html');
-            //         document.write(dataOut);
-            //         document.close();
-            //    });
-            // })   
+            userUpdate()  
 
         })
         .catch((error)=>{
@@ -408,23 +398,15 @@ function addListeners3() {
         user.boards.forEach((element)=>{
             getBoardPrev(element);
         });
+
+        document.getElementById('posted-boards').addEventListener('click', function(e) {
+            const board_id = e.target.dataset.board || e.target.parentNode.dataset.board
+            if(board_id) {
+                window.location.href = "/board/" + board_id; 
+            }                        
+        });
     });
 
-    //
+    //update the user onload();
     userUpdate();
-
-    // //create avatar image (non popup)
-    // //document.getElementById("usr-img").style.backgroundColor = "orange";
-    // let fname = document.getElementById("usr-img-f").innerHTML;
-    // let lname = document.getElementById("usr-img-l").innerHTML;
-    // document.getElementById("usr-img-f").innerHTML = fname.charAt(0);
-    // document.getElementById("usr-img-l").innerHTML = lname.charAt(0);
-
-    // //create avatar image (popup)
-    // //document.getElementById("usr-img").style.backgroundColor = "orange";
-    // let fname2 = document.getElementById("usr-img-f-2").innerHTML;
-    // let lname2 = document.getElementById("usr-img-l-2").innerHTML;
-    // document.getElementById("usr-img-f-2").innerHTML = fname2.charAt(0);
-    // document.getElementById("usr-img-l-2").innerHTML = lname2.charAt(0);
-
 }

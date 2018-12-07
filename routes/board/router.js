@@ -124,7 +124,6 @@ router.post('/', function(req, res) {
                         arrayListId.push(saved._id);
                         resolve();
                     } else {
-                        console.log("FIRST")
                         res.status(400).end();
                     }
                 });
@@ -153,13 +152,11 @@ router.post('/', function(req, res) {
                             });
                         }
                         else{
-                            console.log("SECOND")
                             res.status(400).end();
                         }
                     }); 
                     
                 } else {
-                    console.log("THIRD")
                     res.status(400).end();
                     console.log(err); 
                 }
