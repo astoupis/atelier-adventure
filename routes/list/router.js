@@ -124,70 +124,106 @@ router.post('/', function(req, res) {
 
 //DELETE METHOD
 //Delete a specific list and all its tasks in an existing project
-router.delete('/:listid', function(req, res) {
+router.delete('/', function(req, res) {
     
     let boardId = req.body.boardId;
     let listId = req.params.listid; 
+
+    req.auth.then(function(payload) {
     
-    Board.findById(boardId, function(err, boardFound){
+        Board.findById(boardId, function(err, boardFound){
 
-        if (!err && boardFound){
-            List.findById(listId, function(err, listFound){
-                if (!err && listFound){
-
-                    let taskIdToBeRemoved = listFound.tasks; 
+            if (!err && boardFound){
                     
-                    //remove all tasks from the database 
-                    var promises = taskIdToBeRemoved.map(function(taskId) {
-                        return new Promise(function(resolve, reject) {
-                
-                            Task.findById(taskId, function(err, taskFound) {
-                                if (!err && taskFound) {
+                let forbidden = true;
 
-                                    taskFound.remove(function (err, taskRemoved) {
-                                        if (!err) {
-                                            resolve();
-                                        } else {
-                                            res.status(400).end();
-                                        }
-                                    });
-        
+                for(let i = 0; i < boardFound.users.length; i++){
+                    if(boardFound.users[i].toString() === payload._id) {
+                        forbidden = false;
+                        break;
+                    }
+                }
+                if(forbidden) {
+                    res.status(403).end(); 
+                    return; 
+                }
+
+                List.findById(listId, function(err, listFound){
+                    if (!err && listFound){
+
+                        let forbidden = true;
+
+                        for(let i = 0; i < boardFound.lists.length; i++){
+                            if(boardFound.lists[i].toString() === listId) {
+                                forbidden = false;
+                                break;
+                            }
+                        }
+
+                        if(forbidden) {
+                            res.status(403).end(); 
+                            return; 
+                        }
+
+                        let taskIdToBeRemoved = listFound.tasks; 
+                        
+                        //remove all tasks from the database 
+                        var promises = taskIdToBeRemoved.map(function(taskId) {
+                            return new Promise(function(resolve, reject) {
+                    
+                                Task.findById(taskId, function(err, taskFound) {
+                                    if (!err && taskFound) {
+
+                                        taskFound.remove(function (err, taskRemoved) {
+                                            if (!err) {
+                                                resolve();
+                                            } else {
+                                                res.status(400).end();
+                                            }
+                                        });
+            
+                                    } else {
+                                        res.status(400).end();
+                                    }
+                                });
+                            });
+                        });
+                        
+                        Promise.all(promises)
+                        .then(function() {
+                            //remove the list
+                            listFound.remove(function (err, listRemoved){
+                                if (!err) {
+
+                                    let lists = boardFound.lists;
+                                    let idIndex = lists.indexOf(listId); 
+                                    lists.splice(idIndex, idIndex+1);
+
+                                    Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
+                                        res.json(data); 
+                                    }); 
+                                    
                                 } else {
                                     res.status(400).end();
                                 }
                             });
+                    
                         });
-                    });
-                      
-                    Promise.all(promises)
-                    .then(function() {
-                        //remove the list
-                        listFound.remove(function (err, listRemoved){
-                            if (!err) {
 
-                                let lists = boardFound.lists;
-                                let idIndex = lists.indexOf(listId); 
-                                lists.splice(idIndex, idIndex+1);
+                    }else{
+                        res.status(400).end();
+                    }
+                }); 
+                
+            }else{
+                res.status(400).end();
+            }
+        });
 
-                                Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
-                                    res.json(data); 
-                                }); 
-                                
-                            } else {
-                                res.status(400).end();
-                            }
-                        });
-                   
-                    });
+    }).catch(function(error) {
+        res.json(error);
+    });
 
-                }else{
-                    res.status(400).end();
-                }
-            }); 
-        }else{
-            res.status(400).end();
-        }
-    }); 
 }); 
 
 

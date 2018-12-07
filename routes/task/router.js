@@ -141,7 +141,7 @@ router.post('/', function(req, res) {
                                 let tasks = listFound.tasks;
                                 
                                 List.findByIdAndUpdate(listId, {tasks:tasks}).then(data => {
-                                    res.json(data); 
+                                    res.json(saved); 
                                 }); 
                                 
                             } else {
