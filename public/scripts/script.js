@@ -281,19 +281,21 @@ document.addEventListener("dragenter", function(event) {
     event.preventDefault();
     if ((event.target.className) && (event.target.className === "droptarget movable-column")) {
         if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
-            event.target.style.border = "3px dotted red";
+            event.target.style.border = "3px solid white";
+            
         }        
     }
     if ((event.target.className) && (event.target.className === "hidden-div")) {
         if(dragLock && dragLock.className && dragLock.className === "droptarget movable-column"){
-            event.target.style.border = "20px dotted red";
-            event.target.style.width = "25vw";
+            //event.target.style.border = "20px dotted red";
+            event.target.style.backgroundColor = "rgb(49, 49, 51)";
+            event.target.style.width = "40%";
         }
     }
     if ((event.target.className) && (event.target.className === "hidden-task")) {
         if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
-            event.target.style.border = "20px dotted red";
-            event.target.style.height = "30px";
+            event.target.style.backgroundColor = "rgb(49, 49, 51)";
+            event.target.style.minHeight = "15vh";
 
         }
     }
@@ -318,15 +320,14 @@ document.addEventListener("dragleave", function(event) {
     }
     if ((event.target.className) && (event.target.className === "hidden-div")) {
         if (dragLock.className && dragLock.className === "droptarget movable-column"){
-            event.target.style.border = "";
-            event.target.style.minWidth = "1px";
+            event.target.style.backgroundColor = "#1C1C1E";
             event.target.style.width = "1px";
         }
     }
     if ((event.target.className) && (event.target.className === "hidden-task")) {
         if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
-            event.target.style.border = "";
-            event.target.style.height = "10px";
+            event.target.style.backgroundColor = "#1C1C1E";
+            event.target.style.minHeight = "10px";
         }
     }
 });
@@ -341,6 +342,7 @@ document.addEventListener("drop", function(event) {
 
         if (dragLock.className && dragLock.className === "sticker movable-task"){
             event.target.lastElementChild.before(dragLock);
+            event.target.style.border = "";
         }
         
     }
@@ -349,7 +351,7 @@ document.addEventListener("drop", function(event) {
             let hiddenDiv = dragLock.nextElementSibling;
             event.target.after(dragLock);
             dragLock.after(hiddenDiv);
-            event.target.style.minWidth = "1px";
+            event.target.style.backgroundColor = "#1C1C1E";
             event.target.style.width = "1px";
             
         }
@@ -360,11 +362,11 @@ document.addEventListener("drop", function(event) {
             let hiddenDiv = dragLock.nextElementSibling;
             event.target.after(dragLock);
             dragLock.after(hiddenDiv);
-            event.target.style.border = "";
-            event.target.style.height = "10px";
+            event.target.style.backgroundColor = "#1C1C1E";
+            event.target.style.minHeight = "10px";
         }
     }
-    event.target.style.border = "";
+    
     dragLock = "";
 });
 
