@@ -1,4 +1,3 @@
-{#result}
 <!DOCTYPE html>
 <html>
     <head>
@@ -98,4 +97,3 @@
     <script type="text/javascript" src="/js/views.js"></script>
 
 </html>
-{/result}

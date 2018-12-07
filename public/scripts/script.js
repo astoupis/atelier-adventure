@@ -128,9 +128,7 @@ function addListeners2 () {
         hiddenDiv.className = "hidden-div";
         // hiddenDiv.style.backgroundColor = "red";
         // hiddenDiv.style.width = "5px";
-        
-
-
+    
         parent.before(div);
         parent.before(hiddenDiv);
     });
@@ -159,8 +157,7 @@ function addListeners2 () {
         if (event.target === modal) {
             modal.style.display = "none";
         }
-    }
-    
+    }  
 }
 
 
@@ -373,14 +370,27 @@ function addListeners3() {
     //saving modifications
     //TODO
     document.getElementById("save-mod-btn").addEventListener('click', function(){
-        //TODO 
-        //updating image as well
         doJSONRequest('PUT', "/user", {'Content-Type': 'application/json'},
         {firstname: document.getElementById("mod-fnm-box").value, 
         lastname: document.getElementById("mod-lnm-box").value,
         email: document.getElementById("mod-eml-box").value , 
         username: document.getElementById("mod-usr-box").value, 
         password: document.getElementById("new-psw-box").value})
+        .then((data)=>{
+            document.querySelector(".pp-register").style.display = "none";
+            doJSONRequest('GET', "/user", {}, undefined)
+            .then((user) => {
+                dust.render('userpage', user, function(err, dataOut) {
+                    // document.querySelector('html').innerHTML = dataOut
+                    document.open('text/html');
+                    document.write(dataOut);
+                    document.close();
+                })
+            })   
+        })
+        .catch((error)=>{
+            console.log(error);
+        });
     });
 
     // redirect to board page when click on new board button 

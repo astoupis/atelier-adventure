@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>
+            Project page prototype
+        </title>
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <!-- META -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="addListeners2()">
+        <header>
+            <h1 id='project-title'>
+                Web Atelier 3 - Project
+            </h1>
+            <input type="button" id="invite-btn" name="invite-btn" value="Invite">
+            <div class='user-img-header'>
+                <div class="popup" onclick="userDesc('myPopup1')">
+                    <img src='images/avatar1.png' class='user-img-header'>
+                    <span class="popuptext" id="myPopup1">
+                        <div class='usr-desc'>
+                            <label>Name:</label>
+                            <p>Bernard VonDent</p>
+                        </div>
+                        <div class='usr-desc'>
+                            <label>E-mail:</label>
+                            <p>b.vondent@gmail.com</p>
+                        </div>
+                        <div class="usr-desc">
+                            <label>Role:</label>
+                            <p>Supervisor</p>
+                        </div>
+                    </span>
+                </div>
+                <div class="popup" onclick="userDesc('myPopup2')">
+                    <img src='images/avatar2.png' class='user-img-header'>
+                    <span class="popuptext" id="myPopup2">
+                        <div class='usr-desc'>
+                            <label>Name:</label>
+                            <p>Benny DeVin</p>
+                        </div>
+                        <div class='usr-desc'>
+                            <label>E-mail:</label>
+                            <p>b.devin@gmail.com</p>
+                        </div>
+                        <div class="usr-desc">
+                            <label>Role:</label>
+                            <p>Assistant</p>
+                        </div>
+                    </span>
+                </div>
+                <div class="popup" onclick="userDesc('myPopup3')">
+                    <img src='images/avatar3.png' class='user-img-header'>
+                    <span class="popuptext" id="myPopup3">
+                    <div class='usr-desc'>
+                        <label>Name:</label>
+                        <p>Carl Micheal</p>
+                    </div>
+                    <div class='usr-desc'>
+                        <label>E-mail:</label>
+                        <p>c.micheal@gmail.com</p>
+                    </div>
+                    <div class="usr-desc">
+                        <label>Role:</label>
+                        <p>Programmer</p>
+                    </div>
+                    </span>
+                </div>
+                <div class="popup" onclick="userDesc('myPopup4')">
+                    <img src='images/avatar4.png' class='user-img-header'>
+                    <span class="popuptext" id="myPopup4">
+                    <div class='usr-desc'>
+                        <label>Name:</label>
+                        <p>Jane Doe</p>
+                    </div>
+                    <div class='usr-desc'>
+                        <label>E-mail:</label>
+                        <p>j.doe@gmail.com</p>
+                    </div>
+                    <div class="usr-desc">
+                        <label>Role:</label>
+                        <p>Designer</p>
+                    </div>
+                    </span>
+                </div>
+            </div>
+
+        </header>
+        
+        <!-- MAIN -->
+        <main class="droptarget-column">
+            <!-- Column -->
+            <div draggable="true" class="droptarget movable-column" id="column-2">
+                <!-- Title of column -->
+                <h1 class="state-head" contenteditable="true">
+                    To Do
+                </h1>
+                <!-- Task -->
+                <div draggable="true" id="task-2" class="sticker movable-task" style="background-color: forestgreen"">
+                    <h1 class='sticker'>
+                        Power Point
+                    </h1>
+                    <div class='stick-desc'>
+                        <label> Description: </label>
+                        <p>Create a shared power point file.</p>
+                    </div>
+                    <div class='stick-desc'>
+                        <label> Due date: </label>
+                        <p> 25.11.2018 </p>
+                    </div>
+                    <div class='stick-desc'>
+                        <label>Assigned to:</label>
+                        <p>
+                            <div class="popup" onclick="userDesc('myPopup2')">
+                                <img src='images/avatar2.png' class='sticker'>
+                            </div>
+                            <div class="popup" onclick="userDesc('myPopup4')">
+                                <img src='images/avatar4.png' class='sticker'>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div draggable="true" class="droptarget movable-column" id="column-1">
+                <h1 class="state-head" contenteditable="true">
+                    Done 
+                </h1>
+                <div draggable="true" id="task-1" class="sticker movable-task" style="background-color: coral">
+                    <h1 class='sticker'>
+                        TASK
+                    </h1>
+                </div>
+            </div>
+            <div>
+                <input type="button" id="addList-btn" name="addList-btn" value="Add List">
+            </div>
+            <div class="pp-register">
+                <div class="pp-content">
+                    <img class="pp-closing-icon" id="register-close"src="images/closeX.png">
+                    <form class="register-form" id="register-div">
+                        <h2 class="register">Invite</h2>
+                        <input type="text" id="invite-box" name="email" placeholder="E-MAIL" required>
+                    </form>
+                    <input type="submit" class="button" id="register-btn" name="register-btn" value="Invite">
+                </div>
+            </div>
+        </main>
+        <!-- FOOTER -->
+        <footer>
+            <p class='footer-credits'>
+                Created and Designed by a group of students. 
+            </p>
+            <!-- Need to add a legenda -->
+        </footer>
+    </body>
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="js/fetch.js"></script>
+
+</html>
