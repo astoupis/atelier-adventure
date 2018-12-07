@@ -103,7 +103,6 @@ function addListeners2 () {
         document.querySelector('.pp-register').style.display = 'none';
     }.bind(this));
 
-
     // adds functionality to the add list button
     let addListBtn = document.getElementById("addList-btn");
     addListBtn.addEventListener('click', () => {
@@ -134,13 +133,35 @@ function addListeners2 () {
         parent.before(div);
         parent.before(hiddenDiv);
 
-        // doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},{})
-        // .then((data) => {
-        //     console.log(data);
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        // });
+        let boardId = document.querySelector(".droptarget-column").id;
+        console.log(boardId)
+        doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},
+        {boardId: boardId,
+        listName: "New List"})
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    });
+
+    // put list name
+    let h1arr = document.querySelectorAll(".state-head");
+    h1arr.forEach((element) => {
+        element.addEventListener("blur", (event) => {
+            let boardId = document.querySelector(".droptarget-column").id;
+            doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
+            {boardId: boardId
+
+            })
+            .then((data) =>{
+                console.log(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        });
     });
 
     // find all the columns and for each one of them add the new Task button
