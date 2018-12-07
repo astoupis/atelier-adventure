@@ -98,6 +98,17 @@ function addListeners2 () {
         // doJSONRequest('GET', "/user/search/", {'Content-Type': 'application/json'}, undefined);
     });
 
+    let title = document.getElementById("project-title");
+    title.contentEditable = true;
+    title.addEventListener('blur', (event) => {
+        let actualTitle = title.innerHTML;
+        let boardId = document.querySelector(".droptarget-column").id;
+        doJSONRequest('PUT', "/board/name", {'Content-Type': 'application/json'}, 
+        {boardName: actualTitle,
+        boardId: boardId
+        })
+    });
+
     //close registration popup window
     document.getElementById("register-close").addEventListener('click', function(){
         document.querySelector('.pp-register').style.display = 'none';
@@ -128,8 +139,6 @@ function addListeners2 () {
         // hiddenDiv.style.backgroundColor = "red";
         // hiddenDiv.style.width = "5px";
         
-
-
         parent.before(div);
         parent.before(hiddenDiv);
 
@@ -150,10 +159,13 @@ function addListeners2 () {
     let h1arr = document.querySelectorAll(".state-head");
     h1arr.forEach((element) => {
         element.addEventListener("blur", (event) => {
+            let listName = element.innerHTML;
+            let listId = element.parentNode.id;
             let boardId = document.querySelector(".droptarget-column").id;
             doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
-            {boardId: boardId
-
+            {boardId: boardId,
+            listId: listId,
+            listName: listName
             })
             .then((data) =>{
                 console.log(data);
