@@ -89,8 +89,8 @@ router.post('/', function(req, res) {
     
     let taskName = req.body.taskName; 
     let taskDescription = req.body.taskDescription;
-    let taskDueData = req.body.taskDueDate;
-    let taskAssignedUsers = req.body.taskAssigndeUsers;
+    //let taskDueData = req.body.taskDueDate;
+    //let taskAssignedUsers = req.body.taskAssigndeUsers;
 
     const task = new Task({
         name: taskName ,
@@ -99,34 +99,67 @@ router.post('/', function(req, res) {
         //assignedUsers = taskAssignedUsers
     })
 
-    Board.findById(boardId, function(err, boardFound){
+    req.auth.then(function(payload){
 
-        if (!err && boardFound){
-            
-            List.findById(listId, function(err, listFound){
-                if (!err && listFound){
-                    //create the task
-                    task.save(function(err, saved) {
-                        if (!err && saved) { 
+        Board.findById(boardId, function(err, boardFound){
 
-                            listFound.tasks.push(saved._id);
-                            let tasks = listFound.tasks;
-                            
-                            List.findByIdAndUpdate(listId, {tasks:tasks}).then(data => {
-                                res.json(data); 
-                            }); 
-                            
-                        } else {
-                            res.status(400).end();
-                        }
-                    });
-                }else{
-                    res.status(400).end();
+            if (!err && boardFound){
+
+                let forbidden = true;
+                for(let i = 0; i < boardFound.users.length; i++){
+                    if(boardFound.users[i].toString() === payload._id) {
+                        forbidden = false;
+                        break;
+                    }
                 }
-            });
-        }else{
-            res.status(400).end();
-        }
+                if(forbidden) {
+                    res.status(403).end(); 
+                    return; 
+                }
+                
+                List.findById(listId, function(err, listFound){
+                    if (!err && listFound){
+
+                        let forbidden = true;
+
+                        for(let i = 0; i < boardFound.lists.length; i++){
+                            if(boardFound.lists[i].toString() === listId) {
+                                forbidden = false;
+                                break;
+                            }
+                        }
+
+                        if(forbidden) {
+                            res.status(403).end(); 
+                            return; 
+                        }
+                        
+                        task.save(function(err, saved) {
+                            if (!err && saved) { 
+
+                                listFound.tasks.push(saved._id);
+                                let tasks = listFound.tasks;
+                                
+                                List.findByIdAndUpdate(listId, {tasks:tasks}).then(data => {
+                                    res.json(data); 
+                                }); 
+                                
+                            } else {
+                                res.status(400).end();
+                            }
+                        });
+
+                    }else{
+                        res.status(400).end();
+                    }
+                });
+            }else{
+                res.status(400).end();
+            }
+        }); 
+
+    }).catch(function(error) {
+        res.json(error);
     }); 
 });
 
