@@ -26,26 +26,44 @@ router.get('/:listid', function(req, res) {
 
 //PUT METHOD
 //Modify a specific list name for an existing project
-router.put('/:listid', function(req, res){
+router.put('/', function(req, res){
     
     let boardId = req.body.boardId;
-    let listId = req.params.listid; 
+    let listId = req.body.listId; 
     let newName = req.body.listName;
 
-    Board.findById(boardId, function(err, found){
+    req.auth.then(function(payload) {
 
-        if (!err && found){
+        Board.findById(boardId, function(err, boardFound){
 
-            let modifiedList = {name:newName}
+            if (!err && boardFound) {
+                let forbidden = true;
 
-            List.findByIdAndUpdate(listId, modifiedList).then(data => {
-                res.json(data); 
-            }); 
-                    
-        } else {
-            res.status(400).end();
-        }
-    }); 
+                for(let i = 0; i < boardFound.users.length; i++){
+                    if(boardFound.users[i].toString() === payload._id) {
+                        forbidden = false;
+                        break;
+                    }
+                }
+
+                if(forbidden) {
+                    res.status(403).end(); 
+                    return; 
+                }
+
+                let modifiedList = {name:newName}
+
+                List.findByIdAndUpdate(listId, modifiedList).then(data => {
+                    res.json(data); 
+                }); 
+                        
+            } else {
+                res.status(400).end();
+            }
+        }); 
+    }).catch(function(error) {
+        res.json(error);
+    });
 
 
 });
@@ -64,6 +82,7 @@ router.post('/', function(req, res) {
         })
 
         Board.findById(boardId, function(err, boardFound){
+            
             if (!err && boardFound) {
                 let forbidden = true;
                 for(let i = 0; i < boardFound.users.length; i++){
