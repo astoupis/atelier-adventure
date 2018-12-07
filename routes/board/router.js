@@ -82,15 +82,45 @@ router.get('/:boardid/lists', function(req, res) {
 
 //PUT METHOD
 //Modify the name of the board object
-router.put('/:boardid/name', function(req, res){
+router.put('/name', function(req, res){
 
-    var board = {name: req.body.name}
-    
-    Board.findByIdAndUpdate(req.params.boardid, board).then(data => {
-        res.json(data); 
-    }); 
+    let boardId = req.body.boardId;
+    let boardName = req.body.boardName; 
+
+    req.auth.then(function(payload){
+
+        Board.findById(boardId, function(err, boardFound){
+            
+            if (!err && boardFound) {
+                let forbidden = true;
+                for(let i = 0; i < boardFound.users.length; i++){
+                    if(boardFound.users[i].toString() === payload._id) {
+                        forbidden = false;
+                        break;
+                    }
+                }
+                if(forbidden) {
+                    res.status(403).end(); 
+                    return; 
+                }
+
+                var board = {name: boardName}
+        
+                Board.findByIdAndUpdate(boardId, board).then(data => {
+                    res.json(data); 
+                }); 
+
+            }else{
+                res.status(400).end(); 
+            }
+        });
+
+    }).catch(function(error) {
+        res.json(error);
+    });   
         
 });
+
 
 //POST METHOD 
 //Creat a new board (project)
