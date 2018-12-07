@@ -26,8 +26,6 @@ div.hidden-div{
   max-width:25vw;
 }
 
-
-
 /* 
  * PROJECT PAGE HEADER 
  */
@@ -410,22 +408,18 @@ div.signup #signup-btn{
   justify-content: center;
   align-items: center;
 }
+/* pp display */
+#usr-update-pp{
+  display: inherit;
+  flex-direction: inherit;
+}
+
 h1.mod-usr{
   color: black;
 }
 .mod_avatar{
   width: 50px;
   height: 50px;
-}
-
-#importAvatar{
-  color: black;
-  margin-left: 95px;
-}
-
-#importAvatar:hover{
-  color: black;
-  margin-left: 95px;
 }
 
 .usr-info-line{

@@ -1,0 +1,9 @@
+<div class="pp-mod-line">
+    <div class="usr-image-2" id="usr-img-2">
+        {avatarLetters}
+    </div>
+</div>
+<input type="text" id="mod-usr-box" name="username" placeholder="{username}" required>
+<input type="text" id="mod-fnm-box" name="firstname" placeholder="{firstname}" required>
+<input type="text" id="mod-lnm-box" name="lastname" placeholder="{lastname}" required>
+<input type="email" id="mod-eml-box" name="email" placeholder="{email}" required>

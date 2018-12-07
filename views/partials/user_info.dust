@@ -1,0 +1,17 @@
+<div class="usr-image" id="usr-img">
+    <!-- <p id="usr-img-f">{firstname}</p>
+    <p id="usr-img-l">{lastname}</p> -->
+    {avatarLetters}
+</div>
+<div class="usr-info-line">
+    <label>Username:</label><p>{username}</p>
+</div>
+<div class="usr-info-line">
+    <label>First name:</label><p>{firstname}</p>
+</div>
+<div class="usr-info-line">
+    <label>Last name:</label><p>{lastname}</p>
+</div>
+<div class="usr-info-line">
+    <label>E-mail:</label><p>{email}</p>
+</div>
