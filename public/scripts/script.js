@@ -352,7 +352,6 @@ function addListeners3() {
 
     //open modification popup window 
     document.getElementById('modity-btn').addEventListener('click', function(){
-        //userUpdate();
         document.querySelector('.pp-register').style.display = 'flex';
     });
 
@@ -400,10 +399,7 @@ function addListeners3() {
 
     // redirect to board page when click on new board button 
     document.getElementById("new-board-btn").addEventListener('click', function(){
-        doJSONRequest('POST','/board', {'Content-Type': 'application/json'}, null)
-        .then((board)=>{
-            //need to render the board using board.dust 
-        })
+        boardCreate();
     });
 
     //get user + get board array 

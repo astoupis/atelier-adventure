@@ -31,8 +31,11 @@
                     <div id="posted-boards">
                         <!-- automatically display boards if any -->
                     </div>
-                    <!-- add new board -->
-                    <input type="button" id="new-board-btn" class="button" value="New board">
+                    <div class="create-new-board">
+                        <!-- add new board -->
+                        <input type="text" id="board-name" placeholder="Board name">
+                        <input type="button" id="new-board-btn" class="button" value="New board">
+                    </div>
                 </div>
             </div>
             <!-- modify profile popup -->

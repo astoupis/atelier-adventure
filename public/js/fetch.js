@@ -105,8 +105,6 @@ function getBoardPrev(id){
 };
 
 
-// 
-
 function userUpdate(){
     doJSONRequest('GET', "/user", {}, undefined)
     .then(function(user) {
@@ -127,5 +125,9 @@ function userUpdate(){
     });
 }
 
-
-
+function boardCreate(){
+    doJSONRequest('POST', "/board", {}, {name: document.getElementById('board-name').value})
+    .then(function(board){
+        getBoardPrev(board._id);
+    })
+}
