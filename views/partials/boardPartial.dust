@@ -7,6 +7,7 @@
     </h1>
     <!-- Task -->
     {#tasks}
-        {>"partials/boardTask" /}
+        {_id}
+        {> "partials/boardTask" /}
     {/tasks}
 </div>

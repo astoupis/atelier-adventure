@@ -1,5 +1,4 @@
-
-<div draggable="true" id="task-2" class="sticker movable-task" style="background-color: forestgreen"">
+<div draggable="true" id="{_id}" class="sticker movable-task" onload="setColor('{_id}')">
     <h1 class='sticker'>
         {name}
     </h1>

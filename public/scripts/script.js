@@ -271,7 +271,7 @@ function newTaskButton (div) {
         taskName: taskName,
         taskDescription: taskDesc
         })
-        .then((data) =>{
+        .then((data) => {
             console.log(data);
             taskDiv.id = data._id;
             
@@ -318,6 +318,12 @@ function getColor () {
     } else {
         return "deeppink"
     }
+}
+
+function setColor (id) {
+    let color = getColor;
+    let element = document.getElementById("id");
+    element.style.backgroundColor = color;
 }
 
 // Event listener attached to the window (whole broswer) 
