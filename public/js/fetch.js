@@ -154,15 +154,8 @@ function taskGet(taskId, listId, boardId) {
                     taskDiv.class = "sticker movable-task";
                     // TODO: onLoad function execution
                     document.getElementById(listId).appendChild(taskDiv);
-                } else {
-                    // TODO: DO THE ELSE CASE
-                    taskDiv = document.createElement("div")
-                    taskDiv.id = taskId;
-                    taskDiv.draggable = true;
-                    taskDiv.class = "sticker movable-task";
-                    // TODO: onLoad function execution
-                    document.getElementById(listId).appendChild(taskDiv);
                 }
+                taskDiv.innerHTML = dataOut;
                 resolve(task);
             });
         })
