@@ -26,16 +26,54 @@ function checkup(checkedValue, value){
 //GET METHOD
 //Get the task by its id
 router.get('/:taskid', function(req, res) {
+
+    let boardId = req.body.boardId;
+    let listId = req.body.listId; 
+    let taskId = req.params.taskid;
+    let aPayload; 
+
     req.auth.then(function(payload) {
+        aPayload = payload;
+        
         /* -- GET THE REQUIRED TASK -- */
         return Task.findById(req.params.taskid).exec();
     })
     .then(function(task) {
         /* -- CHECK IF THE USER CAN SEE THIS TASK -- */
         // WE SKIP THIS STAGE, BECAUSE THERE IS NO REF TO BOARD
+        Board.findById(boardId, function(err, boardFound){
+            if (!err && boardFound){
+                List.findById(listId, function(err, listFound){
+                    if (!err && listFound){
+                        
+                        if(checkup(boardFound.users, aPayload._id)) {
+                            res.status(403).end(); 
+                            return; 
+                        }
+
+                        if(checkup(boardFound.lists, listId)) {
+                            res.status(403).end(); 
+                            return; 
+                        }
+
+                        if(checkup(listFound.tasks, taskId)) {
+                            res.status(403).end(); 
+                            return; 
+                        }
+                        
+                        res.json(task);
+
+                    }else{
+                        res.status(400).end();
+                    }
+                })
+            }else{
+                res.status(400).end(); 
+            } 
+        });
 
         /* -- RETURN THE TASK -- */
-        res.json(task);
+        
     })
     .catch(function(error) {
         if(error instanceof Error.DocumentNotFoundError) {
@@ -51,7 +89,7 @@ router.get('/:taskid', function(req, res) {
 //GET METHOD
 //Get or refresh all the task in the correct columns inside a project
 router.get('/', function(req, res) {
-
+    return; 
 });
 
 //PUT METHOD
@@ -153,7 +191,7 @@ router.put('/list', function(req, res){
 
 //Modify the name and the description of a specific task
 router.put('/:taskid', function(req, res){
-
+    return; 
 });
 
 //POST METHOD 
