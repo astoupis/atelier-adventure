@@ -52,7 +52,6 @@ router.get('/search', function(req, res) {
         });
         res.json(userArray);
     });
-
 });
 
 
@@ -104,7 +103,7 @@ router.get('/:userid', function(req, res) {
                 dateCreated : found.dateCreated
             }
 
-            res.render("userpage", {result:user});
+            res.render("userpage", user);
 
         } else if (req.accepts("json")) {
             

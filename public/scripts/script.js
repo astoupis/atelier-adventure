@@ -206,8 +206,7 @@ function addListeners2 () {
         if (event.target === modal) {
             modal.style.display = "none";
         }
-    }
-    
+    }  
 }
 
 
@@ -495,25 +494,29 @@ function addListeners3() {
             modal.style.display = "none";
         }
     } 
+
     //saving modifications
     //TODO
     document.getElementById("save-mod-btn").addEventListener('click', function(){
-        //TODO 
-        //updating image as well
         doJSONRequest('PUT', "/user", {'Content-Type': 'application/json'},
         {firstname: document.getElementById("mod-fnm-box").value, 
         lastname: document.getElementById("mod-lnm-box").value,
         email: document.getElementById("mod-eml-box").value , 
         username: document.getElementById("mod-usr-box").value, 
         password: document.getElementById("new-psw-box").value})
+        .then((data)=>{
+            document.querySelector(".pp-register").style.display = "none";
+            userUpdate()  
+
+        })
+        .catch((error)=>{
+            console.log(error);
+        });
     });
 
     // redirect to board page when click on new board button 
     document.getElementById("new-board-btn").addEventListener('click', function(){
-        doJSONRequest('POST','/board', {'Content-Type': 'application/json'}, null)
-        .then((board)=>{
-            //need to render the board using board.dust 
-        })
+        boardCreate();
     });
 
     //get user + get board array 
@@ -522,20 +525,15 @@ function addListeners3() {
         user.boards.forEach((element)=>{
             getBoardPrev(element);
         });
+
+        document.getElementById('posted-boards').addEventListener('click', function(e) {
+            const board_id = e.target.dataset.board || e.target.parentNode.dataset.board
+            if(board_id) {
+                window.location.href = "/board/" + board_id; 
+            }                        
+        });
     });
 
-    //create avatar image (non popup)
-    //document.getElementById("usr-img").style.backgroundColor = "orange";
-    let fname = document.getElementById("usr-img-f").innerHTML;
-    let lname = document.getElementById("usr-img-l").innerHTML;
-    document.getElementById("usr-img-f").innerHTML = fname.charAt(0);
-    document.getElementById("usr-img-l").innerHTML = lname.charAt(0);
-
-    //create avatar image (popup)
-    //document.getElementById("usr-img").style.backgroundColor = "orange";
-    let fname2 = document.getElementById("usr-img-f-2").innerHTML;
-    let lname2 = document.getElementById("usr-img-l-2").innerHTML;
-    document.getElementById("usr-img-f-2").innerHTML = fname2.charAt(0);
-    document.getElementById("usr-img-l-2").innerHTML = lname2.charAt(0);
-
+    //update the user onload();
+    userUpdate();
 }

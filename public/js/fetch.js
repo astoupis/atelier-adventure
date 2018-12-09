@@ -90,18 +90,42 @@ function doJSONRequest(method, url, headers, body){
 /***************************/ 
 
 function getBoardPrev(id){
-
+    console.log(id);
     // take all the the board ids and render all the boards 
     doJSONRequest('GET', "/board/" + id,{}, undefined)
     .then((board)=>{
-      //need to create a board_partial to render 
-      console.log(board);
       dust.render('partials\/board_partial', board ,function(err, dataOut) {
-                     // out contains the rendered HTML string.
-                     console.log(err);
-                     document.getElementById('posted-boards').innerHTML += dataOut;
-      });
+                    // if(err) console.log(err);
+                    document.getElementById('posted-boards').innerHTML += dataOut;
+        });
     });
 };
 
- 
+
+function userUpdate(){
+    doJSONRequest('GET', "/user", {}, undefined)
+    .then(function(user) {
+        user.avatarLetters = user.firstname.charAt(0) + user.lastname.charAt(0);
+        dust.render('partials\/userpage_title', user, function(err, dataOut) {
+            // out contains the rendered HTML string.
+            if(err) console.log(err);
+            document.getElementById('usr-page-title').innerHTML = dataOut;
+        });
+        dust.render('partials\/user_info', user, function(err, dataOut){
+            if(err) console.log(err);
+            document.getElementById('usr-info').innerHTML = dataOut;
+        });
+        dust.render('partials/user_update_pp', user,function(err, dataOut){
+            document.getElementById('usr-update-pp').innerHTML = dataOut;
+        })
+    });
+}
+
+function boardCreate(){
+    doJSONRequest('POST', "/board", {}, {name: document.getElementById('board-name').value})
+    .then(function(board) {
+        getBoardPrev(board._id);
+    }).catch((err)=>{
+        alert("Invalid board name");
+    });
+}

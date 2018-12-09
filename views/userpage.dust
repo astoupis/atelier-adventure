@@ -1,4 +1,3 @@
-{#result}
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,32 +12,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body onload="addListeners3()">
-        <header>
-            <h1 class="usr-pg-title"> Welcome {firstname} {lastname}!</h1>
+        <header id="usr-page-title">
+            <!-- automatically inserted -->
         </header>
         <main>
+            <!-- get user display the info -->
             <div class="usr-info">
-                <!-- get user display the info -->
-                <div class="usr-image" id="usr-img">
-                    <p id="usr-img-f">{firstname}</p>
-                    <p id="usr-img-l">{lastname}</p>
+                <div id="usr-info">
+                    <!-- automatically inserted -->
                 </div>
-                <div class="usr-info-line">
-                    <label>Username:</label><p>{username}</p>
-                </div>
-                <div class="usr-info-line">
-                    <label>First name:</label><p>{firstname}</p>
-                </div>
-                <div class="usr-info-line">
-                    <label>Last name:</label><p>{lastname}</p>
-                </div>
-                <div class="usr-info-line">
-                    <label>E-mail:</label><p>{email}</p>
-                </div>
-                <!-- create a popup like register to modify the profile of the user and submit the changes -->
-                <!-- modify or change? -->
                 <input type="button" class="button" id="modity-btn" value="Modify profile">
             </div>
+            <!-- create a popup like register to modify the profile of the user and submit the changes -->
             </br>
             <div id="display-board">
                 <div class="usr-boards">
@@ -46,8 +31,11 @@
                     <div id="posted-boards">
                         <!-- automatically display boards if any -->
                     </div>
-                    <!-- add new board -->
-                    <input type="button" id="new-board-btn" class="button" value="New board">
+                    <div class="create-new-board">
+                        <!-- add new board -->
+                        <input type="text" id="board-name" placeholder="Board name">
+                        <input type="button" id="new-board-btn" class="button" value="New board">
+                    </div>
                 </div>
             </div>
             <!-- modify profile popup -->
@@ -57,22 +45,10 @@
                             <form class="register-form" id="register-div">
                                 <!-- change or modify -->
                                 <h2 class="register">Change your profile</h2>
-                                <div class="pp-mod-line">
-                                    <!-- TODO -->
-                                     <div class="usr-image-2" id="usr-img-2">
-                                        <p id="usr-img-f-2">{firstname}</p>
-                                        <p id="usr-img-l-2">{lastname}</p>
-                                     </div>
-                                    <!-- <img class="mod_avatar" src="/images/avatar1.png"> -->
+
+                                <div id="usr-update-pp">
+                                    <!-- Automatically inserted -->
                                 </div>
-                                <!-- is it possible to load usr "old" data and use them as placeholders? -->
-                                <input type="text" id="mod-usr-box" name="username" placeholder="{username}" required>
-                                <input type="text" id="mod-fnm-box" name="firstname" placeholder="{firstname}" required>
-                                <input type="text" id="mod-lnm-box" name="lastname" placeholder="{lastname}" required>
-                                <input type="email" id="mod-eml-box" name="email" placeholder="{email}" required>
-                                <!-- old password new password -->
-                                <!-- <input type="password" id="old-psw-box" name="password" placeholder="OLD PASSWORD" required> -->
-                                <!-- modify the PUT request ! check old password is right and save new password  -->
                                 <input type="password" id="new-psw-box" name="password" placeholder="NEW PASSWORD" required>
                                 <div class="form-line">
                                     <!-- chack css and change class -->
@@ -98,4 +74,3 @@
     <script type="text/javascript" src="/js/views.js"></script>
 
 </html>
-{/result}
