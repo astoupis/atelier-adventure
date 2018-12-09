@@ -25,27 +25,26 @@ function checkup(checkedValue, value){
 
 //GET METHOD
 //Get the task by its id
-router.get('/:taskid', function(req, res) {
-
-    let boardId = req.body.boardId;
-    let listId = req.body.listId; 
-    let taskId = req.params.taskid;
+router.get('/:taskId/:listId/:boardId', function(req, res) {
+    let boardId = req.params.boardId;
+    let listId = req.params.listId; 
+    let taskId = req.params.taskId;
     let aPayload; 
 
+    
+
     req.auth.then(function(payload) {
-        aPayload = payload;
-        
+        aPayload = payload;        
         /* -- GET THE REQUIRED TASK -- */
-        return Task.findById(req.params.taskid).exec();
+        return Task.findById(taskId).exec();
     })
     .then(function(task) {
         /* -- CHECK IF THE USER CAN SEE THIS TASK -- */
-        // WE SKIP THIS STAGE, BECAUSE THERE IS NO REF TO BOARD
-        Board.findById(boardId, function(err, boardFound){
+        Board.findById(boardId, function(err, boardFound){ 
             if (!err && boardFound){
                 List.findById(listId, function(err, listFound){
+                    
                     if (!err && listFound){
-                        
                         if(checkup(boardFound.users, aPayload._id)) {
                             res.status(403).end(); 
                             return; 
