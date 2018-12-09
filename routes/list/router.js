@@ -127,7 +127,7 @@ router.post('/', function(req, res) {
 router.delete('/', function(req, res) {
     
     let boardId = req.body.boardId;
-    let listId = req.params.listid; 
+    let listId = req.body.listId; 
 
     req.auth.then(function(payload) {
     
@@ -178,7 +178,7 @@ router.delete('/', function(req, res) {
                                             if (!err) {
                                                 resolve();
                                             } else {
-                                                res.status(400).end();
+                                                res.status(400).end("lol");
                                             }
                                         });
             
@@ -197,7 +197,7 @@ router.delete('/', function(req, res) {
 
                                     let lists = boardFound.lists;
                                     let idIndex = lists.indexOf(listId); 
-                                    lists.splice(idIndex, idIndex+1);
+                                    lists.splice(idIndex, idIndex+1); 
 
                                     Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
                                         res.json(data); 
@@ -214,7 +214,7 @@ router.delete('/', function(req, res) {
                         res.status(400).end();
                     }
                 }); 
-                
+
             }else{
                 res.status(400).end();
             }
