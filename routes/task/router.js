@@ -8,7 +8,6 @@ const Task = mongoose.model('Task');
 const List = mongoose.model('List');
 const Board = mongoose.model('Board');
 
-
 function checkup(checkedValue, value){
 
     let forbidden = true;
@@ -22,6 +21,32 @@ function checkup(checkedValue, value){
 
     return forbidden;
 }
+
+
+//GET METHOD
+//Get the task by its id
+router.get('/:taskid', function(req, res) {
+    req.auth.then(function(payload) {
+        /* -- GET THE REQUIRED TASK -- */
+        return Task.findById(req.params.taskid).exec();
+    })
+    .then(function(task) {
+        /* -- CHECK IF THE USER CAN SEE THIS TASK -- */
+        // WE SKIP THIS STAGE, BECAUSE THERE IS NO REF TO BOARD
+
+        /* -- RETURN THE TASK -- */
+        res.json(task);
+    })
+    .catch(function(error) {
+        if(error instanceof Error.DocumentNotFoundError) {
+            res.status(404);
+        } else {
+            res.status(403);
+        }
+        res.json(error);
+    });
+});
+
 
 //GET METHOD
 //Get or refresh all the task in the correct columns inside a project
