@@ -30,9 +30,12 @@
         <main class="droptarget-column" id="{_id}">
             <div class="hidden-div">
             </div>
-            {#lists}
+            <!-- {#lists}
                 {>"partials/boardPartial" /}
-            {/lists}
+            {/lists} -->
+            <div id="list-space">
+                
+            </div>
             <div>
                 <input type="button" id="addList-btn" name="addList-btn" value="Add List">
             </div>

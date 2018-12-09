@@ -1,6 +1,7 @@
-<div draggable="true" id="{_id}" class="sticker movable-task" onload="setColor('{_id}')">
+<!-- <div draggable="true" id="{_id}" class="sticker movable-task" onload="setColor('{_id}')"> -->
     <h1 class='sticker'>
-        {name}
+        <!-- {name} -->
+        TASK:  {_id}
     </h1>
     <div class='stick-desc'>
         <label> Description: </label>
@@ -21,6 +22,6 @@
             </div>
         </p>
     </div> -->
-</div>
-<div class="hidden-task">
-</div>
+<!-- </div> -->
+<!-- <div class="hidden-task">
+</div> -->

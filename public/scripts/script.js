@@ -88,6 +88,11 @@ function newId () {
 
 
 function addListeners2 () {
+    //TODO
+
+    // Render lists
+
+
     let inviteBtn = document.getElementById("invite-btn");
     inviteBtn.addEventListener('click', () => {
         document.querySelector('.pp-register').style.display = 'flex';
@@ -265,11 +270,12 @@ function newTaskButton (div) {
         let listId = taskDiv.parentNode.id;
         let boardId = document.querySelector(".droptarget-column").id;
         doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
-        {boardId: boardId,
-        listId: listId,
-        taskName: taskName,
-        taskDescription: taskDesc
-        })
+            {boardId: boardId,
+            listId: listId,
+            taskName: taskName,
+            taskDescription: taskDesc
+            }
+        )
         .then((data) => {
             console.log(data);
             taskDiv.id = data._id;
@@ -279,7 +285,7 @@ function newTaskButton (div) {
             console.log(error);
         });
     });    
-}
+} 
 
 // function for creating a new task
 function newTask () {
@@ -529,7 +535,7 @@ function addListeners3() {
         document.getElementById('posted-boards').addEventListener('click', function(e) {
             const board_id = e.target.dataset.board || e.target.parentNode.dataset.board
             if(board_id) {
-                window.location.href = "/board/" + board_id; 
+                window.location.href = "/board/" + board_id;
             }                        
         });
     });

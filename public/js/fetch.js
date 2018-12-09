@@ -112,7 +112,9 @@ function userUpdate(){
             document.getElementById('usr-page-title').innerHTML = dataOut;
         });
         dust.render('partials\/user_info', user, function(err, dataOut){
-            if(err) console.log(err);
+            if(err) {
+                console.log(err);
+            }
             document.getElementById('usr-info').innerHTML = dataOut;
         });
         dust.render('partials/user_update_pp', user,function(err, dataOut){
@@ -131,6 +133,51 @@ function boardCreate(){
 }
 
 
+/**
+ * Gets the list and renders it on the board
+ * @param {string} listId the list id
+ * @param {string} boardId the board id
+ * @param {boolean} wipe=false (optional) whether the contents of lists should be wiped out
+ * @returns {Promise} a promise to render the list.
+ */
+function listGetTasks(listId, boardId, wipe=false) {
+    return new Promise(function(resolve, reject) {
+        doJSONRequest(
+            "GET", 
+            "/list/" + listId + "/" + boardId,
+            {},
+            undefined
+        )
+        .then(function(list) {
+            if(wipe) {
+                document.getElementById(listId).innerHTML = "";
+            }
+            const promise = taskGet(list.tasks[0], listId, boardId);
+            for(let i = 1; i < list.tasks.length; i++) {
+                promise.then(function() {
+                    return taskGet(list.tasks[i], listId, boardId);
+                });
+            }
+            promise.then(resolve);
+            promise.catch(function(error) {
+                reject(error);
+            })
+        })
+        .catch(function(error) {
+            reject(error);
+        });
+    });
+}
+
+/**
+ * Gets the task from the server, rendering it in the list
+ * if the task exists as DOM object, the DOM object's contents
+ * will be updated
+ * @param {string} taskId the id of the task
+ * @param {string} listId the id of the list
+ * @param {string} boardId the id of the board
+ * @returns {Promise} a Promise to render the task
+ */
 function taskGet(taskId, listId, boardId) {
     return new Promise(function(resolve, reject) {
         doJSONRequest(
@@ -151,9 +198,13 @@ function taskGet(taskId, listId, boardId) {
                     taskDiv = document.createElement("div")
                     taskDiv.id = taskId;
                     taskDiv.draggable = true;
-                    taskDiv.class = "sticker movable-task";
+                    taskDiv.className = "sticker movable-task";
                     // TODO: onLoad function execution
                     document.getElementById(listId).appendChild(taskDiv);
+                    
+                    let hiddenTask = document.createElement("div");
+                    hiddenTask.className = "hidden-task";
+                    document.getElementById(listId).appendChild(hiddenTask);
                 }
                 taskDiv.innerHTML = dataOut;
                 resolve(task);
@@ -165,3 +216,70 @@ function taskGet(taskId, listId, boardId) {
     });
 }
 
+
+function boardGetLists(boardId) {
+    return new Promise(function(resolve, reject) {
+        doJSONRequest(
+            "GET", 
+            "/board/" + boardId,
+            {},
+            undefined
+        )
+        .then(function(board) {
+            const lists = board.lists;
+            function renderLists(pointerToCurrent=0) {
+                if(pointerToCurrent >= lists.length) {
+                    return;
+                }
+                dust.render("partials/boardPartial", lists[i], function(err, html) {
+                    if(err) {
+                        console.log(err);
+                    }
+
+                    let listDOM = document.createElement("div");
+
+                    listDOM.draggable = true;
+                    listDOM.className = "droptarget movable-column";
+                    listDOM.id = lists[i]._id;
+                    listDOM.innerHTML = html;
+
+                    document.getElementById("list-space").appendChild(listDOM);
+                    renderLists(pointerToCurrent + 1);
+                });
+            };
+
+            document.getElementById("list-space").innerHTML = "";
+            renderLists();
+            return board;
+        })
+        .then(function(board) {
+            // dust.render(
+            //     "partials/boardPartial",
+            // )
+            
+            
+
+            const promise = listGetTasks(
+                board.list[0],
+                boardId
+            );
+            for(let i = 1; i < board.lists.length; i++) {
+                promise.then(function() {
+                    return listGetTasks(
+                        board.list[1],
+                        boardId
+                    );
+                });
+            }
+            promise.then(function(res) {
+                resolve(res);
+            });
+            promise.catch(function(error) {
+                reject(error);
+            });
+        })
+        .catch(function(error) {
+            reject(error);
+        });
+    });
+}

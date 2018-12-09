@@ -1,13 +1,14 @@
 
 <!-- Column -->
-<div draggable="true" class="droptarget movable-column" id="{_id}">
+<!-- <div draggable="true" class="droptarget movable-column" id="{_id}"> -->
     <!-- Title of column -->
     <h1 class="state-head" contenteditable="true">
         {name}
     </h1>
     <!-- Task -->
-    {#tasks}
+    <!-- {#tasks}
         {_id}
         {> "partials/boardTask" /}
-    {/tasks}
-</div>
+    {/tasks} -->
+    
+<!-- </div> -->

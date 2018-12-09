@@ -22,9 +22,9 @@ function checkup(checkedValue, value){
 
 //GET METHOD
 //Get the popup for this specific list (description as well as modification button)
-router.get('/:listid', function(req, res) {
+router.get('/:listid/:boardid', function(req, res) {
 
-    let boardId = req.body.boardId; 
+    let boardId = req.params.boardid; 
     let listId = req.params.listid; 
 
     req.auth.then(function(payload) {
