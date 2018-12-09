@@ -129,3 +129,46 @@ function boardCreate(){
         alert("Invalid board name");
     });
 }
+
+
+function taskGet(taskId, listId, boardId) {
+    return new Promise(function(resolve, reject) {
+        doJSONRequest(
+            "GET", 
+            "/task/" + taskId + "/" + listId + "/" + boardId,
+            {},
+            undefined
+        )
+        .then(function(task) {
+            dust.render("partials/boardTask", task, function(err, dataOut) {
+                if(err) {
+                    reject(err); 
+                    return;
+                }
+
+                let taskDiv;
+                if((taskDiv = document.getElementById(taskId)) === null) {
+                    taskDiv = document.createElement("div")
+                    taskDiv.id = taskId;
+                    taskDiv.draggable = true;
+                    taskDiv.class = "sticker movable-task";
+                    // TODO: onLoad function execution
+                    document.getElementById(listId).appendChild(taskDiv);
+                } else {
+                    // TODO: DO THE ELSE CASE
+                    taskDiv = document.createElement("div")
+                    taskDiv.id = taskId;
+                    taskDiv.draggable = true;
+                    taskDiv.class = "sticker movable-task";
+                    // TODO: onLoad function execution
+                    document.getElementById(listId).appendChild(taskDiv);
+                }
+                resolve(task);
+            });
+        })
+        .catch(function(error) {
+            reject(error);
+        });
+    });
+}
+
