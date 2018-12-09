@@ -8,6 +8,18 @@ require('../../models');
 const Board = mongoose.model('Board');
 const List = mongoose.model('List');
 const User = mongoose.model('User');
+const Task = mongoose.model('Task')
+
+function checkup(checkedValue, value){
+    let forbidden = true;
+    for(let i = 0; i < checkedValue.length; i++){
+        if(checkedValue[i].toString() === value) {
+            forbidden = false;
+            break;
+        }
+    }
+    return forbidden;
+}
 
 //GET METHOD
 //Get the board with all element or refresh the board completely
@@ -120,6 +132,37 @@ router.put('/name', function(req, res){
         
 });
 
+//Put a new existing user inside the project
+router.put('/new-user', function (req,res) {
+
+    let boardId = req.body.boardId;
+    let userId = req.body.userId;
+    
+    req.auth.then(function(payload) {
+        var board = {}
+
+        Board.findById(boardId, function(err, found) {
+            if (!found) {
+                res.status(404).end();
+            } else {
+                board = found;
+                if(!board.users.includes(payload._id)) {
+                    res.status(403).end();
+                    return;
+                }
+                board.users.addToSet(userId);
+
+                Board.findByIdAndUpdate(boardId, board).then(data => {
+                    res.json(data); 
+                }); 
+            }
+        });
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
+}); 
+
 
 //POST METHOD 
 //Creat a new board (project)
@@ -198,94 +241,83 @@ router.post('/', function(req, res) {
     });  
 });
 
-//Put a new existing user inside the project
-router.post('/:boardid/:userid', function (req,res) {
+//DELETE METHOD
+//Delete a specific board (project) completely 
+router.delete('/', function(req, res) {
     
-    req.auth.then(function(payload) {
-        var board = {}
+    var boardId = req.body.boardId;
 
-        Board.findById(req.params.boardid, function(err, found) {
-            if (!found) {
+    req.auth.then(function(payload) {
+
+        Board.findById(boardId, function (err, board) {
+            if (err || !board) {
                 res.status(404).end();
             } else {
-                board = found;
-                if(!board.users.includes(payload._id)) {
-                    res.status(403).end();
-                    return;
+
+                //User checkup
+                if(checkup(board.users, payload._id)) {
+                    res.status(403).end(); 
+                    return; 
                 }
-                board.users.addToSet(req.params.userid);
 
-                Board.findByIdAndUpdate(req.params.boardid, board).then(data => {
-                    res.json(data); 
-                }); 
-            }
-        });
-    })
-    .catch(function(error) {
-        res.json(error);
-    });
-}); 
-
-//PUT METHOD 
-//Update an existing user inside the project (rights, status, role)
-router.put('/:boardid/:userid', function (req,res){
-
-    //TODO
-
-});
-
-//DELETE METHOD
-//Delete a specific board completely 
-router.delete('/:boardid', function(req, res) {
-    
-    var boardId = req.params.boardid;
-
-    Board.findById(boardId, function (err, board) {
-        if (err || !board) {
-            res.status(404).end();
-        } else {
-
-            let lists = board.lists;
+                let lists = board.lists;
+                
+                var promises = lists.map(function(listId) {
+                    return new Promise(function(resolve, reject) {
             
-            var promises = lists.map(function(listId) {
-                return new Promise(function(resolve, reject) {
-        
-                    List.findById(listId, function(err, found) {
-                        if (!err) {
-                            
-                            found.remove(function (err, removed) {
-                                if (!err) {
-                                    resolve();
-                                } else {
-                                    res.status(400).end();
-                                }
-                            });
+                        List.findById(listId, function(err, listFound) {
+                            if (!err) {
+                                
+                                let tasks = listFound.tasks; 
 
+                                var promises2 = tasks.map(function(taskId){
+                                    return new Promise(function(resolve, reject) {
+                                        Task.findById(taskId, function(err, taskFound){
+                                            taskFound.remove(function (err, removed) {
+                                                if (!err && removed){
+                                                    resolve(); 
+                                                }else{
+                                                    res.status(500).end(); 
+                                                }
+                                            }); 
+                                        }); 
+                                    });
+                                });
+
+                                Promise.all(promises2).then(()=>{
+                                
+                                    listFound.remove(function (err, removed) {
+                                        if (!err && removed){
+                                            resolve(); 
+                                        }else{
+                                            res.status(500).end(); 
+                                        }
+                                    });      
+                                }); 
+
+                            } else {
+                                res.status(400).end();
+                            }
+                        });
+                    });
+                });
+                
+                Promise.all(promises)
+                .then(function() {
+                    board.remove(function (err, removed) {
+                        if (!err) {
+                            res.json(removed)
                         } else {
                             res.status(400).end();
                         }
                     });
                 });
-            });
-              
-            Promise.all(promises)
-            .then(function() {
-                board.remove(function (err, removed) {
-                    if (!err) {
-                        if (req.accepts('html')) {
-                            res.status(200).end();
-                        } else {
-                            res.status(200).end();
-                        }
-                    } else {
-                        res.status(400).end();
-                    }
-                });
-            });
-        }
+            }
+        });
+
+    }).catch(function(error) {
+        res.json(error);
     });
-
-
 });
 
 //Delete a specific user from a specific board 

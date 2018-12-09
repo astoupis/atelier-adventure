@@ -7,19 +7,61 @@ require('../../models');
 const Task = mongoose.model('Task');
 const List = mongoose.model('List');
 const Board = mongoose.model('Board');
-const User = mongoose.model('User');
+
+function checkup(checkedValue, value){
+    let forbidden = true;
+    for(let i = 0; i < checkedValue.length; i++){
+        if(checkedValue[i].toString() === value) {
+            forbidden = false;
+            break;
+        }
+    }
+    return forbidden;
+}
 
 
 //GET METHOD
 //Get the popup for this specific list (description as well as modification button)
 router.get('/:listid', function(req, res) {
-    
-    List.findById(req.params.listid, function(err, found) {
-        if (!found) {
-            res.status(404).end();
-        } else{
-            res.json(found); 
-        }
+
+    let boardId = req.body.boardId; 
+    let listId = req.params.listid; 
+
+    req.auth.then(function(payload) {
+
+        Board.findById(boardId, function(err, boardFound) {
+
+            if (!err && boardFound){
+                
+                //User checkup
+                if(checkup(boardFound.users, payload._id)) {
+                    res.status(403).end(); 
+                    return; 
+                }
+
+                //list checkup
+                if(checkup(boardFound.lists, listId)) {
+                    res.status(403).end(); 
+                    return; 
+                }
+                
+                List.findById(listId, function(err, listFound) {
+                    if (!err && listFound) {
+
+                        res.json(listFound);
+
+                    } else{
+                        res.status(404).end(); 
+                    }
+                });
+
+            }else{
+                res.status(400).end(); 
+            }
+        });
+
+    }).catch(function(error) {
+        res.json(error);
     });
 
 });
