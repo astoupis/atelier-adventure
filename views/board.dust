@@ -21,20 +21,16 @@
                 {#users}
                     {>"partials/boardUsers" /}
                 {/users}
-                
             </div>
 
         </header>
         
         <!-- MAIN -->
         <main class="droptarget-column" id="{_id}">
-            <div class="hidden-div">
-            </div>
-            <!-- {#lists}
-                {>"partials/boardPartial" /}
-            {/lists} -->
-            <div id="list-space">
+            <span class="droptarget-column" id="list-space">
                 
+            </span>
+            <div class="hidden-div">
             </div>
             <div>
                 <input type="button" id="addList-btn" name="addList-btn" value="Add List">

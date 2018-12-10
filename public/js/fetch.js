@@ -134,7 +134,86 @@ function boardCreate(){
 
 
 /**
+ * Fetches and renders lists of this board, then for each list renders the
+ * tasks of the list.
+ * @author wize
+ * @version 0 (10 Dec 2018)
+ * @param {string} boardId the id of the board
+ * @returns {Promise} a promise that the board will be rendered
+ */
+function boardGetLists(boardId) {
+    return new Promise(function(resolve, reject) {
+        doJSONRequest(
+            "GET", 
+            "/board/" + boardId,
+            {},
+            undefined
+        )
+        .then(function(board) {
+            const lists = board.lists;
+            function renderLists(pointerToCurrent=0) {
+                const listSpace = document.getElementById("list-space");
+                if(pointerToCurrent >= lists.length) {
+                    return;
+                }
+                if(document.getElementById(lists[pointerToCurrent]._id) !== null) {
+                    renderLists(pointerToCurrent + 1);
+                    return;
+                }
+                dust.render("partials/boardPartial", lists[pointerToCurrent], function(err, html) {
+                    if(err) {
+                        console.log(err);
+                    }
+
+                    let listDOM = document.createElement("div");
+
+                    listDOM.draggable = true;
+                    listDOM.className = "droptarget movable-column";
+                    listDOM.id = lists[pointerToCurrent]._id;
+                    listDOM.innerHTML = html;
+
+                    listSpace.appendChild(listDOM);
+                    renderLists(pointerToCurrent + 1);
+                });
+                document.getElementById("list-space").childNodes.forEach(child => {
+                    listSpace.parentElement.insertBefore(child, listSpace);
+                });
+            };
+
+            document.getElementById("list-space").innerHTML = "";
+            renderLists();
+            return board;
+        })
+        .then(function(board) {
+            const promise = listGetTasks(
+                board.lists[0]._id,
+                boardId
+            );
+            for(let i = 1; i < board.lists.length; i++) {
+                promise.then(function() {
+                    return listGetTasks(
+                        board.lists[i]._id,
+                        boardId
+                    );
+                });
+            }
+            promise.then(function(res) {
+                resolve(res);
+            });
+            promise.catch(function(error) {
+                reject(error);
+            });
+        })
+        .catch(function(error) {
+            reject(error);
+        });
+    });
+}
+
+/**
  * Gets the list and renders it on the board
+ * @author wize
+ * @version 0 (9 Dec 2018)
  * @param {string} listId the list id
  * @param {string} boardId the board id
  * @param {boolean} wipe=false (optional) whether the contents of lists should be wiped out
@@ -173,6 +252,8 @@ function listGetTasks(listId, boardId, wipe=false) {
  * Gets the task from the server, rendering it in the list
  * if the task exists as DOM object, the DOM object's contents
  * will be updated
+ * @author wize
+ * @version 0 (9 Dec 2018)
  * @param {string} taskId the id of the task
  * @param {string} listId the id of the list
  * @param {string} boardId the id of the board
@@ -199,6 +280,7 @@ function taskGet(taskId, listId, boardId) {
                     taskDiv.id = taskId;
                     taskDiv.draggable = true;
                     taskDiv.className = "sticker movable-task";
+                    taskDiv.addEventListener('load', () => setColor(taskId));
                     // TODO: onLoad function execution
                     document.getElementById(listId).appendChild(taskDiv);
                     
@@ -208,74 +290,6 @@ function taskGet(taskId, listId, boardId) {
                 }
                 taskDiv.innerHTML = dataOut;
                 resolve(task);
-            });
-        })
-        .catch(function(error) {
-            reject(error);
-        });
-    });
-}
-
-
-function boardGetLists(boardId) {
-    return new Promise(function(resolve, reject) {
-        doJSONRequest(
-            "GET", 
-            "/board/" + boardId,
-            {},
-            undefined
-        )
-        .then(function(board) {
-            const lists = board.lists;
-            function renderLists(pointerToCurrent=0) {
-                if(pointerToCurrent >= lists.length) {
-                    return;
-                }
-                dust.render("partials/boardPartial", lists[i], function(err, html) {
-                    if(err) {
-                        console.log(err);
-                    }
-
-                    let listDOM = document.createElement("div");
-
-                    listDOM.draggable = true;
-                    listDOM.className = "droptarget movable-column";
-                    listDOM.id = lists[i]._id;
-                    listDOM.innerHTML = html;
-
-                    document.getElementById("list-space").appendChild(listDOM);
-                    renderLists(pointerToCurrent + 1);
-                });
-            };
-
-            document.getElementById("list-space").innerHTML = "";
-            renderLists();
-            return board;
-        })
-        .then(function(board) {
-            // dust.render(
-            //     "partials/boardPartial",
-            // )
-            
-            
-
-            const promise = listGetTasks(
-                board.list[0],
-                boardId
-            );
-            for(let i = 1; i < board.lists.length; i++) {
-                promise.then(function() {
-                    return listGetTasks(
-                        board.list[1],
-                        boardId
-                    );
-                });
-            }
-            promise.then(function(res) {
-                resolve(res);
-            });
-            promise.catch(function(error) {
-                reject(error);
             });
         })
         .catch(function(error) {

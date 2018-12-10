@@ -91,6 +91,7 @@ function addListeners2 () {
     //TODO
 
     // Render lists
+    boardGetLists(document.querySelector("main").id);
 
 
     let inviteBtn = document.getElementById("invite-btn");
