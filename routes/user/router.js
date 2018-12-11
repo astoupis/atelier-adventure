@@ -47,6 +47,7 @@ router.get('/search', function(req, res) {
             users.forEach(function(user) {
                 if (user._id != payload._id){
                     userArray.push({
+                        _id: user._id,
                         lastname: user.lastname,
                         firstname: user.firstname,
                         username: user.username,
