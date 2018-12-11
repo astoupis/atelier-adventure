@@ -31,26 +31,35 @@ router.get('/all', function(req, res) {
 //By username, lastname, firstname, email
 router.get('/search', function(req, res) {
 
-    var query = new RegExp(req.query.search, 'i');
+    req.auth.then(function(payload) {
 
-    User.find().or([
-        {firstname: query},
-        {lastname: query},
-        {username: query},
-        {email: query}
-    ]).then(users => {
+        var query = new RegExp(req.query.search, 'i');
+
+        User.find().or([
+            {firstname: query},
+            {lastname: query},
+            {username: query},
+            {email: query}
+        ]).then(users => {
+            
+            var userArray = [];
         
-        var userArray = [];
-    
-        users.forEach(function(user) {
-            userArray.push({
-                lastname: user.lastname,
-                firstname: user.firstname,
-                username: user.username,
-                email: user.email
+            users.forEach(function(user) {
+                if (users._id != payload._id){
+                    userArray.push({
+                        lastname: user.lastname,
+                        firstname: user.firstname,
+                        username: user.username,
+                        email: user.email
+                    });
+                }
             });
+            
+            res.json(userArray);
         });
-        res.json(userArray);
+
+    }).catch(function(error) {
+        res.json(error);
     });
 
 });

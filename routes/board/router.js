@@ -255,7 +255,7 @@ router.delete('/', function(req, res) {
             } else {
 
                 //User checkup
-                if(checkup(board.users, payload._id)) {
+                if(board.users[0] != payload._id) {
                     res.status(403).end(); 
                     return; 
                 }
@@ -320,7 +320,7 @@ router.delete('/', function(req, res) {
     });
 });
 
-//Delete a specific user from a specific board 
+//Delete youself from a project 
 router.delete('/:boardid/:userid', function(req, res) {
     
 
