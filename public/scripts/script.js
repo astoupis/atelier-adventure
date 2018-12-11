@@ -108,7 +108,7 @@ function addListeners2 () {
     title.contentEditable = true;
     title.addEventListener('blur', (event) => {
         let actualTitle = title.innerHTML;
-        let boardId = document.querySelector(".droptarget-column").id;
+        let boardId = document.querySelector("main").id;
         doJSONRequest('PUT', "/board/name", {'Content-Type': 'application/json'}, 
         {boardName: actualTitle,
         boardId: boardId
@@ -148,7 +148,7 @@ function addListeners2 () {
         parent.before(div);
         parent.before(hiddenDiv);
 
-        let boardId = document.querySelector(".droptarget-column").id;
+        let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},
         {boardId: boardId,
         listName: "New List"})
@@ -248,7 +248,7 @@ function newTaskButton (div) {
         let taskName = taskDiv.firstChild.innerHTML;
         let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
         let listId = taskDiv.parentNode.id;
-        let boardId = document.querySelector(".droptarget-column").id;
+        let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
             {boardId: boardId,
             listId: listId,
@@ -430,29 +430,49 @@ document.addEventListener("drop", function(event) {
         if(dragLock && dragLock.className && dragLock.className === "sticker movable-task") {
             // GATHERING DRAG-N-DROP INFO
             let hiddenDiv = dragLock.nextElementSibling;
+            let boardId = document.querySelector("main").id;
             let taskId = dragLock.id;
             let listIdOld = dragLock.parentNode.id;
             let listId = event.target.parentNode.id;
-
-            // BACKUP, IN CASE OF FAILURE
-            let prevSiblOld = dragLock.previousSibling;
-            
-            // PERFORMING VISUAL DRAG-N-DROP
-            event.target.after(dragLock);
-            dragLock.after(hiddenDiv);
+            let destinationHiddenDiv = event.target;
 
 
-            // SENDING THE INFO TO THE SERVER
-            // doJSONRequest("PUT", "/list", {}, {
-                
-            // })
+            let desiredPosition = (() => {
+                let array = document.getElementById(listId).querySelectorAll(".hidden-task");
+                console.log(array);
+                for(let i = 0; i < array.length; i++) {
+                    if(array[i] === destinationHiddenDiv && destinationHiddenDiv !== hiddenDiv) {
+                        return i;
+                    }
+                }
+                return -1;
+            })();
 
-            // CANCELING DRAG-N-DROP, IF IT FAILS
-            // .catch(function(error) {
-            //     prevSiblOld.after(dragLock);
-            //     dragLock.after(hiddenDiv);
-            // });
 
+            // DOING REQUEST
+            if(typeof desiredPosition === 'number' && desiredPosition >= 0) {
+                // BACKUP, IN CASE OF FAILURE
+                let prevSiblOld = dragLock.previousSibling;
+
+                // PERFORMING VISUAL DRAG-N-DROP
+                event.target.after(dragLock);
+                dragLock.after(hiddenDiv);
+
+                // SENDING THE INFO TO THE SERVER
+                doJSONRequest("PUT", "/task/list", {}, {
+                    boardId: boardId,
+                    fromListId: listIdOld,
+                    toListId: listId,
+                    taskId: taskId,
+                    desiredPosition: desiredPosition
+                })
+
+                // CANCELING DRAG-N-DROP, IF IT FAILS
+                .catch(function(error) {
+                    prevSiblOld.after(dragLock);
+                    dragLock.after(hiddenDiv);
+                });
+            }
             // AFTERCLEANUP
             event.target.style.backgroundColor = "#1C1C1E";
             event.target.style.minHeight = "10px";
