@@ -88,11 +88,16 @@ function newId () {
 
 
 function addListeners2 () {
-    //TODO 
-    //add event listener (on keyup?) to call function --> search
+    //Search event listener
+    //add event listener (on keyup) to call function --> search
     document.getElementById('invite-box').addEventListener('keyup', ()=>{
-        //console.log(document.getElementById('invite-box').value);
         search(document.getElementById('invite-box').value);
+    })
+    //Invite event listener
+    //add result of search when clicking invite
+    document.getElementById('invite-btn').addEventListener('click', ()=>{
+        //GET the desired user (reuse search() ??)
+        //Add user to board and add board to user 
     })
     
     // Render lists
@@ -505,7 +510,6 @@ function addListeners3() {
     } 
 
     //saving modifications
-    //TODO
     document.getElementById("save-mod-btn").addEventListener('click', function(){
         doJSONRequest('PUT', "/user", {'Content-Type': 'application/json'},
         {firstname: document.getElementById("mod-fnm-box").value, 
@@ -523,7 +527,7 @@ function addListeners3() {
         });
     });
 
-    // redirect to board page when click on new board button 
+    // Create new board when clicking on "new board button"
     document.getElementById("new-board-btn").addEventListener('click', function(){
         boardCreate();
     });
