@@ -54,7 +54,7 @@ router.get('/search', function(req, res) {
                     });
                 }
             });
-            
+
             res.json(userArray);
         });
 

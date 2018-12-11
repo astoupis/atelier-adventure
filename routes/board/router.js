@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fetch = require('node-fetch');
 //const auth = require("../../util/auth");
 
 
@@ -322,27 +323,106 @@ router.delete('/', function(req, res) {
 });
 
 //Delete youself from a project 
-router.delete('/:boardid/:userid', function(req, res) {
+router.delete('/user', function(req, res) {
+
+    let boardId = req.body.boardId; 
+
+    req.auth.then(function(payload) {
     
+        Board.findById(boardId, function(err, boardFound) {
+            if (!err && boardFound) {
 
-    Board.findById(req.params.boardid, function(err, found) {
-        if (!found) {
-            res.status(404).end();
-        } else {
+                if(checkup(boardFound.users, payload._id)) {
+                    res.status(403).end(); 
+                    return; 
+                }
 
-            let users = found.users;
-            let idIndex = users.indexOf(req.params.userid); 
-            if (idIndex == -1){
-               
-            }else{
-                users.splice(idIndex, idIndex+1);
+                if (boardFound.users.length == 1){
 
-                Board.findByIdAndUpdate(req.params.boardid, {users:users}).then(data => {
-                    res.json(data); 
-                });
+                    Board.findById(boardId, function (err, board) {
+                        if (err || !board) {
+                            res.status(404).end();
+                        } else {
+            
+                            //User checkup
+                            if(board.users[0] != payload._id) {
+                                res.status(403).end(); 
+                                return; 
+                            }
+            
+                            let lists = board.lists;
+                            
+                            var promises = lists.map(function(listId) {
+                                return new Promise(function(resolve, reject) {
+                        
+                                    List.findById(listId, function(err, listFound) {
+                                        if (!err) {
+                                            
+                                            let tasks = listFound.tasks; 
+            
+                                            var promises2 = tasks.map(function(taskId){
+                                                return new Promise(function(resolve, reject) {
+                                                    Task.findById(taskId, function(err, taskFound){
+                                                        taskFound.remove(function (err, removed) {
+                                                            if (!err && removed){
+                                                                resolve(); 
+                                                            }else{
+                                                                res.status(500).end(); 
+                                                            }
+                                                        }); 
+                                                    }); 
+                                                });
+                                            });
+            
+                                            Promise.all(promises2).then(()=>{
+                                            
+                                                listFound.remove(function (err, removed) {
+                                                    if (!err && removed){
+                                                        resolve(); 
+                                                    }else{
+                                                        res.status(500).end(); 
+                                                    }
+                                                });      
+                                            }); 
+            
+                                        } else {
+                                            res.status(400).end();
+                                        }
+                                    });
+                                });
+                            });
+                            
+                            Promise.all(promises)
+                            .then(function() {
+                                board.remove(function (err, removed) {
+                                    if (!err) {
+                                        res.json(removed)
+                                    } else {
+                                        res.status(400).end();
+                                    }
+                                });
+                            });
+                        }
+                    });
+                    
+                }else{
 
-            } 
-        }
+                    let users = boardFound.users;
+                    let idIndex = users.indexOf(payload._id); 
+                    users.splice(idIndex, idIndex+1);
+
+                    Board.findByIdAndUpdate(boardId, {users:users}).then(data => {
+                        res.json(data); 
+                    });
+                }
+
+                
+            } else {
+                res.status(400).end();  
+            }
+        });
+    }).catch(function(error) {
+        res.json(error);
     });
 });
 
