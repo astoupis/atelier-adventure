@@ -158,11 +158,6 @@ img.footer-legenda{
   /* TODO */
 }
 
-
-/*
- * USER POPUP  <-- need to be modified 
- */
-
 /* Popup container - can be anything you want */
 .popup {
   position: relative;
@@ -347,7 +342,6 @@ div.signup #signup-btn{
 
 }
 
-/* Used in general need to change it */
 
 /* form submit button */
 .button{
@@ -522,4 +516,18 @@ p.board-one{
   width: 1;
   height: 10px;
   
+}
+
+  /**********************/
+ /***** Board Page *****/
+/**********************/
+
+#found-user{
+  margin: 10px;
+  color: black;
+}
+
+#found-user label{
+  font-weight: 500;
+  padding-right: 5px;
 }

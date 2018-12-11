@@ -133,6 +133,46 @@ function boardCreate(){
 }
 
 
+/*Search and render users on board to invite*/
+// used for search function -> used to render "filtered" favorites
+function userSearchRender(users){
+                //TODO: partial
+                console.log(users);
+    dust.render('partials\/board_usr_search_pp', {result: users} ,function(err, dataOut) {
+                    //TODO: div in partial 
+                    console.log('print data');
+                    console.log(err);
+                    console.log(dataOut);
+                   document.getElementById('found-user').innerHTML = dataOut;
+  
+                //    document.querySelectorAll(".deleteFav").forEach((fav) => {
+                //      fav.addEventListener("click", deleteFav);
+                //    });
+    });
+  }
+
+//TODO
+//search user to invite 
+//pass string --> (search)input.value as event 
+//no need to check event.path[0].value --> I think 
+function search(email) {
+    // if empty string...
+    if (email==""){
+    // do nothing ??
+    }else{
+        //search user by email -> email is unique 
+        doFetchRequest('GET', "/user/search?search="+email, {'Accept': 'application/json'}, undefined)
+        .then((res) => {
+            return res.json();
+        })
+        .then((users) => {
+            // console.log(users);
+            userSearchRender(users);
+        });
+    }
+}
+
+
 /**
  * Fetches and renders lists of this board, then for each list renders the
  * tasks of the list.

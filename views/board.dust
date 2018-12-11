@@ -42,6 +42,9 @@
                         <h2 class="register">Invite</h2>
                         <input type="text" id="invite-box" name="email" placeholder="E-MAIL" required>
                     </form>
+                    <div id='found-user'>
+                        <!-- insert search result here -->
+                    </div>
                     <input type="submit" class="button" id="register-btn" name="register-btn" value="Invite">
                 </div>
             </div>

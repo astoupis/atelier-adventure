@@ -88,20 +88,22 @@ function newId () {
 
 
 function addListeners2 () {
-    //TODO
-
+    //TODO 
+    //add event listener (on keyup?) to call function --> search
+    document.getElementById('invite-box').addEventListener('keyup', ()=>{
+        //console.log(document.getElementById('invite-box').value);
+        search(document.getElementById('invite-box').value);
+    })
+    
     // Render lists
     boardGetLists(document.querySelector("main").id);
-
 
     let inviteBtn = document.getElementById("invite-btn");
     inviteBtn.addEventListener('click', () => {
         document.querySelector('.pp-register').style.display = 'flex';
         return;
         // TODO
-        // make popup
-        // add the username in the URL to search for him by getting it from the fields of the pop-up
-        // doJSONRequest('GET', "/user/search/", {'Content-Type': 'application/json'}, undefined);
+        // when clicked add user to Board users-array 
     });
 
     let title = document.getElementById("project-title");
