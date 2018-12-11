@@ -9,3 +9,7 @@
     <label> Due date: </label>
     <p> {dueDate} </p>
 </div>
+<div class='stick-desc'>
+    <label> Id: </label>
+    <p> {_id} </p>
+</div>

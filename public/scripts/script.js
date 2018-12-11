@@ -427,10 +427,33 @@ document.addEventListener("drop", function(event) {
     }
 
     if ((event.target.className) && (event.target.className === "hidden-task")) {
-        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task") {
+            // GATHERING DRAG-N-DROP INFO
             let hiddenDiv = dragLock.nextElementSibling;
+            let taskId = dragLock.id;
+            let listIdOld = dragLock.parentNode.id;
+            let listId = event.target.parentNode.id;
+
+            // BACKUP, IN CASE OF FAILURE
+            let prevSiblOld = dragLock.previousSibling;
+            
+            // PERFORMING VISUAL DRAG-N-DROP
             event.target.after(dragLock);
             dragLock.after(hiddenDiv);
+
+
+            // SENDING THE INFO TO THE SERVER
+            // doJSONRequest("PUT", "/list", {}, {
+                
+            // })
+
+            // CANCELING DRAG-N-DROP, IF IT FAILS
+            // .catch(function(error) {
+            //     prevSiblOld.after(dragLock);
+            //     dragLock.after(hiddenDiv);
+            // });
+
+            // AFTERCLEANUP
             event.target.style.backgroundColor = "#1C1C1E";
             event.target.style.minHeight = "10px";
         }
