@@ -160,27 +160,6 @@ function addListeners2 () {
         });
     });
 
-    // put list name
-    let h1arr = document.querySelectorAll(".state-head");
-    h1arr.forEach((element) => {
-        element.addEventListener("blur", (event) => {
-            let listName = element.innerHTML;
-            let listId = element.parentNode.id;
-            let boardId = document.querySelector(".droptarget-column").id;
-            doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
-            {boardId: boardId,
-            listId: listId,
-            listName: listName
-            })
-            .then((data) =>{
-                console.log(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        });
-    });
-
     // find all the columns and for each one of them add the new Task button
     let columnArray = document.querySelectorAll(".droptarget");
     columnArray.forEach((element) => {

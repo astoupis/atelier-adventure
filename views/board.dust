@@ -27,11 +27,10 @@
         
         <!-- MAIN -->
         <main class="droptarget-column" id="{_id}">
-            <span class="droptarget-column" id="list-space">
-                
-            </span>
             <div class="hidden-div">
             </div>
+            <span class="droptarget-column" id="list-space">    
+            </span>
             <div>
                 <input type="button" id="addList-btn" name="addList-btn" value="Add List">
             </div>

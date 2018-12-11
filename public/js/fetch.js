@@ -178,6 +178,23 @@ function boardGetLists(boardId) {
                 document.getElementById("list-space").childNodes.forEach(child => {
                     newTaskButton(child);
                     listSpace.parentElement.insertBefore(child, listSpace);
+                    let hiddenDiv = document.createElement('div');
+                    hiddenDiv.className = "hidden-div";
+                    listSpace.parentElement.insertBefore(hiddenDiv, listSpace);
+                    child.firstElementChild.addEventListener('blur', (element) => {
+                        element = element.srcElement;
+                        let listName = element.innerHTML;
+                        let listId = element.parentNode.id;
+                        let boardId = document.querySelector(".droptarget-column").id;
+                        doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
+                        {boardId: boardId,
+                        listId: listId,
+                        listName: listName
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    });
                 });
             };
 
