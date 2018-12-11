@@ -147,7 +147,8 @@ router.put('/new-user', function (req,res) {
                 res.status(404).end();
             } else {
                 board = found;
-                if(!board.users.includes(payload._id)) {
+
+                if(checkup(board.users, payload._id)) {
                     res.status(403).end();
                     return;
                 }
@@ -162,7 +163,7 @@ router.put('/new-user', function (req,res) {
     .catch(function(error) {
         res.json(error);
     });
-}); 
+});
 
 
 //POST METHOD 
@@ -403,7 +404,7 @@ router.delete('/user', function(req, res) {
                             });
                         }
                     });
-                    
+
                 }else{
 
                     let users = boardFound.users;
