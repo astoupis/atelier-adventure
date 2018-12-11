@@ -33,11 +33,9 @@ router.get('/search', function(req, res) {
 
     req.auth.then(function(payload) {
 
-        var query = new RegExp(req.query.search, 'i');
+        var query = req.query.search;
 
         User.find().or([
-            {firstname: query},
-            {lastname: query},
             {username: query},
             {email: query}
         ]).then(users => {

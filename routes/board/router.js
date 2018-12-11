@@ -148,7 +148,8 @@ router.put('/new-user', function (req,res) {
                 res.status(404).end();
             } else {
                 board = found;
-                if(!board.users.includes(payload._id)) {
+
+                if(checkup(board.users, payload._id)) {
                     res.status(403).end();
                     return;
                 }

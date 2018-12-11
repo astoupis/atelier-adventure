@@ -164,6 +164,37 @@ function search(text) {
     }
 }
 
+//add user to board
+function userAdd(){
+    if (document.getElementById('invite-box').value === ""){
+        return; 
+    }
+    doFetchRequest('GET', "/user/search?search="+document.getElementById('invite-box').value, 
+                        {'Accept': 'application/json'}, undefined)
+    .then((res) => {
+        return res.json();
+    })
+    .then((users) => {
+        let board_id = document.getElementsByTagName('main')[0].id;
+        users.forEach((user) => {
+            console.log('i put user with id '+ user._id+ ' on board '+board_id)
+            doJSONRequest('PUT', '/board/new-user', {}, {boardId: board_id, userId: user._id})
+            .then((data) => {
+                console.log('put in database');
+                console.log(data);
+            })
+            .catch((err) => {
+                console.log('fucking error');
+                console.log(err);
+            });
+        })
+    })
+    .catch((err) => {
+        console.log('err' + err);
+        //display error 
+    })
+}
+
 
 /**
  * Fetches and renders lists of this board, then for each list renders the

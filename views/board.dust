@@ -45,7 +45,7 @@
                     <div id='found-user'>
                         <!-- render search result here -->
                     </div>
-                    <input type="submit" class="button" id="invite-btn" name="register-btn" value="Invite">
+                    <input type="submit" class="button" id="add-btn" name="register-btn" value="Invite">
                 </div>
             </div>
         </main>
