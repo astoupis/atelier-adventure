@@ -25,10 +25,11 @@ function checkup(checkedValue, value){
 
 //GET METHOD
 //Get the task by its id
-router.get('/:taskId/:listId/:boardId', function(req, res) {
-    let boardId = req.params.boardId;
-    let listId = req.params.listId; 
-    let taskId = req.params.taskId;
+router.get('/:taskid/:listid/:boardid', function(req, res) {
+
+    let boardId = req.params.boardid;
+    let listId = req.params.listid; 
+    let taskId = req.params.taskid;
     let aPayload; 
 
     
