@@ -429,7 +429,9 @@ document.addEventListener("drop", function(event) {
     if ((event.target.className) && (event.target.className === "droptarget movable-column")) {
 
         if (dragLock.className && dragLock.className === "sticker movable-task"){
+            let hiddenDiv = dragLock.nextElementSibling;
             event.target.lastElementChild.before(dragLock);
+            dragLock.after(hiddenDiv);
             event.target.style.border = "";
         }
         
