@@ -1,3 +1,5 @@
     <h1 class="state-head" contenteditable="true">
         {name}
     </h1>
+    <div class="hidden-task">
+    </div>

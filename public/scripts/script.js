@@ -327,8 +327,8 @@ function getColor () {
 }
 
 function setColor (id) {
-    let color = getColor;
-    let element = document.getElementById("id");
+    let color = getColor();
+    let element = document.getElementById(id);
     element.style.backgroundColor = color;
 }
 
