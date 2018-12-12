@@ -459,14 +459,15 @@ document.addEventListener("drop", function(event) {
                 dragLock.after(hiddenDiv);
 
                 // SENDING THE INFO TO THE SERVER
-                doJSONRequest("PUT", "/task/list", {}, {
+                let queryObject = {
                     boardId: boardId,
                     fromListId: listIdOld,
                     toListId: listId,
                     taskId: taskId,
                     desiredPosition: desiredPosition
-                })
-
+                }
+                console.log(queryObject);
+                doJSONRequest("PUT", "/task/list", {}, queryObject)
                 // CANCELING DRAG-N-DROP, IF IT FAILS
                 .catch(function(error) {
                     prevSiblOld.after(dragLock);
