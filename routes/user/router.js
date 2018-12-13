@@ -33,7 +33,8 @@ router.get('/search', function(req, res) {
 
     req.auth.then(function(payload) {
 
-        var query = req.query.search;
+        //var query = new RegExp(req.query.search, 'i');
+        var query = req.query.search; 
 
         User.find().or([
             {username: query},

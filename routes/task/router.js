@@ -98,6 +98,7 @@ router.put('/list', function(req, res){
     let fromListId = req.body.fromListId; 
     let toListId = req.body.toListId; 
     let taskId = req.body.taskId;
+    let desiredPosition = req.body.desiredPosition;
 
     req.auth.then(function(payload){
     
@@ -139,13 +140,17 @@ router.put('/list', function(req, res){
 
                                         let fromListTasks = listFound1.tasks;
                                         let idIndex = fromListTasks.indexOf(taskId);
-                                        fromListTasks.splice(idIndex, idIndex+1);
+                                        fromListTasks.splice(idIndex, 1);
 
                                         List.findByIdAndUpdate(fromListId, {tasks:fromListTasks}, function(err, updated1){
                                             if (!err && updated1){
-
+                                                
                                                 let toListTasks = listFound2.tasks;
-                                                toListTasks.addToSet(taskId); 
+                                                console.log(toListTasks);
+                                                console.log(desiredPosition);
+                                                if (checkup(toListTasks, taskId)) {
+                                                    toListTasks.splice(desiredPosition, 0, taskId);
+                                                }
 
                                                 List.findByIdAndUpdate(toListId, {tasks:toListTasks}, function(err, updated2){
                                                     

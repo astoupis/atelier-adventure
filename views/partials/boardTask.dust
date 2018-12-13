@@ -1,26 +1,15 @@
-<!-- <div draggable="true" id="{_id}" class="sticker movable-task" onload="setColor('{_id}')"> -->
-    <h1 class='sticker'>
-        {name}
-    </h1>
-    <div class='stick-desc'>
-        <label> Description: </label>
-        <p>{description}</p>
-    </div>
-    <div class='stick-desc'>
-        <label> Due date: </label>
-        <p> {dueDate} </p>
-    </div>
-    <!-- <div class='stick-desc'>
-        <label>Assigned to:</label>
-        <p>
-            <div class="popup" onclick="userDesc('myPopup2')">
-                <img src='/images/avatar2.png' class='sticker'>
-            </div>
-            <div class="popup" onclick="userDesc('myPopup4')">
-                <img src='/images/avatar4.png' class='sticker'>
-            </div>
-        </p>
-    </div> -->
-<!-- </div> -->
-<!-- <div class="hidden-task">
-</div> -->
+<h1 class='sticker'>
+    {name}
+</h1>
+<div class='stick-desc'>
+    <label> Description: </label>
+    <p>{description}</p>
+</div>
+<div class='stick-desc'>
+    <label> Due date: </label>
+    <p> {dueDate} </p>
+</div>
+<div class='stick-desc'>
+    <label> Id: </label>
+    <p> {_id} </p>
+</div>

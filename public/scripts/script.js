@@ -125,7 +125,7 @@ function addListeners2 () {
     title.contentEditable = true;
     title.addEventListener('blur', (event) => {
         let actualTitle = title.innerHTML;
-        let boardId = document.querySelector(".droptarget-column").id;
+        let boardId = document.querySelector("main").id;
         doJSONRequest('PUT', "/board/name", {'Content-Type': 'application/json'}, 
         {boardName: actualTitle,
         boardId: boardId
@@ -160,7 +160,7 @@ function addListeners2 () {
         parent.before(div);
         parent.before(hiddenDiv);
 
-        let boardId = document.querySelector(".droptarget-column").id;
+        let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},
         {boardId: boardId,
         listName: "New List"})
@@ -169,27 +169,6 @@ function addListeners2 () {
         })
         .catch((error) => {
             console.log(error);
-        });
-    });
-
-    // put list name
-    let h1arr = document.querySelectorAll(".state-head");
-    h1arr.forEach((element) => {
-        element.addEventListener("blur", (event) => {
-            let listName = element.innerHTML;
-            let listId = element.parentNode.id;
-            let boardId = document.querySelector(".droptarget-column").id;
-            doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
-            {boardId: boardId,
-            listId: listId,
-            listName: listName
-            })
-            .then((data) =>{
-                console.log(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
         });
     });
 
@@ -273,7 +252,7 @@ function newTaskButton (div) {
         let taskName = taskDiv.firstChild.innerHTML;
         let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
         let listId = taskDiv.parentNode.id;
-        let boardId = document.querySelector(".droptarget-column").id;
+        let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
             {boardId: boardId,
             listId: listId,
@@ -331,8 +310,8 @@ function getColor () {
 }
 
 function setColor (id) {
-    let color = getColor;
-    let element = document.getElementById("id");
+    let color = getColor();
+    let element = document.getElementById(id);
     element.style.backgroundColor = color;
 }
 
@@ -435,7 +414,9 @@ document.addEventListener("drop", function(event) {
     if ((event.target.className) && (event.target.className === "droptarget movable-column")) {
 
         if (dragLock.className && dragLock.className === "sticker movable-task"){
+            let hiddenDiv = dragLock.nextElementSibling;
             event.target.lastElementChild.before(dragLock);
+            dragLock.after(hiddenDiv);
             event.target.style.border = "";
         }
         
@@ -453,10 +434,54 @@ document.addEventListener("drop", function(event) {
     }
 
     if ((event.target.className) && (event.target.className === "hidden-task")) {
-        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task"){
+        if(dragLock && dragLock.className && dragLock.className === "sticker movable-task") {
+            // GATHERING DRAG-N-DROP INFO
             let hiddenDiv = dragLock.nextElementSibling;
-            event.target.after(dragLock);
-            dragLock.after(hiddenDiv);
+            let boardId = document.querySelector("main").id;
+            let taskId = dragLock.id;
+            let listIdOld = dragLock.parentNode.id;
+            let listId = event.target.parentNode.id;
+            let destinationHiddenDiv = event.target;
+
+
+            let desiredPosition = (() => {
+                let array = document.getElementById(listId).querySelectorAll(".hidden-task");
+                console.log(array);
+                for(let i = 0; i < array.length; i++) {
+                    if(array[i] === destinationHiddenDiv && destinationHiddenDiv !== hiddenDiv) {
+                        return i;
+                    }
+                }
+                return -1;
+            })();
+
+
+            // DOING REQUEST
+            if(typeof desiredPosition === 'number' && desiredPosition >= 0) {
+                // BACKUP, IN CASE OF FAILURE
+                let prevSiblOld = dragLock.previousSibling;
+
+                // PERFORMING VISUAL DRAG-N-DROP
+                event.target.after(dragLock);
+                dragLock.after(hiddenDiv);
+
+                // SENDING THE INFO TO THE SERVER
+                let queryObject = {
+                    boardId: boardId,
+                    fromListId: listIdOld,
+                    toListId: listId,
+                    taskId: taskId,
+                    desiredPosition: desiredPosition
+                }
+                console.log(queryObject);
+                doJSONRequest("PUT", "/task/list", {}, queryObject)
+                // CANCELING DRAG-N-DROP, IF IT FAILS
+                .catch(function(error) {
+                    prevSiblOld.after(dragLock);
+                    dragLock.after(hiddenDiv);
+                });
+            }
+            // AFTERCLEANUP
             event.target.style.backgroundColor = "#1C1C1E";
             event.target.style.minHeight = "10px";
         }

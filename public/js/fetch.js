@@ -232,7 +232,25 @@ function boardGetLists(boardId) {
                     renderLists(pointerToCurrent + 1);
                 });
                 document.getElementById("list-space").childNodes.forEach(child => {
+                    newTaskButton(child);
                     listSpace.parentElement.insertBefore(child, listSpace);
+                    let hiddenDiv = document.createElement('div');
+                    hiddenDiv.className = "hidden-div";
+                    listSpace.parentElement.insertBefore(hiddenDiv, listSpace);
+                    child.firstElementChild.addEventListener('blur', (element) => {
+                        element = element.srcElement;
+                        let listName = element.innerHTML;
+                        let listId = element.parentNode.id;
+                        let boardId = document.querySelector(".droptarget-column").id;
+                        doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
+                        {boardId: boardId,
+                        listId: listId,
+                        listName: listName
+                        })
+                        .catch((error) => {
+                            throw error;
+                        });
+                    });
                 });
             };
 
@@ -241,6 +259,9 @@ function boardGetLists(boardId) {
             return board;
         })
         .then(function(board) {
+            if(board.lists.length == 0) {
+                resolve();
+            }
             const promise = listGetTasks(
                 board.lists[0]._id,
                 boardId
@@ -286,6 +307,10 @@ function listGetTasks(listId, boardId, wipe=false) {
         .then(function(list) {
             if(wipe) {
                 document.getElementById(listId).innerHTML = "";
+                // TODO: ADD BUTTON AND TITLE OF LIST
+            }
+            if(list.tasks.length == 0) {
+                resolve();
             }
             const promise = taskGet(list.tasks[0], listId, boardId);
             for(let i = 1; i < list.tasks.length; i++) {
@@ -329,20 +354,24 @@ function taskGet(taskId, listId, boardId) {
                     reject(err); 
                     return;
                 }
-
                 let taskDiv;
                 if((taskDiv = document.getElementById(taskId)) === null) {
                     taskDiv = document.createElement("div")
                     taskDiv.id = taskId;
                     taskDiv.draggable = true;
                     taskDiv.className = "sticker movable-task";
-                    taskDiv.addEventListener('load', () => setColor(taskId));
-                    // TODO: onLoad function execution
-                    document.getElementById(listId).appendChild(taskDiv);
-                    
+                    document.getElementById(listId).insertBefore(
+                        taskDiv, 
+                        document.getElementById(listId).lastChild
+                    );
+
                     let hiddenTask = document.createElement("div");
                     hiddenTask.className = "hidden-task";
-                    document.getElementById(listId).appendChild(hiddenTask);
+                    document.getElementById(listId).insertBefore(
+                        hiddenTask, 
+                        document.getElementById(listId).lastChild
+                    );
+                    setColor(taskId);
                 }
                 taskDiv.innerHTML = dataOut;
                 resolve(task);

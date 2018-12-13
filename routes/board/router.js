@@ -164,7 +164,7 @@ router.put('/new-user', function (req,res) {
     .catch(function(error) {
         res.json(error);
     });
-}); 
+});
 
 
 //POST METHOD 
@@ -405,7 +405,7 @@ router.delete('/user', function(req, res) {
                             });
                         }
                     });
-                    
+
                 }else{
 
                     let users = boardFound.users;
