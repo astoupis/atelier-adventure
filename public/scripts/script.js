@@ -415,8 +415,33 @@ document.addEventListener("drop", function(event) {
 
         if (dragLock.className && dragLock.className === "sticker movable-task"){
             let hiddenDiv = dragLock.nextElementSibling;
+            let boardId = document.querySelector("main").id;
+            let taskId = dragLock.id;
+            let listIdOld = dragLock.parentNode.id;
+            let listId = event.target.id;
+            let desiredPosition = document.getElementById(listId).querySelectorAll(".hidden-task").length - 1;
+
             event.target.lastElementChild.before(dragLock);
             dragLock.after(hiddenDiv);
+
+            if(typeof desiredPosition === 'number' && desiredPosition >= 0) {
+                // SENDING THE INFO TO THE SERVER
+                let queryObject = {
+                    boardId: boardId,
+                    fromListId: listIdOld,
+                    toListId: listId,
+                    taskId: taskId,
+                    desiredPosition: desiredPosition
+                }
+                console.log(queryObject);
+                doJSONRequest("PUT", "/task/list", {}, queryObject)
+                .catch(function() {
+                    prevSiblOld.after(dragLock);
+                    dragLock.after(hiddenDiv);
+                });
+            }
+            
+
             event.target.style.border = "";
         }
         
@@ -447,6 +472,7 @@ document.addEventListener("drop", function(event) {
             let desiredPosition = (() => {
                 let array = document.getElementById(listId).querySelectorAll(".hidden-task");
                 console.log(array);
+                
                 for(let i = 0; i < array.length; i++) {
                     if(array[i] === destinationHiddenDiv && destinationHiddenDiv !== hiddenDiv) {
                         return i;

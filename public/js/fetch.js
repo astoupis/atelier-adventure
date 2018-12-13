@@ -312,16 +312,23 @@ function listGetTasks(listId, boardId, wipe=false) {
             if(list.tasks.length == 0) {
                 resolve();
             }
-            const promise = taskGet(list.tasks[0], listId, boardId);
-            for(let i = 1; i < list.tasks.length; i++) {
-                promise.then(function() {
-                    return taskGet(list.tasks[i], listId, boardId);
-                });
+
+
+
+            let i = 0
+
+            const cb = function(i, length) {
+                if(i < length) {
+                    taskGet(list.tasks[i], listId, boardId)
+                        .then(function(){
+                            cb(++i, length)
+                        })
+                        .catch(reject)
+                } else {
+                    resolve()
+                }
             }
-            promise.then(resolve);
-            promise.catch(function(error) {
-                reject(error);
-            })
+            cb(i, list.tasks.length)
         })
         .catch(function(error) {
             reject(error);
@@ -374,6 +381,7 @@ function taskGet(taskId, listId, boardId) {
                     setColor(taskId);
                 }
                 taskDiv.innerHTML = dataOut;
+
                 resolve(task);
             });
         })
