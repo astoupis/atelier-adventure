@@ -206,12 +206,15 @@ function boardGetLists(boardId) {
             undefined
         )
         .then(function(board) {
+            console.log(board);
             const lists = board.lists;
             function renderLists(pointerToCurrent=0) {
                 const listSpace = document.getElementById("list-space");
                 if(pointerToCurrent >= lists.length) {
                     return;
                 }
+                console.log("rendering " + pointerToCurrent);
+                console.log(lists[pointerToCurrent]._id);
                 if(document.getElementById(lists[pointerToCurrent]._id) !== null) {
                     renderLists(pointerToCurrent + 1);
                     return;
@@ -229,7 +232,7 @@ function boardGetLists(boardId) {
                     listDOM.innerHTML = html;
 
                     listSpace.appendChild(listDOM);
-                    renderLists(pointerToCurrent + 1);
+                    renderLists(++pointerToCurrent);
                 });
                 while (listSpace.childNodes.length > 0) {
                     let child = listSpace.childNodes[0];
