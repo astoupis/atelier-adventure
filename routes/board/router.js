@@ -176,6 +176,54 @@ router.put('/new-user', function (req,res) {
     });
 });
 
+//Drag and drop list
+router.put('/list-move', function (req,res) {
+
+    let boardId = req.body.boardId;
+    let listId = req.body.listId;
+    let desiredPosition = req.body.desiredPosition;
+
+    req.auth.then(function(payload) {
+        
+        Board.findById(boardId, function(err, boardFound){
+
+            if (!err && boardFound){
+
+                if(checkup(boardFound.users, payload._id)) {
+                    res.status(403).end(); 
+                    return; 
+                }
+
+                if(checkup(boardFound.lists, listId)) {
+                    res.status(403).end(); 
+                    return; 
+                }
+
+                let lists = boardFound.lists; 
+
+                let idIndex = lists.indexOf(listId); 
+                lists.splice(idIndex, 1);
+
+                lists.splice(desiredPosition, 0, listId);
+
+                Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
+                    res.json(data); 
+                });
+                
+
+            }
+            else{
+                res.status(400).end(); 
+            }
+
+        });
+
+
+
+    }).catch(function(error) {
+        res.json(error);
+    });
+});
 
 //POST METHOD 
 //Creat a new board (project)
