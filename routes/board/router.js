@@ -162,7 +162,7 @@ router.put('/new-user', function (req,res) {
                         boards.addToSet(boardId); 
 
                         User.findByIdAndUpdate(userId, {boards:boards}).then(data2 => {
-                            res.json(data1); 
+                            res.json(data2); 
                         });
                     });
 
