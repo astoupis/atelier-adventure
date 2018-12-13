@@ -502,7 +502,7 @@ function addListeners3() {
         let newPswText = document.getElementById("new-psw-box");
         if (oldPswText.type === "password" || newPswText.type == "password") {
             oldPswText.type = "text";
-            newPswText.type = "type";
+            newPswText.type = "text";
         } else {
             oldPswText.type = "password";
             newPswText.type = "password";
