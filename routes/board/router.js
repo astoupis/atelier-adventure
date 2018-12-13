@@ -155,8 +155,18 @@ router.put('/new-user', function (req,res) {
                 }
                 board.users.addToSet(userId);
 
-                Board.findByIdAndUpdate(boardId, board).then(data => {
-                    res.json(data); 
+                Board.findByIdAndUpdate(boardId, board).then(data1 => {
+                    
+                    User.findById(userId, function(err, userFound){
+
+                        let boards = userFound.boards;
+                        boards.addToSet(boardId); 
+
+                        User.findByIdAndUpdate(userId, {boards:boards}).then(data2 => {
+                            res.json(data1); 
+                        });
+                    });
+
                 }); 
             }
         });
@@ -309,7 +319,21 @@ router.delete('/', function(req, res) {
                 .then(function() {
                     board.remove(function (err, removed) {
                         if (!err) {
-                            res.json(removed)
+
+            
+
+                            User.findById(payload._id, function(err, userFound){
+
+                                let boardToRemove = removed._id;
+                                let boards = userFound.boards;
+                                let idIndex = boards.indexOf(boardToRemove); 
+                                boards.splice(idIndex, idIndex+1);
+
+                                User.findByIdAndUpdate(payload._id, {boards:boards}).then(data => {
+                                    res.json(removed); 
+                                });
+                            });
+
                         } else {
                             res.status(400).end();
                         }
@@ -397,7 +421,18 @@ router.delete('/user', function(req, res) {
                             .then(function() {
                                 board.remove(function (err, removed) {
                                     if (!err) {
-                                        res.json(removed)
+                                        User.findById(payload._id, function(err, userFound){
+
+                                            let boardToRemove = removed._id;
+                                            let boards = userFound.boards;
+                                            let idIndex = boards.indexOf(boardToRemove); 
+                                            boards.splice(idIndex, idIndex+1);
+            
+                                            User.findByIdAndUpdate(payload._id, {boards:boards}).then(data => {
+                                                res.json(removed); 
+                                            });
+                                        });
+            
                                     } else {
                                         res.status(400).end();
                                     }
@@ -412,8 +447,19 @@ router.delete('/user', function(req, res) {
                     let idIndex = users.indexOf(payload._id); 
                     users.splice(idIndex, idIndex+1);
 
-                    Board.findByIdAndUpdate(boardId, {users:users}).then(data => {
-                        res.json(data); 
+                    Board.findByIdAndUpdate(boardId, {users:users}).then(data1 => {
+                        User.findById(payload._id, function(err, userFound){
+
+                            let boardToRemove = boardId;
+                            let boards = userFound.boards;
+                            let idIndex = boards.indexOf(boardToRemove); 
+                            boards.splice(idIndex, idIndex+1);
+
+                            User.findByIdAndUpdate(payload._id, {boards:boards}).then(data2 => {
+                                res.json(data1); 
+                            });
+                        });
+
                     });
                 }
 
