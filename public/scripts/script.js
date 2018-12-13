@@ -88,6 +88,12 @@ function newId () {
 
 
 function addListeners2 () {
+    
+    //assign the id of the board to variable boardId
+    let boardId = document.querySelector("main").id;
+    //call function to renser user avatar on board 
+    renderAvatar(boardId);
+
     //Search event listener
     //add event listener (on keyup) to call function --> search
     document.getElementById('invite-box').addEventListener('keyup', ()=>{

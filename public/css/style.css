@@ -19,6 +19,10 @@ h1, h2{
   font-family: 'Poiret One', cursive;
 }
 
+main{
+  margin-top: 15px;
+}
+
 /* Hidden columns */
 div.hidden-div{
   min-width: 5px;
@@ -52,13 +56,12 @@ header>h1{
 
 /* User icons/images */
 div.user-img-header{
-  margin-right: 1px;
-}
-
-img.user-img-header{
-  padding: 1px;
-  width: 5vw;
-  height: auto;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border:2px solid red;
+  display: flex;
+  flex-direction: row;
 }
 
 
@@ -531,4 +534,33 @@ p.board-one{
 #found-user label{
   font-weight: 500;
   padding-right: 5px;
+}
+
+.brd-hdr{
+  position: relative;
+  border: 2px solid azure;
+}
+
+.sub-hdr{
+  border: 2px solid greenyellow;
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+}
+
+.usr-image-3{
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  background-color: yellowgreen;
+  display: flex;
+  display: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  font-size: 2em;
+  font-weight: bold;
+  color: #1C1C1E;
+  border: 2px solid black;
+  border-radius: 100%;
 }
