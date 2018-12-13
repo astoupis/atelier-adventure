@@ -231,7 +231,8 @@ function boardGetLists(boardId) {
                     listSpace.appendChild(listDOM);
                     renderLists(pointerToCurrent + 1);
                 });
-                document.getElementById("list-space").childNodes.forEach(child => {
+                while (listSpace.childNodes.length > 0) {
+                    let child = listSpace.childNodes[0];
                     newTaskButton(child);
                     listSpace.parentElement.insertBefore(child, listSpace);
                     let hiddenDiv = document.createElement('div');
@@ -251,7 +252,7 @@ function boardGetLists(boardId) {
                             throw error;
                         });
                     });
-                });
+                }
             };
 
             document.getElementById("list-space").innerHTML = "";
