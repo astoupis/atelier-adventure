@@ -1,14 +1,19 @@
 const express = require('express');
-const path = require('path');
+const http = require('http');
+const https = require('https');
+
 
 const bodyParser = require('body-parser');
 const dust = require('klei-dust');
 const methodOverride = require('method-override');
 
 const app = express();
-const config = require("./config");
+const config = require('./config');
 const cookieParser = require('cookie-parser');
-const loginMiddleware = require("./util/auth").loginMiddleware;
+const loginMiddleware = require('./util/auth').loginMiddleware;
+
+const fs = require('fs');
+
 
 
 
@@ -47,7 +52,26 @@ app.use('/list', routers.list);
 app.use('/task', routers.task); 
 app.use('/logout', routers.logout);
 
-app.set('port', process.env.PORT || 3000);
-var server = app.listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + server.address().port);
-});
+// app.set('port', process.env.PORT || 3000);
+// var server = app.listen(app.get('port'), function() {
+//   console.log('Express server listening on port ' + server.address().port);
+// });
+
+
+
+
+let httpServer = http.createServer(app);
+httpServer.listen(process.env.PORT || 3000);
+
+
+if(config.https.useHTTPS) {
+	let credentials = {
+		cert: fs.readFileSync(config.https.certificatePath),
+		key: fs.readFileSync(config.https.privateKeyPath),
+	}
+
+	let httpsServer = https.createServer(credentials , app);
+	httpsServer.listen(process.env.PORT || 3001);
+}
+
+

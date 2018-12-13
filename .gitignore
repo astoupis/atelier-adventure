@@ -65,3 +65,9 @@ typings/
 bot/config.json
 bot/yarn.lock
 yarn.lock
+
+
+# https stuff
+*.key
+*.pem
+*.crt
