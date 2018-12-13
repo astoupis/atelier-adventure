@@ -141,7 +141,7 @@ router.put('/list', function(req, res){
 
                                         let fromListTasks = listFound1.tasks;
                                         let idIndex = fromListTasks.indexOf(taskId);
-                                        fromListTasks.splice(idIndex, idIndex+1);
+                                        fromListTasks.splice(idIndex, 1);
 
                                         List.findByIdAndUpdate(fromListId, {tasks:fromListTasks}, function(err, updated1){
                                             if (!err && updated1){
@@ -338,7 +338,7 @@ router.delete('/', function(req, res) {
                                 
                                 let tasks = listFounded.tasks;
                                 let idIndex = tasks.indexOf(taskId);
-                                tasks.splice(idIndex, idIndex+1);
+                                tasks.splice(idIndex, 1);
 
                                 //Delete the task id
                                 List.findByIdAndUpdate(listId, {tasks:tasks}).then(() => {
