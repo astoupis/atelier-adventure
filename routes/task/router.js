@@ -341,7 +341,7 @@ router.delete('/', function(req, res) {
                                 
                                 let tasks = listFounded.tasks;
                                 let idIndex = tasks.indexOf(taskId);
-                                tasks.splice(idIndex, idIndex+1);
+                                tasks.splice(idIndex, 1);
 
                                 //Delete the task id
                                 List.findByIdAndUpdate(listId, {tasks:tasks}).then(() => {
