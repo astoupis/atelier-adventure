@@ -234,10 +234,9 @@ function boardGetLists(boardId) {
                     listSpace.appendChild(listDOM);
                     renderLists(++pointerToCurrent);
                 });
-                console.log(listSpace.childNodes)
-
-                while(listSpace.childNodes.length > 0) {
+                while (listSpace.childNodes.length > 0) {
                     let child = listSpace.childNodes[0];
+                    newTaskButton(child);
                     listSpace.parentElement.insertBefore(child, listSpace);
                     let hiddenDiv = document.createElement('div');
                     hiddenDiv.className = "hidden-div";
