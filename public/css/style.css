@@ -21,8 +21,8 @@ h1, h2{
 
 /* Hidden columns */
 div.hidden-div{
-  min-width: 1px;
-  width: 1px;
+  min-width: 5px;
+  width: 5px;
 }
 
 /* 
@@ -157,11 +157,6 @@ div.footer-legenda{
 img.footer-legenda{
   /* TODO */
 }
-
-
-/*
- * USER POPUP  <-- need to be modified 
- */
 
 /* Popup container - can be anything you want */
 .popup {
@@ -347,7 +342,6 @@ div.signup #signup-btn{
 
 }
 
-/* Used in general need to change it */
 
 /* form submit button */
 .button{
@@ -523,4 +517,18 @@ p.board-one{
   height: 10px;
   background-color: aqua;
   
+}
+
+  /**********************/
+ /***** Board Page *****/
+/**********************/
+
+#found-user{
+  margin: 10px;
+  color: black;
+}
+
+#found-user label{
+  font-weight: 500;
+  padding-right: 5px;
 }

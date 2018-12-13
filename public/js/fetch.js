@@ -101,6 +101,9 @@ function getBoardPrev(id){
     });
 };
 
+  /***************************/
+ /**User update and render **/
+/***************************/ 
 
 function userUpdate(){
     doJSONRequest('GET', "/user", {}, undefined)
@@ -123,6 +126,9 @@ function userUpdate(){
     });
 }
 
+  /***************************/
+ /****** Create new board ***/
+/***************************/ 
 function boardCreate(){
     doJSONRequest('POST', "/board", {}, {name: document.getElementById('board-name').value})
     .then(function(board) {
@@ -130,6 +136,56 @@ function boardCreate(){
     }).catch((err)=>{
         alert("Invalid board name");
     });
+}
+
+
+/*Search and render users on board to invite*/
+
+// used for search function -> used to render "filtered" favorites
+function userSearchRender(users){
+    dust.render('partials\/board_usr_search_pp', {result: users} ,function(err, dataOut) {
+                   document.getElementById('found-user').innerHTML = dataOut;
+    });
+  }
+
+//search user to invite 
+function search(text) {
+    if (text==""){
+        let nosearch = document.createElement('P').innerHTML = "Search for someone";
+        document.getElementById('found-user').innerHTML = nosearch;
+    }else{
+        doFetchRequest('GET', "/user/search?search="+text, {'Accept': 'application/json'}, undefined)
+        .then((res) => {
+            return res.json();
+        })
+        .then((users) => {
+            userSearchRender(users);
+        });
+    }
+}
+
+//add user to board
+function userAdd(){
+    if (document.getElementById('invite-box').value === ""){
+        return; 
+    }
+    doFetchRequest('GET', "/user/search?search="+document.getElementById('invite-box').value, 
+                        {'Accept': 'application/json'}, undefined)
+    .then((res) => {
+        return res.json();
+    })
+    .then((users) => {
+        let board_id = document.getElementsByTagName('main')[0].id;
+        users.forEach((user) => {
+            doJSONRequest('PUT', '/board/new-user', {}, {boardId: board_id, userId: user._id})
+            .catch((err) => {
+                console.log(err);
+            });
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 }
 
 

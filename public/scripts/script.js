@@ -88,21 +88,38 @@ function newId () {
 
 
 function addListeners2 () {
-    //TODO
+    //Search event listener
+    //add event listener (on keyup) to call function --> search
+    document.getElementById('invite-box').addEventListener('keyup', ()=>{
+        search(document.getElementById('invite-box').value);
+    });
 
+    //open invitation popup window 
+    document.getElementById('invite-btn').addEventListener('click', ()=>{
+        document.querySelector('.pp-register').style.display = 'flex';
+    })
+
+    //close invitation popup window when clicking on X
+    document.getElementById("register-close").addEventListener('click', function(){
+        document.querySelector('.pp-register').style.display = 'none';
+    }.bind(this));
+
+    // close invitation popup window when clicking away
+    window.onclick = function(event) {
+        let modal = document.querySelector(".pp-register");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }  
+
+    //Invite event listener
+    //add result of search when clicking invite
+    document.getElementById('add-btn').addEventListener('click', ()=>{
+        userAdd();
+    });
+    
     // Render lists
     boardGetLists(document.querySelector("main").id);
-
-
-    let inviteBtn = document.getElementById("invite-btn");
-    inviteBtn.addEventListener('click', () => {
-        document.querySelector('.pp-register').style.display = 'flex';
-        return;
-        // TODO
-        // make popup
-        // add the username in the URL to search for him by getting it from the fields of the pop-up
-        // doJSONRequest('GET', "/user/search/", {'Content-Type': 'application/json'}, undefined);
-    });
 
     let title = document.getElementById("project-title");
     title.contentEditable = true;
@@ -114,11 +131,6 @@ function addListeners2 () {
         boardId: boardId
         })
     });
-
-    //close registration popup window
-    document.getElementById("register-close").addEventListener('click', function(){
-        document.querySelector('.pp-register').style.display = 'none';
-    }.bind(this));
 
     // adds functionality to the add list button
     let addListBtn = document.getElementById("addList-btn");
@@ -166,8 +178,8 @@ function addListeners2 () {
         let hiddenDiv = document.createElement('div');
         hiddenDiv.className = "hidden-div";
         // hiddenDiv.style.backgroundColor = "red";
-        hiddenDiv.style.minWidth = "1px";
-        hiddenDiv.style.width = "1px";
+        // hiddenDiv.style.minWidth = "1px";
+        // hiddenDiv.style.width = "1px";
 
         element.after(hiddenDiv);
         newTaskButton(element);
@@ -184,14 +196,6 @@ function addListeners2 () {
         hiddenTaskDiv.className = "hidden-task";
         element.after(hiddenTaskDiv);
     });
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        let modal = document.querySelector(".pp-register");
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }  
 }
 
 
@@ -357,6 +361,7 @@ document.addEventListener("dragenter", function(event) {
             //event.target.style.border = "20px dotted red";
             event.target.style.backgroundColor = "rgb(49, 49, 51)";
             event.target.style.width = "40%";
+            event.target.style.minWidth = "20%";
         }
     }
     if ((event.target.className) && (event.target.className === "hidden-task")) {
@@ -388,7 +393,8 @@ document.addEventListener("dragleave", function(event) {
     if ((event.target.className) && (event.target.className === "hidden-div")) {
         if (dragLock.className && dragLock.className === "droptarget movable-column"){
             event.target.style.backgroundColor = "#1C1C1E";
-            event.target.style.width = "1px";
+            event.target.style.width = "5px";
+            event.target.style.minWidth = "5px";
         }
     }
     if ((event.target.className) && (event.target.className === "hidden-task")) {
@@ -421,7 +427,8 @@ document.addEventListener("drop", function(event) {
             event.target.after(dragLock);
             dragLock.after(hiddenDiv);
             event.target.style.backgroundColor = "#1C1C1E";
-            event.target.style.width = "1px";
+            event.target.style.width = "5px";
+            event.target.style.minWidth = "5px";
             
         }
     }
@@ -528,7 +535,6 @@ function addListeners3() {
     } 
 
     //saving modifications
-    //TODO
     document.getElementById("save-mod-btn").addEventListener('click', function(){
         doJSONRequest('PUT', "/user", {'Content-Type': 'application/json'},
         {firstname: document.getElementById("mod-fnm-box").value, 
@@ -546,7 +552,7 @@ function addListeners3() {
         });
     });
 
-    // redirect to board page when click on new board button 
+    // Create new board when clicking on "new board button"
     document.getElementById("new-board-btn").addEventListener('click', function(){
         boardCreate();
     });

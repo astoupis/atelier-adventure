@@ -39,9 +39,12 @@
                     <img class="pp-closing-icon" id="register-close"src="/images/closeX.png">
                     <form class="register-form" id="register-div">
                         <h2 class="register">Invite</h2>
-                        <input type="text" id="invite-box" name="email" placeholder="E-MAIL" required>
+                        <input type="text" id="invite-box" name="email" placeholder="SEARCH" required>
                     </form>
-                    <input type="submit" class="button" id="register-btn" name="register-btn" value="Invite">
+                    <div id='found-user'>
+                        <!-- render search result here -->
+                    </div>
+                    <input type="submit" class="button" id="add-btn" name="register-btn" value="Invite">
                 </div>
             </div>
         </main>

@@ -31,9 +31,7 @@ router.get('/:taskid/:listid/:boardid', function(req, res) {
     let listId = req.params.listid; 
     let taskId = req.params.taskid;
     let aPayload; 
-
     
-
     req.auth.then(function(payload) {
         aPayload = payload;        
         /* -- GET THE REQUIRED TASK -- */

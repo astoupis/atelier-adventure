@@ -1,0 +1,10 @@
+{#result}
+<div>
+    <label> First name:</label><span>{firstname}</span> |
+    <label> Last name:</label><span>{lastname}</span> |
+    <label> Username:</label><span>{username}</span> |
+    <label> E-mail:</label><span>{email}</span>
+</div>
+{:else}
+<p>No user found.</p>
+{/result}
