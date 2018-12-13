@@ -574,8 +574,19 @@ function addListeners3() {
             const board_id = e.target.dataset.board || e.target.parentNode.dataset.board
             if(board_id) {
                 window.location.href = "/board/" + board_id;
+                //this need to go inside the delete button 
+
+                // doFetchRequest("DELETE", '/board/' + board_id, {}, null)
+                // .then((board)=>{
+                //     boardPrevUpdate();
+                // })
+                // .catch((err) => {
+                //     console.log(err);
+                // })
+
             }                        
         });
+        //create a event listener on the delete button (need to modify partial) 
     });
 
     //update the user onload();

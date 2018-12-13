@@ -78,7 +78,7 @@ function doJSONRequest(method, url, headers, body){
     }
     if (method === "GET" || method === "DELETE"){
         return doFetchRequest(method, url, headers, body).then((result) => {
-            return result.json()
+            return result.json();
         });
     }
     throw err;
@@ -100,6 +100,27 @@ function getBoardPrev(id){
         });
     });
 };
+
+// Update board preview
+function boardPrevUpdate(){
+    doJSONRequest("GET", "/user", {}, undefined)
+    .then((user) => {
+        document.getElementById('posted-boards').innerHTML = "";
+        let boardsIds = user.boards;
+        boardsIds.forEach((boardId) => {
+            doJSONRequest('GET', "/board/" + boardId, {}, undefined)
+            .then((board)=>{
+                dust.render('partials\/board_partial', board ,function(err, dataOut) {
+                // if(err) console.log(err);
+                document.getElementById('posted-boards').innerHTML += dataOut;
+                });
+            });
+        })
+    })
+    .catch((err) => {
+        //
+    });
+}
 
   /***************************/
  /**User update and render **/
@@ -140,7 +161,6 @@ function boardCreate(){
 
 
 /*Search and render users on board to invite*/
-
 // used for search function -> used to render "filtered" favorites
 function userSearchRender(users){
     dust.render('partials\/board_usr_search_pp', {result: users} ,function(err, dataOut) {
@@ -195,6 +215,14 @@ function userAdd(){
         let board_id = document.getElementsByTagName('main')[0].id;
         users.forEach((user) => {
             doJSONRequest('PUT', '/board/new-user', {}, {boardId: board_id, userId: user._id})
+            .then((user)=>{
+                user.avatarLetters = user.firstname.charAt(0) + user.lastname.charAt(0);
+                dust.render('partials/boardUsers', data, function(err, dataOut){
+                    //find / create the space where to render them selfs
+                    //careful with the event listeners for popup -> info of users 
+                    document.getElementById('user-avatars').innerHTML += dataOut; 
+                });
+            })
             .catch((err) => {
                 console.log(err);
             });

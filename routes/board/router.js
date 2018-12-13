@@ -163,7 +163,7 @@ router.put('/new-user', function (req,res) {
                         boards.addToSet(boardId); 
 
                         User.findByIdAndUpdate(userId, {boards:boards}).then(data2 => {
-                            res.json(data1); 
+                            res.json(data2); 
                         });
                     });
 
@@ -256,9 +256,9 @@ router.post('/', function(req, res) {
 
 //DELETE METHOD
 //Delete a specific board (project) completely 
-router.delete('/', function(req, res) {
+router.delete('/:boardid', function(req, res) {
     
-    var boardId = req.body.boardId;
+    var boardId = req.params.boardid;
 
     req.auth.then(function(payload) {
 
@@ -327,8 +327,7 @@ router.delete('/', function(req, res) {
                                 let boardToRemove = removed._id;
                                 let boards = userFound.boards;
                                 let idIndex = boards.indexOf(boardToRemove); 
-                                boards.splice(idIndex, idIndex+1);
-
+                                boards.splice(idIndex, 1);
                                 User.findByIdAndUpdate(payload._id, {boards:boards}).then(data => {
                                     res.json(removed); 
                                 });
