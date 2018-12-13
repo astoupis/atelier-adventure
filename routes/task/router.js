@@ -146,8 +146,6 @@ router.put('/list', function(req, res){
                                             if (!err && updated1){
                                                 
                                                 let toListTasks = listFound2.tasks;
-                                                console.log(toListTasks);
-                                                console.log(desiredPosition);
                                                 if (checkup(toListTasks, taskId)) {
                                                     toListTasks.splice(desiredPosition, 0, taskId);
                                                 }

@@ -144,7 +144,6 @@ router.post('/', function(req, res) {
                         
                         let lists = boardFound.lists; 
                         lists.push(saved._id);
-                        console.log(saved._id);
                         
                         Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
                             res.json(data); 
