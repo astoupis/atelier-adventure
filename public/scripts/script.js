@@ -145,7 +145,7 @@ function addListeners2 () {
         // create title of column
         let h1 = document.createElement('h1');
         h1.className = "state-head";
-        h1.innerHTML = "New List";
+        h1.innerHTML = "New List (In Progress)";
         h1.contentEditable = true;
         div.appendChild(h1);
 
@@ -154,8 +154,6 @@ function addListeners2 () {
 
         let hiddenDiv = document.createElement('div');
         hiddenDiv.className = "hidden-div";
-        // hiddenDiv.style.backgroundColor = "red";
-        // hiddenDiv.style.width = "5px";
         
         parent.before(div);
         parent.before(hiddenDiv);
@@ -166,6 +164,23 @@ function addListeners2 () {
         listName: "New List"})
         .then((data) => {
             console.log(data);
+            let len = data.lists.length;
+            div.id = data.lists[len - 1];
+            h1.innerHTML = "New List";
+            h1.addEventListener('blur', (element) => {
+                element = element.srcElement;
+                let listName = element.innerHTML;
+                let listId = element.parentNode.id;
+                let boardId = document.querySelector(".droptarget-column").id;
+                doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
+                {boardId: boardId,
+                listId: listId,
+                listName: listName
+                })
+                .catch((error) => {
+                    throw error;
+                });
+            });
         })
         .catch((error) => {
             console.log(error);
@@ -177,9 +192,6 @@ function addListeners2 () {
     columnArray.forEach((element) => {
         let hiddenDiv = document.createElement('div');
         hiddenDiv.className = "hidden-div";
-        // hiddenDiv.style.backgroundColor = "red";
-        // hiddenDiv.style.minWidth = "1px";
-        // hiddenDiv.style.width = "1px";
 
         element.after(hiddenDiv);
         newTaskButton(element);
@@ -231,7 +243,7 @@ function newTaskButton (div) {
         dateDiv.className = "stick-desc";
         dateLabel.innerHTML = " Due date: ";
         let datePara = document.createElement('p');
-        datePara.innerHTML = "12.12.1996";
+        datePara.innerHTML = "sample due date";
 
         
         descDiv.appendChild(descLabel);
@@ -249,7 +261,7 @@ function newTaskButton (div) {
         hiddenTaskDiv.className = "hidden-task";
         taskDiv.after(hiddenTaskDiv);
 
-        let taskName = taskDiv.firstChild.innerHTML;
+        let taskName = "New Task";
         let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
         let listId = taskDiv.parentNode.id;
         let boardId = document.querySelector("main").id;
@@ -261,8 +273,9 @@ function newTaskButton (div) {
             }
         )
         .then((data) => {
-            console.log(data);
             taskDiv.id = data._id;
+            taskDiv.firstChild.innerHTML = "New Task";
+
             
         })
         .catch((error) => {
@@ -287,7 +300,7 @@ function newTask () {
     // class
     taskh1.className = "sticker";
     // default title
-    taskh1.innerHTML = "New Task";
+    taskh1.innerHTML = "New Task (In Progress)";
     // make it editable
     taskh1.contentEditable = true;
     taskDiv.appendChild(taskh1);
