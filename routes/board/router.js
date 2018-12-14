@@ -376,10 +376,6 @@ router.delete('/:boardid', function(req, res) {
                                 let boards = userFound.boards;
                                 let idIndex = boards.indexOf(boardToRemove); 
                                 boards.splice(idIndex, 1);
-<<<<<<< HEAD
-
-=======
->>>>>>> userRenderAvatar
                                 User.findByIdAndUpdate(payload._id, {boards:boards}).then(data => {
                                     res.json(removed); 
                                 });
