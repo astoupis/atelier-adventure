@@ -12,6 +12,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body onload="addListeners3()">
+        <div class="error">
+                <p id='error'></p>
+        </div>
         <header id="usr-page-title">
             <!-- automatically inserted -->
         </header>

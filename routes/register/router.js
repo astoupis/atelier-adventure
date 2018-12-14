@@ -36,6 +36,13 @@ router.post('/', function(req, res) {
         return;
     }
 
+    
+    if (!req.body.email.includes('@')){
+        res.send({message:"This is an invalid e-mail."}).end();
+        return;
+    }
+    
+
     bcrypt.hash(req.body.password, saltRounds).then(function(hash) {
         // Store hash in your password DB
 

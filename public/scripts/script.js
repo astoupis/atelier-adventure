@@ -604,9 +604,11 @@ function addListeners3() {
         username: document.getElementById("mod-usr-box").value, 
         password: document.getElementById("new-psw-box").value})
         .then((data)=>{
+            if(data.message){
+                document.getElementById('error').innerHTML = data.message;
+            }
             document.querySelector(".pp-register").style.display = "none";
-            userUpdate()  
-
+            userUpdate();  
         })
         .catch((error)=>{
             console.log(error);
