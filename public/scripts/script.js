@@ -86,8 +86,13 @@ function newId () {
     return id++;
 }
 
-
 function addListeners2 () {
+    
+    //assign the id of the board to variable boardId
+    let boardId = document.querySelector("main").id;
+    //call function to renser user avatar on board 
+    renderAvatar(boardId);
+
     //Search event listener
     //add event listener (on keyup) to call function --> search
     document.getElementById('invite-box').addEventListener('keyup', ()=>{
@@ -529,6 +534,7 @@ document.addEventListener("drop", function(event) {
     dragLock = "";
 });
 
+// onclick function in board page
 // function for showing the user description
 function userDesc(data){
     // track the popup element
@@ -603,14 +609,41 @@ function addListeners3() {
             getBoardPrev(element);
         });
 
-        document.getElementById('posted-boards').addEventListener('click', function(e) {
-            const board_id = e.target.dataset.board || e.target.parentNode.dataset.board
-            if(board_id) {
-                window.location.href = "/board/" + board_id;
-            }                        
-        });
+        // document.getElementById('posted-boards').addEventListener('click', function(e) {
+        //     const board_id = e.target.dataset.board || e.target.parentNode.dataset.board;
+        //     if(board_id) {
+        //         //window.location.href = "/board/" + board_id;
+        //     }                        
+        // });
     });
 
     //update the user onload();
     userUpdate();
 }
+
+// onclick functions for board preview (userpage) functionalities (redirect, delete, leave) 
+//redirect 
+function boardRedirect(id){
+    window.location.href = "/board/" + id;
+}
+//delete
+function deleteBoard(id){
+    doFetchRequest("DELETE", "/board/" + id, {}, null)
+    .then((board) => {
+        boardPrevUpdate();
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+//leave 
+function leaveBoard(id){
+    doFetchRequest("DELETE", "/board/user/" + id, {}, null)
+    .then((data) => {
+        boardPrevUpdate();
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+

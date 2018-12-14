@@ -12,19 +12,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body onload="addListeners2()">
-        <header>
+        <header class="brd-hdr">
             <h1 id='project-title'>
                 {name}
             </h1>
-            <input type="button" id="invite-btn" name="invite-btn" value="Invite">
-            <div class='user-img-header'>
-                {#users}
-                    {>"partials/boardUsers" /}
-                {/users}
+            <div class='user-img-header' id='user-avatars'>
+                <!-- automatically render here  -->
             </div>
-
+            <div class="sub-hdr">
+                    <input type="button" id="invite-btn" name="invite-btn" value="Invite">
+            </div>>
         </header>
-        
         <!-- MAIN -->
         <main class="droptarget-column" id="{_id}">
             <div class="hidden-div">

@@ -1,5 +1,7 @@
 <div class="popup" onclick="userDesc('{_id}')">
-    <img src='/images/avatar1.png' class='user-img-header'>
+    <div class="usr-image-3">
+        {avatarLetters}
+    </div>
     <span class="popuptext" id="{_id}">
         <div class='usr-desc'>
             <label>Name:</label>
@@ -9,9 +11,5 @@
             <label>E-mail:</label>
             <p>{email}</p>
         </div>
-        <!-- <div class="usr-desc">
-            <label>Role:</label>
-            <p>Supervisor</p>
-        </div> -->
     </span>
 </div>

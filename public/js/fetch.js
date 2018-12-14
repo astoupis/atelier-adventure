@@ -78,7 +78,7 @@ function doJSONRequest(method, url, headers, body){
     }
     if (method === "GET" || method === "DELETE"){
         return doFetchRequest(method, url, headers, body).then((result) => {
-            return result.json()
+            return result.json();
         });
     }
     throw err;
@@ -90,16 +90,35 @@ function doJSONRequest(method, url, headers, body){
 /***************************/ 
 
 function getBoardPrev(id){
-    console.log(id);
     // take all the the board ids and render all the boards 
     doJSONRequest('GET', "/board/" + id,{}, undefined)
     .then((board)=>{
       dust.render('partials\/board_partial', board ,function(err, dataOut) {
-                    // if(err) console.log(err);
                     document.getElementById('posted-boards').innerHTML += dataOut;
         });
     });
 };
+
+// Update board preview
+// Used after leaving or deleting a board
+function boardPrevUpdate(){
+    doJSONRequest("GET", "/user", {}, undefined)
+    .then((user) => {
+        document.getElementById('posted-boards').innerHTML = "";
+        let boardsIds = user.boards;
+        boardsIds.forEach((boardId) => {
+            doJSONRequest('GET', "/board/" + boardId, {}, undefined)
+            .then((board)=>{
+                dust.render('partials\/board_partial', board ,function(err, dataOut) {
+                document.getElementById('posted-boards').innerHTML += dataOut;
+                });
+            });
+        })
+    })
+    .catch((err) => {
+        //
+    });
+}
 
   /***************************/
  /**User update and render **/
@@ -140,7 +159,6 @@ function boardCreate(){
 
 
 /*Search and render users on board to invite*/
-
 // used for search function -> used to render "filtered" favorites
 function userSearchRender(users){
     dust.render('partials\/board_usr_search_pp', {result: users} ,function(err, dataOut) {
@@ -148,7 +166,16 @@ function userSearchRender(users){
     });
   }
 
-//search user to invite 
+/**
+ * Search user by email or username and fetches them from board users array 
+ * call function userSearchRender() giving the array of founded users as param
+ * the above function will render the results of the search  
+ * 
+ * @author 
+ * @version 0 (10 Dec 2018)
+ * @param {string} text the text inserted in the search box 
+ * @returns {Promise} a promise that the users list corresponding to the search will be rendered 
+ */ 
 function search(text) {
     if (text==""){
         let nosearch = document.createElement('P').innerHTML = "Search for someone";
@@ -164,7 +191,15 @@ function search(text) {
     }
 }
 
-//add user to board
+/**
+ * Fetches searched user and add it to the board userArray 
+ * 
+ * @author 
+ * @version 0 (10 Dec 2018)
+ * @param {string} 
+ * @returns {Promise} 
+ */
+
 function userAdd(){
     if (document.getElementById('invite-box').value === ""){
         return; 
@@ -178,6 +213,13 @@ function userAdd(){
         let board_id = document.getElementsByTagName('main')[0].id;
         users.forEach((user) => {
             doJSONRequest('PUT', '/board/new-user', {}, {boardId: board_id, userId: user._id})
+            .then((user) => {
+                user.avatarLetters = user.firstname.charAt(0) + user.lastname.charAt(0);
+                dust.render('partials/boardUsers', user, function(err, dataOut){
+                    document.getElementById('user-avatars').innerHTML += dataOut; 
+                });
+                document.querySelector('.pp-register').style.display = 'none'; 
+            })
             .catch((err) => {
                 console.log(err);
             });
@@ -188,6 +230,40 @@ function userAdd(){
     })
 }
 
+/**
+ * Fetch all the users in board user array, add to each user obj. a field called {initialLetters}
+ * which holds the initial letter of firstname and lastname 
+ * render a "image" for each user which contains its initialLetters 
+ * 
+ * @author 
+ * @version 0 (13 Dec 2018)
+ * @param {string} boardId the id of the board 
+ * @returns {Promise} 
+ */
+function renderAvatar(boardId){
+    //get the board 
+    doJSONRequest(
+        "GET",
+        "/board/" + boardId,
+        {},
+        undefined
+    )
+    .then((board) =>{
+        let users = board.users;
+        users.forEach((user) => {
+            user.avatarLetters = user.firstname.charAt(0) + user.lastname.charAt(0);
+            //create / modify the partial to render these images
+            dust.render('partials/boardUsers', user, function(err, dataOut){
+                //find / create the space where to render them selfs
+                //careful with the event listeners for popup -> info of users 
+                document.getElementById('user-avatars').innerHTML += dataOut; 
+            });
+        });
+    })
+    .catch((err) => {
+        //throw new Error;
+    });
+}
 
 /**
  * Fetches and renders lists of this board, then for each list renders the
