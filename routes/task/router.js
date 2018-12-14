@@ -92,7 +92,7 @@ router.get('/', function(req, res) {
 
 //PUT METHOD
 //Move a task into another existing list (Drag and Drop)
-router.put('/list', function(req, res){
+router.put('/list', function(req, res) {
     
     let boardId = req.body.boardId;
     let fromListId = req.body.fromListId; 
@@ -120,66 +120,105 @@ router.put('/list', function(req, res){
                     res.status(403).end(); 
                     return; 
                 }
-                
-                List.findById(fromListId, function(err, listFound1){
+
+                if (fromListId == toListId){
                     
-                    if (!err && listFound1){
-
-                        if(checkup(listFound1.tasks, taskId)) {
-                            res.status(403).end(); 
-                            return; 
-                        }
+                    List.findById(fromListId, function(err, listFound1){
                         
-                        List.findById(toListId, function(err, listFound2){
+                        if (!err && listFound1){
 
-                            if (!err && listFound2){
+                            if(checkup(listFound1.tasks, taskId)) {
+                                res.status(403).end(); 
+                                return; 
+                            }
+                            let listTasks = listFound1.tasks;
+                            let idIndex = listTasks.indexOf(taskId);
 
-                                Task.findById(taskId, function(err, taskFound){
-                                    
-                                    if (!err && taskFound){
+                            if (desiredPosition > idIndex){
+                                desiredPosition--;
+                            }
 
-                                        let fromListTasks = listFound1.tasks;
-                                        let idIndex = fromListTasks.indexOf(taskId);
-                                        fromListTasks.splice(idIndex, 1);
+                            listTasks.splice(idIndex, 1);
 
-                                        List.findByIdAndUpdate(fromListId, {tasks:fromListTasks}, function(err, updated1){
-                                            if (!err && updated1){
-                                                
-                                                let toListTasks = listFound2.tasks;
-                                                if (checkup(toListTasks, taskId)) {
-                                                    toListTasks.splice(desiredPosition, 0, taskId);
+                            listTasks.splice(desiredPosition, 0, taskId);
+
+                            List.findByIdAndUpdate(fromListId, {tasks:listTasks}, function(err, updated1){
+                                if (!err && updated1) {
+                                    res.json(updated1).end();
+
+                                }else{
+                                    res.status(500).end();
+                                }
+                            });
+
+                        }else{
+                            res.status(400).end();
+                        }
+                    })
+
+
+
+                }else{
+                
+                    List.findById(fromListId, function(err, listFound1){
+                        
+                        if (!err && listFound1){
+
+                            if(checkup(listFound1.tasks, taskId)) {
+                                res.status(403).end(); 
+                                return; 
+                            }
+                            
+                            List.findById(toListId, function(err, listFound2){
+
+                                if (!err && listFound2){
+
+                                    Task.findById(taskId, function(err, taskFound){
+                                        
+                                        if (!err && taskFound){
+
+                                            let fromListTasks = listFound1.tasks;
+                                            let idIndex = fromListTasks.indexOf(taskId);
+                                            fromListTasks.splice(idIndex, 1);
+
+                                            List.findByIdAndUpdate(fromListId, {tasks:fromListTasks}, function(err, updated1){
+                                                if (!err && updated1) {
+                                                    
+                                                    let toListTasks = listFound2.tasks;
+                                                    if (checkup(toListTasks, taskId)) {
+                                                        toListTasks.splice(desiredPosition, 0, taskId);
+                                                    }
+
+                                                    List.findByIdAndUpdate(toListId, {tasks:toListTasks}, function(err, updated2){
+                                                        
+                                                        if (!err && updated2){
+                                                            res.json(updated2); 
+                                                        }else{
+                                                            res.status(500).end();
+                                                        }
+                                                    });
+
+                                                }else{
+                                                    res.status(500).end();
                                                 }
 
-                                                List.findByIdAndUpdate(toListId, {tasks:toListTasks}, function(err, updated2){
-                                                    
-                                                    if (!err && updated2){
-                                                        res.json(updated2); 
-                                                    }else{
-                                                        res.status(500).end();
-                                                    }
-                                                });
-
-                                            }else{
-                                                res.status(500).end();
-                                            }
-
-                                        }); 
+                                            }); 
 
 
-                                    }else{
-                                        res.status(400).end(); 
-                                    }
+                                        }else{
+                                            res.status(400).end(); 
+                                        }
 
-                                });
-                            }
-                        });
+                                    });
+                                }
+                            });
 
-                    }else{
-                        console.log('here2')
-                        res.status(400).end();
-                    }
-                });
-
+                        }else{
+                            console.log('here2')
+                            res.status(400).end();
+                        }
+                    });
+                }
             }else{
                 res.status(400).end();
             }
