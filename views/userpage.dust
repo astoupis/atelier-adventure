@@ -22,6 +22,8 @@
                     <!-- automatically inserted -->
                 </div>
                 <input type="button" class="button" id="modity-btn" value="Modify profile">
+                </br>
+                <input type="button" class="button" id="logout-btn" value="Logout">
             </div>
             <!-- create a popup like register to modify the profile of the user and submit the changes -->
             </br>

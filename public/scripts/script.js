@@ -51,6 +51,9 @@ function addListeners () {
         doJSONRequest('POST', "/login", {'Content-Type': 'application/json'},
         {username: document.getElementById("log-usr-box").value, 
         password: document.getElementById("log-psw-box").value})
+        .catch((error) => {
+            console.log(error);
+        })
     });
 
 
@@ -63,13 +66,15 @@ function addListeners () {
         username: document.getElementById("reg-usr-box").value, 
         password: document.getElementById("reg-psw-box").value})
         .then((data)=>{
+            if (data.message){
+                //create popup for mistake 
+                document.getElementById('error').innerHTML = data.message;
+            }
             document.querySelector(".pp-register").style.display = "none";
         })
         .catch((error)=>{
-            console.log(error);
+            //
         });
-        
-        
     });
 }
 
@@ -595,6 +600,11 @@ function addListeners3() {
         .catch((error)=>{
             console.log(error);
         });
+    });
+
+    // Logout 
+    document.getElementById("logout-btn").addEventListener('click', function(){
+        userLogout();
     });
 
     // Create new board when clicking on "new board button"

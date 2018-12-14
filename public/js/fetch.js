@@ -144,6 +144,14 @@ function userUpdate(){
         })
     });
 }
+  /***************************/
+ /******* User Logout *******/
+/***************************/ 
+function userLogout(){
+    doJSONRequest('GET', '/logout', {}, undefined);
+    window.location.href = "/logout";
+}
+
 
   /***************************/
  /****** Create new board ***/
