@@ -33,12 +33,12 @@ function doFetchRequest(method, url, headers, body){
                     });
                 }
                 else{
-                    throw err;
+                    throw new Error;
                 }
 
             }
             else{
-                throw err;
+                throw new Error;
             }
         }
         else if (method === "DELETE"){
@@ -146,6 +146,25 @@ function userUpdate(){
 }
 
   /***************************/
+ /******* User Logout *******/
+/***************************/ 
+function userLogout(){
+    doJSONRequest('GET', '/logout', {}, undefined);
+    window.location.href = "/logout";
+}
+
+  /***************************/
+ /******* User GoBack *******/
+/***************************/ 
+function userGoBack(){
+    doJSONRequest('GET', '/user', {}, undefined)
+    .then((user) => {
+        let user_id = user._id;
+        window.location.href = '/user/' + user_id;   
+    })
+}
+
+  /***************************/
  /****** Create new board ***/
 /***************************/ 
 function boardCreate(){
@@ -157,6 +176,8 @@ function boardCreate(){
     });
 }
 
+/* Go back to userpage from board */
+// function goback 
 
 /*Search and render users on board to invite*/
 // used for search function -> used to render "filtered" favorites
@@ -164,7 +185,7 @@ function userSearchRender(users){
     dust.render('partials\/board_usr_search_pp', {result: users} ,function(err, dataOut) {
                    document.getElementById('found-user').innerHTML = dataOut;
     });
-  }
+}
 
 /**
  * Search user by email or username and fetches them from board users array 
@@ -273,7 +294,7 @@ function renderAvatar(boardId){
  * @param {string} boardId the id of the board
  * @returns {Promise} a promise that the board will be rendered
  */
-function boardGetLists(boardId) {
+function boardGetLists(boardId, wipe=false) {
     return new Promise(function(resolve, reject) {
         doJSONRequest(
             "GET", 
@@ -285,6 +306,17 @@ function boardGetLists(boardId) {
             console.log(board);
             const lists = board.lists;
             function renderLists(pointerToCurrent=0) {
+                if(wipe) {
+                    wipe = false;
+                    document.querySelectorAll(".droptarget.movable-column").forEach(function(list) {
+                        list.parentElement.removeChild(list);
+                    });
+                    let array = document.querySelectorAll(".hidden-div");
+                    for(let i = 1; i < array.length; i++) {
+                        array[i].parentElement.removeChild(array[i]);
+                    }
+                    
+                }
                 const listSpace = document.getElementById("list-space");
                 if(pointerToCurrent >= lists.length) {
                     return;

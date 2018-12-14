@@ -1,5 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const passwordValidator = require('password-validator');
+
+var passwordSchema = new passwordValidator;
+
+passwordSchema
+.is().min(8)                                    // Minimum length 8
+.is().max(64)                                   // Maximum length 64
+.has().uppercase()                              // Must have uppercase letters
+.has().lowercase()                              // Must have lowercase letters
+.has().digits()                                 // Must have digits
+.has().not().spaces()                           // Should not have spaces
+.is().not().oneOf(['Password', 'Password123', 'Password1234', 'qwertzuiop']); // Blacklist these values
+
 
 const mongoose = require('mongoose');
 require('../../models');
@@ -138,6 +151,20 @@ router.get('/:userid', function(req, res) {
 //Modify the details of a specific user
 //Email, password, firstname, lastname, username, 
 router.put('/', function(req, res){
+
+    if (req.body.password){
+        if (!passwordSchema.validate(req.body.password)){
+            res.send({message:"Password between 8 and 64 characters; must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character, but cannot contain whitespace."}).end();
+            return;
+        }
+    }
+
+    if (req.body.email){
+        if (!req.body.email.includes('@')){
+            res.send({message:"This is an invalid e-mail."}).end();
+            return;
+        }
+    }
 
     req.auth.then(function(payload) {
         

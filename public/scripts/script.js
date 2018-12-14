@@ -51,6 +51,15 @@ function addListeners () {
         doJSONRequest('POST', "/login", {'Content-Type': 'application/json'},
         {username: document.getElementById("log-usr-box").value, 
         password: document.getElementById("log-psw-box").value})
+        .then((data) =>{
+            console.log(data);
+            if (data.errorMessage){
+                document.getElementById('error').innerHTML = data.errorMessage;
+            }
+            else{
+                window.location.href = "/";
+            }
+        })
     });
 
 
@@ -63,13 +72,15 @@ function addListeners () {
         username: document.getElementById("reg-usr-box").value, 
         password: document.getElementById("reg-psw-box").value})
         .then((data)=>{
+            if (data.message){
+                //create popup for mistake 
+                document.getElementById('error').innerHTML = data.message;
+            }
             document.querySelector(".pp-register").style.display = "none";
         })
         .catch((error)=>{
-            console.log(error);
+            //
         });
-        
-        
     });
 }
 
@@ -92,6 +103,11 @@ function addListeners2 () {
     let boardId = document.querySelector("main").id;
     //call function to renser user avatar on board 
     renderAvatar(boardId);
+
+    //go back to profile button 
+    document.getElementById("go-back-btn").addEventListener('click', function(){
+        userGoBack();
+    });
 
     //Search event listener
     //add event listener (on keyup) to call function --> search
@@ -160,8 +176,7 @@ function addListeners2 () {
         let hiddenDiv = document.createElement('div');
         hiddenDiv.className = "hidden-div";
         
-        parent.before(div);
-        parent.before(hiddenDiv);
+        
 
         let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},
@@ -172,6 +187,7 @@ function addListeners2 () {
             let len = data.lists.length;
             div.id = data.lists[len - 1];
             h1.innerHTML = "New List";
+            boardGetLists(boardId);
             h1.addEventListener('blur', (element) => {
                 element = element.srcElement;
                 let listName = element.innerHTML;
@@ -611,13 +627,20 @@ function addListeners3() {
         username: document.getElementById("mod-usr-box").value, 
         password: document.getElementById("new-psw-box").value})
         .then((data)=>{
+            if(data.message){
+                document.getElementById('error').innerHTML = data.message;
+            }
             document.querySelector(".pp-register").style.display = "none";
-            userUpdate()  
-
+            userUpdate();  
         })
         .catch((error)=>{
             console.log(error);
         });
+    });
+
+    // Logout 
+    document.getElementById("logout-btn").addEventListener('click', function(){
+        userLogout();
     });
 
     // Create new board when clicking on "new board button"
@@ -668,5 +691,18 @@ function leaveBoard(id){
     .catch((err) => {
         console.log(err);
     });
+}
+
+// onclick functions for board functionalities (delete-list, task?) 
+function listDelete(listid){
+    let boardid = document.querySelector("main").id;
+    doJSONRequest("DELETE", "/list/" + boardid + "/" + listid, {}, null)
+    .then((board) => {
+        // console.log(board);
+        boardGetLists(board._id, true);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 }
 
