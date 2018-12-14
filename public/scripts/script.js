@@ -104,6 +104,11 @@ function addListeners2 () {
     //call function to renser user avatar on board 
     renderAvatar(boardId);
 
+    //go back to profile button 
+    document.getElementById("go-back-btn").addEventListener('click', function(){
+        userGoBack();
+    });
+
     //Search event listener
     //add event listener (on keyup) to call function --> search
     document.getElementById('invite-box').addEventListener('keyup', ()=>{
@@ -171,8 +176,7 @@ function addListeners2 () {
         let hiddenDiv = document.createElement('div');
         hiddenDiv.className = "hidden-div";
         
-        parent.before(div);
-        parent.before(hiddenDiv);
+        
 
         let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},
@@ -183,6 +187,7 @@ function addListeners2 () {
             let len = data.lists.length;
             div.id = data.lists[len - 1];
             h1.innerHTML = "New List";
+            boardGetLists(boardId);
             h1.addEventListener('blur', (element) => {
                 element = element.srcElement;
                 let listName = element.innerHTML;
@@ -661,5 +666,18 @@ function leaveBoard(id){
     .catch((err) => {
         console.log(err);
     });
+}
+
+// onclick functions for board functionalities (delete-list, task?) 
+function listDelete(listid){
+    let boardid = document.querySelector("main").id;
+    doJSONRequest("DELETE", "/list/" + boardid + "/" + listid, {}, null)
+    .then((board) => {
+        // console.log(board);
+        boardGetLists(board._id, true);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 }
 

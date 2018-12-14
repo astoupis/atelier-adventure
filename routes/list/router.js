@@ -166,10 +166,10 @@ router.post('/', function(req, res) {
 
 //DELETE METHOD
 //Delete a specific list and all its tasks in an existing project
-router.delete('/', function(req, res) {
+router.delete('/:boardid/:listid', function(req, res) {
     
-    let boardId = req.body.boardId;
-    let listId = req.body.listId; 
+    let boardId = req.params.boardid;
+    let listId = req.params.listid; 
 
     req.auth.then(function(payload) {
     
@@ -225,6 +225,7 @@ router.delete('/', function(req, res) {
                                         });
             
                                     } else {
+                                        console.log('here1')
                                         res.status(400).end();
                                     }
                                 });
@@ -239,13 +240,17 @@ router.delete('/', function(req, res) {
 
                                     let lists = boardFound.lists;
                                     let idIndex = lists.indexOf(listId); 
-                                    lists.splice(idIndex, idIndex+1); 
+                                    lists.splice(idIndex, 1); 
 
                                     Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
-                                        res.json(data); 
+                                        Board.findById(boardId, function(err, boardFound2){
+                                            res.json(boardFound2); 
+                                        })
+                                         
                                     }); 
                                     
                                 } else {
+                                    console.log('here2')
                                     res.status(400).end();
                                 }
                             });
@@ -253,11 +258,13 @@ router.delete('/', function(req, res) {
                         });
 
                     }else{
+                        console.log('here2')
                         res.status(400).end();
                     }
                 }); 
 
             }else{
+                console.log('here4')
                 res.status(400).end();
             }
         });

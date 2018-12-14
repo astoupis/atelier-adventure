@@ -12,10 +12,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body onload="addListeners2()">
-        <!-- TODO -->
-        <!-- <div class="goback">
-            <input type="button" value="Go back to profile">
-        </div> -->
+        <div class="go-back">
+            <input type="button" class="button" id="go-back-btn" value="Go Back">
+        </div>
         <header class="brd-hdr">
             <h1 id='project-title'>
                 {name}
