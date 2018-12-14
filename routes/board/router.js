@@ -365,19 +365,29 @@ router.delete('/:boardid', function(req, res) {
                     board.remove(function (err, removed) {
                         if (!err) {
 
-            
+                            let users = removed.users; 
+                            let boardToRemove = removed._id;
 
-                            User.findById(payload._id, function(err, userFound){
+                            var promises3 = users.map(function(aUserId) {
+                                return new Promise(function(resolve, reject) {
 
-                                let boardToRemove = removed._id;
-                                let boards = userFound.boards;
-                                let idIndex = boards.indexOf(boardToRemove); 
-                                boards.splice(idIndex, 1);
+                                    User.findById(aUserId, function(err, userFound){
 
-                                User.findByIdAndUpdate(payload._id, {boards:boards}).then(data => {
-                                    res.json(removed); 
+                                        let boards = userFound.boards;
+                                        let idIndex = boards.indexOf(boardToRemove); 
+                                        boards.splice(idIndex, 1);
+
+                                        User.findByIdAndUpdate(aUserId, {boards:boards}).then(data => {
+                                            resolve();  
+                                        });
+                                     });
                                 });
                             });
+
+                            Promise.all(promises3).then(()=>{
+                                res.status(200).end();     
+                            }); 
+
 
                         } else {
                             res.status(400).end();
