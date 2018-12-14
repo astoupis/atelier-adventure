@@ -467,12 +467,38 @@ document.addEventListener("drop", function(event) {
     if ((event.target.className) && (event.target.className === "hidden-div")) {
         if (dragLock.className && dragLock.className === "droptarget movable-column"){
             let hiddenDiv = dragLock.nextElementSibling;
+            let destinationHiddenDiv = event.target;
             event.target.after(dragLock);
             dragLock.after(hiddenDiv);
+
+            let desiredPosition = (() => {
+                let array = document.querySelectorAll(".hidden-div");
+                
+                for(let i = 0; i < array.length; i++) {
+                    if(array[i] === destinationHiddenDiv && destinationHiddenDiv !== hiddenDiv) {
+                        return i;
+                    }
+                }
+                return -1;
+            })();
+            if(typeof desiredPosition === 'number' && desiredPosition >= 0) {
+                let queryObject = {
+                    listId: dragLock.id,
+                    boardId: document.querySelector("main").id,
+                    desiredPosition: desiredPosition
+                }
+    
+                doJSONRequest("PUT", "/board/list-move", {}, queryObject)
+                .catch(function(error) {
+                    boardGetLists(queryObject.boardId);
+                });
+            }
+
+            
+
             event.target.style.backgroundColor = "#1C1C1E";
             event.target.style.width = "5px";
             event.target.style.minWidth = "5px";
-            
         }
     }
 
@@ -489,7 +515,6 @@ document.addEventListener("drop", function(event) {
 
             let desiredPosition = (() => {
                 let array = document.getElementById(listId).querySelectorAll(".hidden-task");
-                console.log(array);
                 
                 for(let i = 0; i < array.length; i++) {
                     if(array[i] === destinationHiddenDiv && destinationHiddenDiv !== hiddenDiv) {
@@ -517,7 +542,6 @@ document.addEventListener("drop", function(event) {
                     taskId: taskId,
                     desiredPosition: desiredPosition
                 }
-                console.log(queryObject);
                 doJSONRequest("PUT", "/task/list", {}, queryObject)
                 // CANCELING DRAG-N-DROP, IF IT FAILS
                 .catch(function(error) {
@@ -539,7 +563,6 @@ document.addEventListener("drop", function(event) {
 function userDesc(data){
     // track the popup element
     let popup = document.getElementById(data);
-    // console.log(popup);
     // make it visible
     popup.classList.toggle("show");
 }
