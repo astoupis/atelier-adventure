@@ -217,8 +217,6 @@ router.put('/list-move', function (req,res) {
 
         });
 
-
-
     }).catch(function(error) {
         res.json(error);
     });
