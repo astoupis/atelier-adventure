@@ -51,8 +51,14 @@ function addListeners () {
         doJSONRequest('POST', "/login", {'Content-Type': 'application/json'},
         {username: document.getElementById("log-usr-box").value, 
         password: document.getElementById("log-psw-box").value})
-        .catch((error) => {
-            console.log(error);
+        .then((data) =>{
+            console.log(data);
+            if (data.errorMessage){
+                document.getElementById('error').innerHTML = data.errorMessage;
+            }
+            else{
+                window.location.href = "/";
+            }
         })
     });
 

@@ -32,7 +32,8 @@
                     <div class="form-line">
                             <label class="login">Show password</label><input id="log-psw-checkbox" type="checkbox">
                     </div>
-                    <input type="submit" class="button" id="login-btn" name="login-btn" value="Login">
+                    <input type="button" class="button" id="login-btn" value="Login">
+                    <!-- <input type="submit" class="button" id="login-btn" name="login-btn" value="Login"> -->
                 </form>
                 <!-- Open registration popup -->
                 <div class="signup">

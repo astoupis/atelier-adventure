@@ -144,6 +144,7 @@ function userUpdate(){
         })
     });
 }
+
   /***************************/
  /******* User Logout *******/
 /***************************/ 
@@ -151,7 +152,6 @@ function userLogout(){
     doJSONRequest('GET', '/logout', {}, undefined);
     window.location.href = "/logout";
 }
-
 
   /***************************/
  /****** Create new board ***/
@@ -165,6 +165,8 @@ function boardCreate(){
     });
 }
 
+/* Go back to userpage from board */
+// function goback 
 
 /*Search and render users on board to invite*/
 // used for search function -> used to render "filtered" favorites
@@ -172,7 +174,7 @@ function userSearchRender(users){
     dust.render('partials\/board_usr_search_pp', {result: users} ,function(err, dataOut) {
                    document.getElementById('found-user').innerHTML = dataOut;
     });
-  }
+}
 
 /**
  * Search user by email or username and fetches them from board users array 

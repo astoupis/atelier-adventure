@@ -28,20 +28,14 @@ router.post('/', function(req, res) {
                 token: tokenString, 
                 message: "Enjoy your token!" , 
             });
-        }
-        
-        
+        }   
     })
     .catch(function(error) {
         res.set("Set-Cookie", "token=invalid.cookie.value");
-        if(req.accepts("html")) {
-            res.redirect("/");
-        } else {
-            res.json({
-                success: false, 
-                message: error.message,
-            });
-        }
+        res.json({
+            success: false, 
+            errorMessage: "Username or Password are incorrect.",
+        });
     });
 });
 
