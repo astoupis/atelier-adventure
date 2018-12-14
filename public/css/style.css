@@ -497,9 +497,11 @@ h1.mod-usr{
 
 div.board-one{
   margin: 10px;
+  margin-top: 0;
   width: 20vw;
+  min-width: 250px;
   height: 20vh;
-  /* background-color: black; */
+  min-height: 100px;
   background-color: rgba(0,0,0,0.7);
   text-align: center;
   border: 2px solid rgba(0,0,0,0.7);
@@ -513,14 +515,42 @@ div.board-one:hover{
 p.board-one{
   padding-top:8vh;
 }
-
-.hidden-task{
-  
-  width: 1;
-  height: 10px;
-  background-color: aqua;
-  
+.board-prev-options{
+  /* background-color: rgba(0,0,0,0.7);
+  border: 2px solid rgba(0,0,0,0.7); */
+  margin-top: 10px;
+  margin-left: 10px;
+  min-width: 250px;
+  width: 20vw;
+  height: 5vh;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
+.board-prev-leav{
+  cursor: pointer;
+  padding-right: 10px;
+}
+
+.board-prev-leav img{
+  width: 2vw;
+  min-width: 20px;
+  height: auto;
+}
+
+.board-prev-del{
+  cursor: pointer;
+}
+
+.board-prev-del img{
+  width: 2vw;
+  min-width: 20px;
+  height: auto;
+}
+
+
 
   /**********************/
  /***** Board Page *****/
@@ -563,4 +593,10 @@ p.board-one{
   color: #1C1C1E;
   border: 2px solid black;
   border-radius: 100%;
+}
+
+.hidden-task{
+  width: 1;
+  height: 10px;
+  background-color: aqua;
 }

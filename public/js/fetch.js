@@ -90,18 +90,17 @@ function doJSONRequest(method, url, headers, body){
 /***************************/ 
 
 function getBoardPrev(id){
-    console.log(id);
     // take all the the board ids and render all the boards 
     doJSONRequest('GET', "/board/" + id,{}, undefined)
     .then((board)=>{
       dust.render('partials\/board_partial', board ,function(err, dataOut) {
-                    // if(err) console.log(err);
                     document.getElementById('posted-boards').innerHTML += dataOut;
         });
     });
 };
 
 // Update board preview
+// Used after leaving or deleting a board
 function boardPrevUpdate(){
     doJSONRequest("GET", "/user", {}, undefined)
     .then((user) => {
@@ -111,7 +110,6 @@ function boardPrevUpdate(){
             doJSONRequest('GET', "/board/" + boardId, {}, undefined)
             .then((board)=>{
                 dust.render('partials\/board_partial', board ,function(err, dataOut) {
-                // if(err) console.log(err);
                 document.getElementById('posted-boards').innerHTML += dataOut;
                 });
             });
@@ -215,13 +213,12 @@ function userAdd(){
         let board_id = document.getElementsByTagName('main')[0].id;
         users.forEach((user) => {
             doJSONRequest('PUT', '/board/new-user', {}, {boardId: board_id, userId: user._id})
-            .then((user)=>{
+            .then((user) => {
                 user.avatarLetters = user.firstname.charAt(0) + user.lastname.charAt(0);
-                dust.render('partials/boardUsers', data, function(err, dataOut){
-                    //find / create the space where to render them selfs
-                    //careful with the event listeners for popup -> info of users 
+                dust.render('partials/boardUsers', user, function(err, dataOut){
                     document.getElementById('user-avatars').innerHTML += dataOut; 
                 });
+                document.querySelector('.pp-register').style.display = 'none'; 
             })
             .catch((err) => {
                 console.log(err);
@@ -239,12 +236,11 @@ function userAdd(){
  * render a "image" for each user which contains its initialLetters 
  * 
  * @author 
- * @version 0 (10 Dec 2018)
+ * @version 0 (13 Dec 2018)
  * @param {string} boardId the id of the board 
  * @returns {Promise} 
  */
 function renderAvatar(boardId){
-    console.log('calleeed')
     //get the board 
     doJSONRequest(
         "GET",
@@ -256,7 +252,6 @@ function renderAvatar(boardId){
         let users = board.users;
         users.forEach((user) => {
             user.avatarLetters = user.firstname.charAt(0) + user.lastname.charAt(0);
-            console.log(user);
             //create / modify the partial to render these images
             dust.render('partials/boardUsers', user, function(err, dataOut){
                 //find / create the space where to render them selfs

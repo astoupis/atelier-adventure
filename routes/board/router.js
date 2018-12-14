@@ -347,9 +347,9 @@ router.delete('/:boardid', function(req, res) {
 });
 
 //Delete youself from a project 
-router.delete('/user', function(req, res) {
+router.delete('/user/:boardid', function(req, res) {
 
-    let boardId = req.body.boardId; 
+    let boardId = req.params.boardid; 
 
     req.auth.then(function(payload) {
     

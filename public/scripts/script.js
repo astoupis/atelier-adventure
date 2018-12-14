@@ -86,7 +86,6 @@ function newId () {
     return id++;
 }
 
-
 function addListeners2 () {
     
     //assign the id of the board to variable boardId
@@ -496,6 +495,7 @@ document.addEventListener("drop", function(event) {
     dragLock = "";
 });
 
+// onclick function in board page
 // function for showing the user description
 function userDesc(data){
     // track the popup element
@@ -570,25 +570,41 @@ function addListeners3() {
             getBoardPrev(element);
         });
 
-        document.getElementById('posted-boards').addEventListener('click', function(e) {
-            const board_id = e.target.dataset.board || e.target.parentNode.dataset.board
-            if(board_id) {
-                window.location.href = "/board/" + board_id;
-                //this need to go inside the delete button 
-
-                // doFetchRequest("DELETE", '/board/' + board_id, {}, null)
-                // .then((board)=>{
-                //     boardPrevUpdate();
-                // })
-                // .catch((err) => {
-                //     console.log(err);
-                // })
-
-            }                        
-        });
-        //create a event listener on the delete button (need to modify partial) 
+        // document.getElementById('posted-boards').addEventListener('click', function(e) {
+        //     const board_id = e.target.dataset.board || e.target.parentNode.dataset.board;
+        //     if(board_id) {
+        //         //window.location.href = "/board/" + board_id;
+        //     }                        
+        // });
     });
 
     //update the user onload();
     userUpdate();
 }
+
+// onclick functions for board preview (userpage) functionalities (redirect, delete, leave) 
+//redirect 
+function boardRedirect(id){
+    window.location.href = "/board/" + id;
+}
+//delete
+function deleteBoard(id){
+    doFetchRequest("DELETE", "/board/" + id, {}, null)
+    .then((board) => {
+        boardPrevUpdate();
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+//leave 
+function leaveBoard(id){
+    doFetchRequest("DELETE", "/board/user/" + id, {}, null)
+    .then((data) => {
+        boardPrevUpdate();
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+
