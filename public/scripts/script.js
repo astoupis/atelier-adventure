@@ -255,7 +255,7 @@ function newTaskButton (div) {
         descDiv.className = "stick-desc";
         descLabel.innerHTML = " Description: ";
         let descPara = document.createElement('p');
-        descPara.innerHTML = "New Description";
+        descPara.innerHTML = "";
 
         let dateDiv = document.createElement('div');
         let dateLabel = document.createElement('label');

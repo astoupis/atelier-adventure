@@ -445,6 +445,7 @@ function taskGet(taskId, listId, boardId) {
             undefined
         )
         .then(function(task) {
+            task.description = (task.description === "") ? undefined : task.description;
             if(task.dueDate){
                 task.dueDate = new Date(task.dueDate);
                 task.dueDate = ( 

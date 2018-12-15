@@ -5,10 +5,12 @@
     </div><h1 class='sticker'>
         {name}
     </h1>
+    {?description}
     <div class='stick-desc'>
         <label> Description: </label>
         <p>{description}</p>
     </div>
+    {/description}
     {?dueDate}
     <div class='stick-desc'>
         <label> Due date: </label>

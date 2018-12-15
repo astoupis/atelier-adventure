@@ -214,7 +214,6 @@ router.put('/list', function(req, res) {
                             });
 
                         }else{
-                            console.log('here2')
                             res.status(400).end();
                         }
                     });
@@ -310,7 +309,6 @@ router.put('/:taskid', function(req, res){
 //POST METHOD 
 //Creat a new task for an existing project
 router.post('/', function(req, res) {
-
     let boardId = req.body.boardId;
     let listId = req.body.listId;
     
