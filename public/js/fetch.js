@@ -303,7 +303,6 @@ function boardGetLists(boardId, wipe=false) {
             undefined
         )
         .then(function(board) {
-            console.log(board);
             const lists = board.lists;
             function renderLists(pointerToCurrent=0) {
                 if(wipe) {
@@ -321,8 +320,6 @@ function boardGetLists(boardId, wipe=false) {
                 if(pointerToCurrent >= lists.length) {
                     return;
                 }
-                console.log("rendering " + pointerToCurrent);
-                console.log(lists[pointerToCurrent]._id);
                 if(document.getElementById(lists[pointerToCurrent]._id) !== null) {
                     renderLists(pointerToCurrent + 1);
                     return;
@@ -351,7 +348,6 @@ function boardGetLists(boardId, wipe=false) {
                     listSpace.parentElement.insertBefore(hiddenDiv, listSpace);
                     child.firstElementChild.firstElementChild.nextSibling.addEventListener('blur', (element) => {
                         element = element.srcElement;
-                        console.log(element);
                         let listName = element.innerHTML;
                         let listId = element.parentNode.parentNode.id;
                         let boardId = document.querySelector(".droptarget-column").id;
@@ -360,7 +356,6 @@ function boardGetLists(boardId, wipe=false) {
                         listId: listId,
                         listName: listName
                         })
-                        .then(console.log)
                         .catch((error) => {
                             throw error;
                         });
