@@ -584,12 +584,12 @@ function userDesc(data){
 
 // onclick function triggered when clicking the task
 // open/show the popup page for modifications 
-function showModPP(){
-    document.querySelector('.pp-mod-task').style.display = 'flex';
+function showModPP(id){
+    document.getElementById(id).querySelector('.pp-mod-task').style.display = 'flex';
 }
 // onclick function triggered when clicking on X button of the mod-task popup
-function closeModPP(){
-    document.querySelector('.pp-mod-task').style.display = 'none';
+function closeModPP(id){
+    document.getElementById(id).querySelector('.pp-mod-task').style.display = 'none';
 }
 
 //=============================================================
@@ -748,7 +748,7 @@ function taskModify(taskid){
     // )
     .then((data) => {
         //need to re-render the list or board
-        document.querySelector(".pp-mod-task").style.display = "none";
+        closeModPP(taskid);
     })
     .catch((err) => {
         console.log(err);
@@ -759,11 +759,14 @@ function taskModify(taskid){
 function taskDelete(taskid){
     let listid = document.getElementById(taskid).parentNode.id;
     let boardid = document.querySelector("main").id;
-    doFetchRequest("DELETE", "/task/" +  boardid + "/" + listid + "/" + taskid, {}, null)
+    console.log(taskid);
+    doJSONRequest("DELETE", "/task/" +  boardid + "/" + listid + "/" + taskid, {}, null)
     .then((data) => {
+        console.log(data);
         //need to re-render the list or board
-        //need to close the popup 
-        document.querySelector(".pp-mod-task").style.display = "none";
+        //need to close the popup
+        closeModPP(taskid);
+        boardGetLists(boardid);
     })
     .catch((err) => {
         console.log(err);

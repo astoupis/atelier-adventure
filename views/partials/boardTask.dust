@@ -1,6 +1,6 @@
 <div id="{_id}">
     <div id='task-icon-div'>
-        <img src="/images/settings.png" id="task-settings" onclick="showModPP()">
+        <img src="/images/settings.png" id="task-settings" onclick="showModPP('{_id}')">
     </div>
     </div><h1 class='sticker'>
         {name}
@@ -21,7 +21,7 @@
 <!-- modify profile popup -->
 <div class="pp-mod-task">
     <div class="pp-content-mod-task">
-        <img class="pp-closing-icon" id="mod-task-close" src="/images/closeX.png" onclick="closeModPP()">
+        <img class="pp-closing-icon" id="mod-task-close" src="/images/closeX.png" onclick="closeModPP('{_id}')">
         <h2>Modify the task.</h2>
         <form class="task-form">
             <!-- change or modify -->
@@ -43,5 +43,6 @@
         <input type="submit" class="button" id="save-task-btn" value="Save changes." onclick="taskModify('{_id}')">
         </br>
         <input type="button" class="button" id="delete-task-btn" value="Delete task." onclick="taskDelete('{_id}')">
+        <p>{_id}</p>
     </div>
 </div>
