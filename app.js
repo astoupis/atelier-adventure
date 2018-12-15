@@ -12,9 +12,12 @@ const config = require('./config');
 const cookieParser = require('cookie-parser');
 const loginMiddleware = require('./util/auth').loginMiddleware;
 
+
 const fs = require('fs');
 
 
+// EVENT BUS
+const eventBus = require('./pubsub');
 
 
 //Mongoose Server
@@ -73,5 +76,51 @@ if(config.https.useHTTPS) {
 	let httpsServer = https.createServer(credentials , app);
 	httpsServer.listen(process.env.PORT || 3001);
 }
+
+
+
+
+
+// SOCKETS (TO BE MOVED TO ANOTHER MODULE)
+
+class SocketSubscriptions {
+	append(id, socket) {
+		(this[id] === undefined ? (this[id] = new Set()) : this[id]).add(socket);
+	}
+
+	remove(id, socket) {
+		if(!this[id]) return;
+		if(this[id].size === 1) delete this[id];
+		else this[id].remove();
+	}
+
+	forEach(id, consumerFunction) {
+		if(!this[id] || this[id].size === 0) return;
+		this[id].forEach(consumerFunction);
+	}
+}
+
+
+const socketSubscriptions = new SocketSubscriptions();
+const io = require('socket.io')(httpServer);
+io.on("connection", function(socket) {
+	let subscriptionIdArray;
+
+	socket.on("CONNECT", function(idArray) {
+		console.log("Client connected to the socket system");
+		subscriptionIdArray = idArray === null ? [] : idArray;
+		if(!(idArray instanceof Array)) return;
+		subscriptionIdArray.forEach(function(id) {
+			socketSubscriptions.append(id, socket);
+		});
+	});
+
+	socket.on("disconnect", function() {
+		console.log("Client disconnected from the socket system");
+		subscriptionIdArray.forEach(function(id) {
+			socketSubscriptions.remove(id, socket)
+		});
+	});
+})
 
 

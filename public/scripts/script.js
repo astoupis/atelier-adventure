@@ -87,6 +87,7 @@ function newId () {
 }
 
 function addListeners2 () {
+    activateSocket();
     
     //assign the id of the board to variable boardId
     let boardId = document.querySelector("main").id;
