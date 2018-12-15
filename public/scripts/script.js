@@ -276,15 +276,12 @@ function newTaskButton (div) {
         taskDiv.appendChild(descDiv);
         taskDiv.appendChild(dateDiv);
 
-        target.parentNode.before(taskDiv);
-
         let hiddenTaskDiv = document.createElement('div');
         hiddenTaskDiv.className = "hidden-task";
-        taskDiv.after(hiddenTaskDiv);
 
         let taskName = "New Task";
         let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
-        let listId = taskDiv.parentNode.id;
+        let listId = target.parentNode.parentNode.id;
         let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
             {boardId: boardId,
@@ -294,13 +291,15 @@ function newTaskButton (div) {
             }
         )
         .then((data) => {
-            taskDiv.id = data._id;
-            taskDiv.firstChild.innerHTML = "New Task";
-
+            //taskDiv.id = data._id;
+            //taskDiv.firstChild.innerHTML = "New Task";
+            boardGetLists(boardId);
             
         })
         .catch((error) => {
             console.log(error);
+            target.parentNode.before(taskDiv);
+            taskDiv.after(hiddenTaskDiv);
         });
     });    
 } 
