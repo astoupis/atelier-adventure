@@ -5,7 +5,6 @@
     <h1 class="state-head" contenteditable="true">
         {name}
     </h1>
-    <p>Id: {_id} </p>
 </div>
 <div class="hidden-task">
 </div>

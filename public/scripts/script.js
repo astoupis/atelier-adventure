@@ -721,42 +721,29 @@ function listDelete(listid){
 
 // Modify task
 function taskModify(taskid){
-    console.log("this is task: " + taskid)
     let listid = document.getElementById(taskid).parentNode.id;
     let boardid = document.querySelector("main").id;
-    let date = new Date(document.getElementById("task-date-box").value);
-    console.log(date);
-    return fetch("/task/" + taskid, {
-        method: "PUT", 
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            boardId: boardid,
-            listId: listid,
-            taskName: document.getElementById("task-name-box").value,
-            taskDescription: document.getElementById("task-desc-box").value,
-            taskDueDate: date
-        }), // body data type must match "Content-Type" header
-    }).then((data)=>{
-        console.log(data);
 
+    let queryObject = {
+        taskId: taskid,
+        listId: listid,
+        boardId: boardid,
+
+        taskName: document.getElementById(taskid).querySelector("#task-name-box").value,
+        taskDescription: document.getElementById(taskid).querySelector("#task-desc-box").value,
+        taskDueDate: document.getElementById(taskid).querySelector("#task-date-box").value,
+        taskColor: null
+    }
+
+    doJSONRequest("PUT", "/task/" + queryObject.taskId, {}, queryObject)
+    .then(function(task) {
+        console.log(task);
+        closeModPP(queryObject.taskId);
+        taskGet(queryObject.taskId, queryObject.listId, queryObject.boardId);
     })
-    // doFetchRequest("PUT", "/task/" +  boardid + "/" + listid + "/" + taskid, 
-    //     {'Content-Type': 'application/json'}, 
-    //     {   
-    //         taskName: document.getElementById("task-name-box").value,
-    //         taskDescription: document.getElementById("task-desc-box").value,
-    //         taskDueDate: "today"
-    //     }
-    // )
-    .then((data) => {
-        //need to re-render the list or board
-        closeModPP(taskid);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+    .catch(function(error) {
+        console.log(error);
+    });
 };
 
 // Delete task

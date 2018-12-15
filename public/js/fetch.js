@@ -282,7 +282,6 @@ function boardGetLists(boardId, wipe=false) {
             undefined
         )
         .then(function(board) {
-            console.log(board);
             const lists = board.lists;
             function renderLists(pointerToCurrent=0) {
                 if(wipe) {
@@ -300,8 +299,7 @@ function boardGetLists(boardId, wipe=false) {
                 if(pointerToCurrent >= lists.length) {
                     return;
                 }
-                console.log("rendering " + pointerToCurrent);
-                console.log(lists[pointerToCurrent]._id);
+
                 if(document.getElementById(lists[pointerToCurrent]._id) !== null) {
                     renderLists(pointerToCurrent + 1);
                     return;
@@ -447,6 +445,17 @@ function taskGet(taskId, listId, boardId) {
             undefined
         )
         .then(function(task) {
+            if(task.dueDate){
+                task.dueDate = new Date(task.dueDate);
+                task.dueDate = ( 
+                    task.dueDate.getDate() 
+                    + "."
+                    + task.dueDate.getMonth()
+                    + "."
+                    + task.dueDate.getYear()
+                );
+            }
+
             dust.render("partials/boardTask", task, function(err, dataOut) {
                 if(err) {
                     reject(err); 

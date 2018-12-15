@@ -9,14 +9,12 @@
         <label> Description: </label>
         <p>{description}</p>
     </div>
+    {?dueDate}
     <div class='stick-desc'>
         <label> Due date: </label>
         <p> {dueDate} </p>
     </div>
-    <div class='stick-desc'>
-        <label> Id: </label>
-        <p> {_id} </p>
-    </div>
+    {/dueDate}
 </div>
 <!-- modify profile popup -->
 <div class="pp-mod-task">
