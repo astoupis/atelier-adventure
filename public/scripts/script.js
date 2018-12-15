@@ -467,11 +467,12 @@ document.addEventListener("drop", function(event) {
                     taskId: taskId,
                     desiredPosition: desiredPosition
                 }
-                console.log(queryObject);
                 doJSONRequest("PUT", "/task/list", {}, queryObject)
-                .catch(function() {
-                    prevSiblOld.after(dragLock);
-                    dragLock.after(hiddenDiv);
+                .then(() => {
+                    boardGetLists(boardId);
+                })
+                .catch(function(error) {
+                    boardGetLists(boardId);
                 });
             }
             
@@ -492,7 +493,7 @@ document.addEventListener("drop", function(event) {
                 
                 for(let i = 0; i < array.length; i++) {
                     if(array[i] === destinationHiddenDiv && destinationHiddenDiv !== hiddenDiv) {
-                        return i;
+                        return i + 1;
                     }
                 }
                 return -1;
@@ -505,6 +506,9 @@ document.addEventListener("drop", function(event) {
                 }
     
                 doJSONRequest("PUT", "/board/list-move", {}, queryObject)
+                .then(() => {
+                    boardGetLists(queryObject.boardId);
+                })
                 .catch(function(error) {
                     boardGetLists(queryObject.boardId);
                 });
@@ -543,8 +547,6 @@ document.addEventListener("drop", function(event) {
 
             // DOING REQUEST
             if(typeof desiredPosition === 'number' && desiredPosition >= 0) {
-                // BACKUP, IN CASE OF FAILURE
-                let prevSiblOld = dragLock.previousSibling;
 
                 // PERFORMING VISUAL DRAG-N-DROP
                 event.target.after(dragLock);
@@ -559,10 +561,12 @@ document.addEventListener("drop", function(event) {
                     desiredPosition: desiredPosition
                 }
                 doJSONRequest("PUT", "/task/list", {}, queryObject)
+                .then((data) => {
+                    boardGetLists(boardId);
+                })
                 // CANCELING DRAG-N-DROP, IF IT FAILS
                 .catch(function(error) {
-                    prevSiblOld.after(dragLock);
-                    dragLock.after(hiddenDiv);
+                    boardGetLists(boardId);
                 });
             }
             // AFTERCLEANUP
