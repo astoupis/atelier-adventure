@@ -276,22 +276,27 @@ router.put('/:taskid', function(req, res){
                             res.status(403).end(); 
                             return; 
                         }
+                        console.log(task); 
+                        console.log(taskId);
 
                         Task.findByIdAndUpdate(taskId, task, function(err, updated){
 
-                            if (!err && listFound){
+                            if (!err && updated){
                                 res.json(updated);
                             }else{
+                               
                                 res.status(400).end(); 
                             } 
                         }); 
 
                     }else{
+                       
                         res.status(400).end();
                     }
                 }); 
 
             }else{
+                
                 res.status(400).end();
             }
         }); 

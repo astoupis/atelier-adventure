@@ -717,8 +717,12 @@ function listDelete(listid){
 
 // Modify task
 function taskModify(taskid){
+    console.log(" Gary taskid"+taskid)
     let listid = document.getElementById(taskid).parentNode.id;
+    console.log(" Gary Listid"+listid)
     let boardid = document.querySelector("main").id;
+    console.log(" Gary boardid"+boardid)
+    
     return fetch("/task/" + taskid, {
         method: "PUT", 
         headers: {
@@ -729,8 +733,11 @@ function taskModify(taskid){
             listId: listid,
             taskName: document.getElementById("task-name-box").value,
             taskDescription: document.getElementById("task-desc-box").value,
-            taskDueDate: "today"
+            taskDueDate: "October 13, 2014 11:13:00"
         }), // body data type must match "Content-Type" header
+    }).then((data)=>{
+        console.log(data);
+
     })
     // doFetchRequest("PUT", "/task/" +  boardid + "/" + listid + "/" + taskid, 
     //     {'Content-Type': 'application/json'}, 
