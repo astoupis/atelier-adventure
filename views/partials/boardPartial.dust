@@ -6,6 +6,6 @@
         {name}
     </h1>
     <p>Id: {_id} </p>
-    <div class="hidden-task">
-    </div>
+</div>
+<div class="hidden-task">
 </div>
