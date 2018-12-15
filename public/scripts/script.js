@@ -717,12 +717,11 @@ function listDelete(listid){
 
 // Modify task
 function taskModify(taskid){
-    console.log(" Gary taskid"+taskid)
+    console.log("this is task: " + taskid)
     let listid = document.getElementById(taskid).parentNode.id;
-    console.log(" Gary Listid"+listid)
     let boardid = document.querySelector("main").id;
-    console.log(" Gary boardid"+boardid)
-    
+    let date = new Date(document.getElementById("task-date-box").value);
+    console.log(date);
     return fetch("/task/" + taskid, {
         method: "PUT", 
         headers: {
@@ -733,7 +732,7 @@ function taskModify(taskid){
             listId: listid,
             taskName: document.getElementById("task-name-box").value,
             taskDescription: document.getElementById("task-desc-box").value,
-            taskDueDate: "October 13, 2014 11:13:00"
+            taskDueDate: date
         }), // body data type must match "Content-Type" header
     }).then((data)=>{
         console.log(data);
