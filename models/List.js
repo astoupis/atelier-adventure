@@ -1,5 +1,4 @@
 /** @constructor
- * // change Task
 * @augments TaskSchemaInstance
 * @param {Object} definition
 */
@@ -13,6 +12,4 @@ const ListSchema = new Schema({
     
 });
 
-// TODO
-// change Model
 mongoose.model('List', ListSchema);

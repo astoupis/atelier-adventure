@@ -5,11 +5,9 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema({
     name: {type: String, required: true},
-    description: {type: String, required: true},
+    description: {type: String, required: false, default: ""},
     dueDate: {type: Date},
-    //assignedUsers: {type: Array, default:[], required: true}    
+    color: {type: String, required: true, default: "#000000"},
 });
 
-// TODO
-// change Model
 mongoose.model('Task', TaskSchema);

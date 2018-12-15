@@ -51,6 +51,14 @@ function addListeners () {
         doJSONRequest('POST', "/login", {'Content-Type': 'application/json'},
         {username: document.getElementById("log-usr-box").value, 
         password: document.getElementById("log-psw-box").value})
+        .then((data) =>{
+            if (data.errorMessage){
+                document.getElementById('error').innerHTML = data.errorMessage;
+            }
+            else{
+                window.location.href = "/";
+            }
+        })
     });
 
 
@@ -63,13 +71,15 @@ function addListeners () {
         username: document.getElementById("reg-usr-box").value, 
         password: document.getElementById("reg-psw-box").value})
         .then((data)=>{
+            if (data.message){
+                //create popup for mistake 
+                document.getElementById('error').innerHTML = data.message;
+            }
             document.querySelector(".pp-register").style.display = "none";
         })
         .catch((error)=>{
-            console.log(error);
+            //
         });
-        
-        
     });
 }
 
@@ -93,6 +103,11 @@ function addListeners2 () {
     let boardId = document.querySelector("main").id;
     //call function to renser user avatar on board 
     renderAvatar(boardId);
+
+    //go back to profile button 
+    document.getElementById("go-back-btn").addEventListener('click', function(){
+        userGoBack();
+    });
 
     //Search event listener
     //add event listener (on keyup) to call function --> search
@@ -161,18 +176,17 @@ function addListeners2 () {
         let hiddenDiv = document.createElement('div');
         hiddenDiv.className = "hidden-div";
         
-        parent.before(div);
-        parent.before(hiddenDiv);
+        
 
         let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/list", {'Content-Type': 'application/json'},
         {boardId: boardId,
         listName: "New List"})
         .then((data) => {
-            console.log(data);
             let len = data.lists.length;
             div.id = data.lists[len - 1];
             h1.innerHTML = "New List";
+            boardGetLists(boardId);
             h1.addEventListener('blur', (element) => {
                 element = element.srcElement;
                 let listName = element.innerHTML;
@@ -242,7 +256,7 @@ function newTaskButton (div) {
         descDiv.className = "stick-desc";
         descLabel.innerHTML = " Description: ";
         let descPara = document.createElement('p');
-        descPara.innerHTML = "New Description";
+        descPara.innerHTML = "";
 
         let dateDiv = document.createElement('div');
         let dateLabel = document.createElement('label');
@@ -261,31 +275,28 @@ function newTaskButton (div) {
         taskDiv.appendChild(descDiv);
         taskDiv.appendChild(dateDiv);
 
-        target.parentNode.before(taskDiv);
-
         let hiddenTaskDiv = document.createElement('div');
         hiddenTaskDiv.className = "hidden-task";
-        taskDiv.after(hiddenTaskDiv);
 
         let taskName = "New Task";
         let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
-        let listId = taskDiv.parentNode.id;
+        let listId = target.parentNode.parentNode.id;
         let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
             {boardId: boardId,
             listId: listId,
             taskName: taskName,
-            taskDescription: taskDesc
+            taskDescription: taskDesc,
+            taskColor: taskDiv.style.backgroundColor
             }
         )
         .then((data) => {
-            taskDiv.id = data._id;
-            taskDiv.firstChild.innerHTML = "New Task";
-
-            
+            boardGetLists(boardId);
         })
         .catch((error) => {
             console.log(error);
+            target.parentNode.before(taskDiv);
+            taskDiv.after(hiddenTaskDiv);
         });
     });    
 } 
@@ -318,18 +329,18 @@ function newTask () {
 function getColor () {
     let random = Math.floor(Math.random() * 4) + 1;
     if (random === 1) {
-        return "forestgreen";
+        return "#228b22"; // "forestgreen"
     } else if (random === 2) {
-        return "coral";
+        return "#ff7f50"; // "coral"
     } else if (random === 3) {
-        return "lightseagreen";
+        return "#20b2aa"; // "lightseagreen"
     } else {
-        return "deeppink"
+        return "#ff1493"; // "deeppink"
     }
 }
 
-function setColor (id) {
-    let color = getColor();
+function setColor (id, taskColor=undefined) {
+    let color = taskColor ? taskColor : getColor();
     let element = document.getElementById(id);
     element.style.backgroundColor = color;
 }
@@ -452,11 +463,12 @@ document.addEventListener("drop", function(event) {
                     taskId: taskId,
                     desiredPosition: desiredPosition
                 }
-                console.log(queryObject);
                 doJSONRequest("PUT", "/task/list", {}, queryObject)
-                .catch(function() {
-                    prevSiblOld.after(dragLock);
-                    dragLock.after(hiddenDiv);
+                .then(() => {
+                    boardGetLists(boardId);
+                })
+                .catch(function(error) {
+                    boardGetLists(boardId);
                 });
             }
             
@@ -477,7 +489,7 @@ document.addEventListener("drop", function(event) {
                 
                 for(let i = 0; i < array.length; i++) {
                     if(array[i] === destinationHiddenDiv && destinationHiddenDiv !== hiddenDiv) {
-                        return i;
+                        return i + 1;
                     }
                 }
                 return -1;
@@ -490,6 +502,9 @@ document.addEventListener("drop", function(event) {
                 }
     
                 doJSONRequest("PUT", "/board/list-move", {}, queryObject)
+                .then(() => {
+                    boardGetLists(queryObject.boardId);
+                })
                 .catch(function(error) {
                     boardGetLists(queryObject.boardId);
                 });
@@ -528,8 +543,6 @@ document.addEventListener("drop", function(event) {
 
             // DOING REQUEST
             if(typeof desiredPosition === 'number' && desiredPosition >= 0) {
-                // BACKUP, IN CASE OF FAILURE
-                let prevSiblOld = dragLock.previousSibling;
 
                 // PERFORMING VISUAL DRAG-N-DROP
                 event.target.after(dragLock);
@@ -544,10 +557,12 @@ document.addEventListener("drop", function(event) {
                     desiredPosition: desiredPosition
                 }
                 doJSONRequest("PUT", "/task/list", {}, queryObject)
+                .then((data) => {
+                    boardGetLists(boardId);
+                })
                 // CANCELING DRAG-N-DROP, IF IT FAILS
                 .catch(function(error) {
-                    prevSiblOld.after(dragLock);
-                    dragLock.after(hiddenDiv);
+                    boardGetLists(boardId);
                 });
             }
             // AFTERCLEANUP
@@ -566,6 +581,16 @@ function userDesc(data){
     let popup = document.getElementById(data);
     // make it visible
     popup.classList.toggle("show");
+}
+
+// onclick function triggered when clicking the task
+// open/show the popup page for modifications 
+function showModPP(id){
+    document.getElementById(id).querySelector('.pp-mod-task').style.display = 'flex';
+}
+// onclick function triggered when clicking on X button of the mod-task popup
+function closeModPP(id){
+    document.getElementById(id).querySelector('.pp-mod-task').style.display = 'none';
 }
 
 //=============================================================
@@ -612,13 +637,20 @@ function addListeners3() {
         username: document.getElementById("mod-usr-box").value, 
         password: document.getElementById("new-psw-box").value})
         .then((data)=>{
+            if(data.message){
+                document.getElementById('error').innerHTML = data.message;
+            }
             document.querySelector(".pp-register").style.display = "none";
-            userUpdate()  
-
+            userUpdate();  
         })
         .catch((error)=>{
             console.log(error);
         });
+    });
+
+    // Logout 
+    document.getElementById("logout-btn").addEventListener('click', function(){
+        userLogout();
     });
 
     // Create new board when clicking on "new board button"
@@ -632,13 +664,6 @@ function addListeners3() {
         user.boards.forEach((element)=>{
             getBoardPrev(element);
         });
-
-        // document.getElementById('posted-boards').addEventListener('click', function(e) {
-        //     const board_id = e.target.dataset.board || e.target.parentNode.dataset.board;
-        //     if(board_id) {
-        //         //window.location.href = "/board/" + board_id;
-        //     }                        
-        // });
     });
 
     //update the user onload();
@@ -671,3 +696,56 @@ function leaveBoard(id){
     });
 }
 
+// onclick function for board functionalities (delete-list, delete-task) 
+// Delete list
+function listDelete(listid){
+    let boardid = document.querySelector("main").id;
+    doJSONRequest("DELETE", "/list/" + boardid + "/" + listid, {}, null)
+    .then((board) => {
+        boardGetLists(board._id, true);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
+
+// Modify task
+function taskModify(taskid){
+    let listid = document.getElementById(taskid).parentNode.id;
+    let boardid = document.querySelector("main").id;
+
+    let queryObject = {
+        taskId: taskid,
+        listId: listid,
+        boardId: boardid,
+
+        taskName: document.getElementById(taskid).querySelector("#task-name-box").value,
+        taskDescription: document.getElementById(taskid).querySelector("#task-desc-box").value,
+        taskDueDate: document.getElementById(taskid).querySelector("#task-date-box").value,
+        taskColor: document.getElementById(taskid).querySelector("#task-color-box").value
+    }
+
+    doJSONRequest("PUT", "/task/" + queryObject.taskId, {}, queryObject)
+    .then(function(task) {
+        console.log(task);
+        closeModPP(queryObject.taskId);
+        taskGet(queryObject.taskId, queryObject.listId, queryObject.boardId);
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
+};
+
+// Delete task
+function taskDelete(taskid){
+    let listid = document.getElementById(taskid).parentNode.id;
+    let boardid = document.querySelector("main").id;
+    doJSONRequest("DELETE", "/task/" +  boardid + "/" + listid + "/" + taskid, {}, null)
+    .then((data) => {
+        closeModPP(taskid);
+        boardGetLists(boardid, true);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+};

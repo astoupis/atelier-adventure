@@ -8,6 +8,4 @@ const BoardSchema = new Schema({
     lists: [{type: Schema.Types.ObjectId, ref: 'List', default:[], required: true}]
 });
 
-// TODO
-// change Model
 mongoose.model('Board', BoardSchema);
