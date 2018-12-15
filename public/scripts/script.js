@@ -583,6 +583,16 @@ function userDesc(data){
     popup.classList.toggle("show");
 }
 
+// onclick function triggered when clicking the task
+// open/show the popup page for modifications 
+function showModPP(){
+    document.querySelector('.pp-mod-task').style.display = 'flex';
+}
+// onclick function triggered when clicking on X button of the mod-task popup
+function closeModPP(){
+    document.querySelector('.pp-mod-task').style.display = 'none';
+}
+
 //=============================================================
 // USER PAGE FUNCTIONS
 //=============================================================
@@ -693,16 +703,35 @@ function leaveBoard(id){
     });
 }
 
-// onclick functions for board functionalities (delete-list, task?) 
+// onclick function for board functionalities (delete-list, delete-task) 
+// Delete list
 function listDelete(listid){
     let boardid = document.querySelector("main").id;
     doJSONRequest("DELETE", "/list/" + boardid + "/" + listid, {}, null)
     .then((board) => {
-        // console.log(board);
         boardGetLists(board._id, true);
     })
     .catch((err) => {
         console.log(err);
     })
 }
+
+// Modify task
+function taskModify(taskid){
+    //
+};
+
+// Delete task
+function taskDelete(taskid){
+    let listid = document.getElementById(taskid).parentNode.id;
+    let boardid = document.querySelector("main").id;
+    doFetchRequest("DELETE", "/task/" +  boardid + "/" + listid + "/" + taskid, {}, null)
+    .then((data) => {
+        //need to re-render the list or board
+        //need to close the popup 
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+};
 

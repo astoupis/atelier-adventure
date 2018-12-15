@@ -1,11 +1,9 @@
 <div>
         <div class='board-prev-options'>
                 <div class='board-prev-leav'>
-                        <!-- <p onclick="leaveBoard('{_id}')"> L </p> -->
                         <img src="/images/exit.png" onclick="leaveBoard('{_id}')">
                 </div>
                 <div class='board-prev-del'>
-                        <!-- <p onclick="deleteBoard('{_id}')"> D </p> -->
                         <img src="/images/garbage.png" onclick="deleteBoard('{_id}')">
                 </div>
         </div>

@@ -319,12 +319,12 @@ router.post('/', function(req, res) {
 
 //DELETE METHOD
 //Delete a specific task in an existing project
-router.delete('/', function(req, res) {
+router.delete('/:boardid/:listid/:taskid', function(req, res) {
 
 
-    let boardId = req.body.boardId;
-    let listId = req.body.listId;
-    let taskId = req.body.taskId; 
+    let boardId = req.params.boardid;
+    let listId = req.params.listid;
+    let taskId = req.params.taskid; 
 
     req.auth.then(function(payload) {
 

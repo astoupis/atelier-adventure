@@ -1,15 +1,47 @@
-<h1 class='sticker'>
-    {name}
-</h1>
-<div class='stick-desc'>
-    <label> Description: </label>
-    <p>{description}</p>
+<div id="{_id}">
+    <div id='task-icon-div'>
+        <img src="/images/settings.png" id="task-settings" onclick="showModPP()">
+    </div>
+    </div><h1 class='sticker'>
+        {name}
+    </h1>
+    <div class='stick-desc'>
+        <label> Description: </label>
+        <p>{description}</p>
+    </div>
+    <div class='stick-desc'>
+        <label> Due date: </label>
+        <p> {dueDate} </p>
+    </div>
+    <!-- <div class='stick-desc'>
+        <label> Id: </label>
+        <p> {_id} </p>
+    </div> -->
 </div>
-<div class='stick-desc'>
-    <label> Due date: </label>
-    <p> {dueDate} </p>
-</div>
-<div class='stick-desc'>
-    <label> Id: </label>
-    <p> {_id} </p>
+<!-- modify profile popup -->
+<div class="pp-mod-task">
+    <div class="pp-content-mod-task">
+        <img class="pp-closing-icon" id="mod-task-close" src="/images/closeX.png" onclick="closeModPP()">
+        <h2>Modify the task.</h2>
+        <form class="task-form">
+            <!-- change or modify -->
+            <div class="form-line">
+                <label> Name: </label>
+                <input type="text" id="task-name-box" placeholder="{name}">
+            </div>
+            <div class="form-line">
+                <label> Description: </label>
+                <textarea id="task-desc-box" placeholder="{description}"></textarea>
+                <!-- <input type="text" id="task-desc-box" placeholder="{description}"> -->
+            </div>
+            <div class="form-line">
+                <label> Due date: </label>
+                <input type="date" id="task-date-box">
+            </div>
+        </form>
+        </br>
+        <input type="submit" class="button" id="save-task-btn" value="Save changes." onclick="taskModify('{_id}')">
+        </br>
+        <input type="button" class="button" id="delete-task-btn" value="Delete task." onclick="taskDelete('{_id}')">
+    </div>
 </div>
