@@ -766,11 +766,8 @@ function taskDelete(taskid){
     console.log(taskid);
     doJSONRequest("DELETE", "/task/" +  boardid + "/" + listid + "/" + taskid, {}, null)
     .then((data) => {
-        console.log(data);
-        //need to re-render the list or board
-        //need to close the popup
         closeModPP(taskid);
-        boardGetLists(boardid);
+        boardGetLists(boardid, true);
     })
     .catch((err) => {
         console.log(err);

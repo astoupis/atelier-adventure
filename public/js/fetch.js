@@ -273,7 +273,7 @@ function renderAvatar(boardId){
  * @param {string} boardId the id of the board
  * @returns {Promise} a promise that the board will be rendered
  */
-function boardGetLists(boardId) {
+function boardGetLists(boardId, wipe=false) {
     return new Promise(function(resolve, reject) {
         doJSONRequest(
             "GET", 
@@ -282,12 +282,26 @@ function boardGetLists(boardId) {
             undefined
         )
         .then(function(board) {
+            console.log(board);
             const lists = board.lists;
             function renderLists(pointerToCurrent=0) {
+                if(wipe) {
+                    wipe = false;
+                    document.querySelectorAll(".droptarget.movable-column").forEach(function(list) {
+                        list.parentElement.removeChild(list);
+                    });
+                    let array = document.querySelectorAll(".hidden-div");
+                    for(let i = 1; i < array.length; i++) {
+                        array[i].parentElement.removeChild(array[i]);
+                    }
+                    
+                }
                 const listSpace = document.getElementById("list-space");
                 if(pointerToCurrent >= lists.length) {
                     return;
                 }
+                console.log("rendering " + pointerToCurrent);
+                console.log(lists[pointerToCurrent]._id);
                 if(document.getElementById(lists[pointerToCurrent]._id) !== null) {
                     renderLists(pointerToCurrent + 1);
                     return;
@@ -314,10 +328,10 @@ function boardGetLists(boardId) {
                     let hiddenDiv = document.createElement('div');
                     hiddenDiv.className = "hidden-div";
                     listSpace.parentElement.insertBefore(hiddenDiv, listSpace);
-                    child.firstElementChild.firstElementChild.nextSibling.addEventListener('blur', (element) => {
+                    child.firstElementChild.addEventListener('blur', (element) => {
                         element = element.srcElement;
                         let listName = element.innerHTML;
-                        let listId = element.parentNode.parentNode.id;
+                        let listId = element.parentNode.id;
                         let boardId = document.querySelector(".droptarget-column").id;
                         doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
                         {boardId: boardId,
