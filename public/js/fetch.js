@@ -349,16 +349,18 @@ function boardGetLists(boardId, wipe=false) {
                     let hiddenDiv = document.createElement('div');
                     hiddenDiv.className = "hidden-div";
                     listSpace.parentElement.insertBefore(hiddenDiv, listSpace);
-                    child.firstElementChild.addEventListener('blur', (element) => {
+                    child.firstElementChild.firstElementChild.nextSibling.addEventListener('blur', (element) => {
                         element = element.srcElement;
+                        console.log(element);
                         let listName = element.innerHTML;
-                        let listId = element.parentNode.id;
+                        let listId = element.parentNode.parentNode.id;
                         let boardId = document.querySelector(".droptarget-column").id;
                         doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
                         {boardId: boardId,
                         listId: listId,
                         listName: listName
                         })
+                        .then(console.log)
                         .catch((error) => {
                             throw error;
                         });
