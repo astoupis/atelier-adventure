@@ -7,7 +7,7 @@ const TaskSchema = new Schema({
     name: {type: String, required: true},
     description: {type: String, required: false, default: ""},
     dueDate: {type: Date},
-    color: {type: String, required: true, default: "forestgreen"},
+    color: {type: String, required: true, default: "#000000"},
 });
 
 mongoose.model('Task', TaskSchema);

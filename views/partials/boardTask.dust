@@ -40,7 +40,7 @@
             </div>
             <div class="form-line">
                     <label> Color: </label>
-                    <input type="color" id="task-color-box">
+                    <input type="color" id="task-color-box" value="{color}">
             </div>
         </form>
         </br>

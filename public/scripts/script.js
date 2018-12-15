@@ -281,7 +281,6 @@ function newTaskButton (div) {
         let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
         let listId = target.parentNode.parentNode.id;
         let boardId = document.querySelector("main").id;
-
         doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
             {boardId: boardId,
             listId: listId,
@@ -329,13 +328,13 @@ function newTask () {
 function getColor () {
     let random = Math.floor(Math.random() * 4) + 1;
     if (random === 1) {
-        return "forestgreen";
+        return "#228b22"; // "forestgreen"
     } else if (random === 2) {
-        return "coral";
+        return "#ff7f50"; // "coral"
     } else if (random === 3) {
-        return "lightseagreen";
+        return "#20b2aa"; // "lightseagreen"
     } else {
-        return "deeppink"
+        return "#ff1493"; // "deeppink"
     }
 }
 
@@ -727,6 +726,7 @@ function taskModify(taskid){
 
     doJSONRequest("PUT", "/task/" + queryObject.taskId, {}, queryObject)
     .then(function(task) {
+        console.log(task);
         closeModPP(queryObject.taskId);
         taskGet(queryObject.taskId, queryObject.listId, queryObject.boardId);
     })
@@ -748,4 +748,3 @@ function taskDelete(taskid){
         console.log(err);
     })
 };
-
