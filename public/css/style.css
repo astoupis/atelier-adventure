@@ -19,58 +19,61 @@ h1, h2{
   font-family: 'Poiret One', cursive;
 }
 
-main{
-  margin-top: 15px;
-}
-
-/* Hidden columns */
-div.hidden-div{
-  min-width: 5px;
-  width: 5px;
-}
-
-/* 
- * PROJECT PAGE HEADER 
- */
-
-header{
-  /* position: relative; */
-  color: #1C1C1E;
-  height: 10vh;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  /* overflow: auto; */
-}
-
-/* Project title */
+/* Page title */
 header>h1{
-  flex: 4;
   text-transform: uppercase;
   font-size: 2em;
   margin-left: 1vw;
   padding-top: 2.5vh;
   text-align: left;
-  color: #FFFEFF
+  color: #ff8533;
 }
 
+/* 
+ * PROJECT PAGE HEADER 
+ */
+/* Super Container */
+#pre-title{
+  height: 10vh;
+  position: relative;
+}
+/* Super Content */
+/* Go back arrow  */
+#go-back-btn{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 3vw;
+  min-width: 25px;
+  height: auto;
+  min-height: 25px;
+}
+/* Container */
+#board-users-div{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+/* Content */
 /* User icons/images */
 div.user-img-header{
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border:2px solid red;
+  /* border:2px solid red; */
+  margin-bottom: 5px;
   display: flex;
   flex-direction: row;
 }
-
 
 /* 
  * PROJECT PAGE MAIN 
  */
 
 main{
-  min-height: 85vh;
+  margin-top: 15px;
+  min-height: 75vh;
   padding-bottom: 5vh;
   display: flex; /* [1] */
   flex-wrap: nowrap; /* [1] */
@@ -153,14 +156,6 @@ footer{
   text-align: center;
 }
 
-div.footer-legenda{
-  /* TODO */
-}
-
-img.footer-legenda{
-  /* TODO */
-}
-
 /* Popup container - can be anything you want */
 .popup {
   position: relative;
@@ -229,7 +224,7 @@ header.login h1{
   margin: 0;
   width: 100%;
   text-align: center;
-  color: lightsalmon;
+  color: #ff8533;
 }
 header.login h2{
   margin: 0;
@@ -303,6 +298,57 @@ form.login label{
   /* need to change font */
 }
 
+/* Content modify task popup */
+/* Container */
+.pp-mod-task{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  position: absolute;
+  top:0;
+  left: 0;
+  display: flex;
+  /* center horizontally */
+  justify-content: center;
+  /* center vertically */
+  align-items: center;
+  /* will hide this container and all his children */
+  display: none;
+}
+/* Content */
+.pp-content-mod-task{
+  width: 600px;
+  height: 450px;
+  background-color: floralwhite;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+/* task title */
+.pp-content-mod-task h2{
+  margin-top: 15px;
+  color: black;
+}
+/* task form */
+.task-form{
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-end; */
+  align-items: flex-end;
+}
+
+.task-form input {
+  width: 15vw;
+}
+
+.task-form textarea {
+  margin-top: 5px;
+  width: 15vw;
+}
+
 /* Form */
 .register-form{
   margin-top: 5%;
@@ -314,7 +360,6 @@ form.login label{
 
 /* form title */
 .register-form h2{
-  /* need to change font */
   color: black;
 }
 
@@ -324,7 +369,7 @@ form.login label{
   margin-top: 2%;
 }
 
-/* form laberl / show psw */
+/* form label / show psw */
 .form-line label{
   color: black;
   align-self: flex-end;
@@ -339,15 +384,15 @@ div.signup{
 }
 
 div.signup #signup-btn{
-  color: lightsalmon;
+  color: #ff8533;
   margin-left: 5px;
   cursor: pointer;
 
 }
 
-
 /* form submit button */
 .button{
+  margin: 5px; 
   font-size: 0.75em;
   width: 100px;
   height: 30px;
@@ -364,7 +409,7 @@ div.signup #signup-btn{
 }
 
 .button:hover{
-  background-color: lightsalmon;
+  background-color: #ff8533;
   cursor: pointer;
 }
 
@@ -379,7 +424,7 @@ div.signup #signup-btn{
   padding-right: 30px;
 }
 #login-btn:hover{
-  background-color: lightsalmon;
+  background-color: #ff8533;
   cursor: pointer;
 }
 
@@ -398,7 +443,6 @@ div.signup #signup-btn{
 /**********************/
 
 .pp-mod-line{
-  /* background-color: #1C1C1E; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -424,8 +468,7 @@ h1.mod-usr{
 }
 
 .usr-info-line label{
-  color: lightsalmon;
-  /* font-weight: bold; */
+  color: #ff8533;
   padding: 5px;
 }
 
@@ -459,7 +502,7 @@ h1.mod-usr{
   width: 7vw;
   height: 7vh;
   margin: 5px;
-  background-color: lightsalmon;
+  background-color: #ff8533;
   display: flex;
   display: row;
   justify-content: center;
@@ -475,7 +518,7 @@ h1.mod-usr{
   width: 7vw;
   height: 7vh;
   margin: 5px;
-  background-color: lightsalmon;
+  background-color: #ff8533;
   display: flex;
   display: row;
   justify-content: center;
@@ -508,7 +551,7 @@ div.board-one{
 }
 
 div.board-one:hover{
-  border-color: lightsalmon;
+  border-color: #ff8533;
   cursor: pointer;
 }
 
@@ -566,23 +609,12 @@ p.board-one{
   padding-right: 5px;
 }
 
-.brd-hdr{
-  position: relative;
-  border: 2px solid azure;
-}
-
-.sub-hdr{
-  border: 2px solid greenyellow;
-  width: 100vw;
-  position: absolute;
-  bottom: 0;
-}
-
+/* Board user avatar */
 .usr-image-3{
   width: 40px;
   height: 40px;
   margin: 5px;
-  background-color: yellowgreen;
+  background-color: #ff8533;
   display: flex;
   display: row;
   justify-content: center;
@@ -595,8 +627,35 @@ p.board-one{
   border-radius: 100%;
 }
 
+/* Hidden columns */
+div.hidden-div{
+  min-width: 5px;
+  width: 5px;
+}
+
 .hidden-task{
   width: 1;
   height: 10px;
   background-color: aqua;
 }
+
+#task-icon-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#task-settings{
+  padding: 5px;
+  width: 2vw;
+  min-width: 20px;
+  height: auto;
+  min-height: 20px;
+}
+
+#task-settings:hover{
+  cursor: pointer;
+}
+
+

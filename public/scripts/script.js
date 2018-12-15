@@ -276,15 +276,12 @@ function newTaskButton (div) {
         taskDiv.appendChild(descDiv);
         taskDiv.appendChild(dateDiv);
 
-        target.parentNode.before(taskDiv);
-
         let hiddenTaskDiv = document.createElement('div');
         hiddenTaskDiv.className = "hidden-task";
-        taskDiv.after(hiddenTaskDiv);
 
         let taskName = "New Task";
         let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
-        let listId = taskDiv.parentNode.id;
+        let listId = target.parentNode.parentNode.id;
         let boardId = document.querySelector("main").id;
         doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
             {boardId: boardId,
@@ -294,13 +291,15 @@ function newTaskButton (div) {
             }
         )
         .then((data) => {
-            taskDiv.id = data._id;
-            taskDiv.firstChild.innerHTML = "New Task";
-
+            //taskDiv.id = data._id;
+            //taskDiv.firstChild.innerHTML = "New Task";
+            boardGetLists(boardId);
             
         })
         .catch((error) => {
             console.log(error);
+            target.parentNode.before(taskDiv);
+            taskDiv.after(hiddenTaskDiv);
         });
     });    
 } 
@@ -587,6 +586,16 @@ function userDesc(data){
     popup.classList.toggle("show");
 }
 
+// onclick function triggered when clicking the task
+// open/show the popup page for modifications 
+function showModPP(id){
+    document.getElementById(id).querySelector('.pp-mod-task').style.display = 'flex';
+}
+// onclick function triggered when clicking on X button of the mod-task popup
+function closeModPP(id){
+    document.getElementById(id).querySelector('.pp-mod-task').style.display = 'none';
+}
+
 //=============================================================
 // USER PAGE FUNCTIONS
 //=============================================================
@@ -697,16 +706,74 @@ function leaveBoard(id){
     });
 }
 
-// onclick functions for board functionalities (delete-list, task?) 
+// onclick function for board functionalities (delete-list, delete-task) 
+// Delete list
 function listDelete(listid){
     let boardid = document.querySelector("main").id;
     doJSONRequest("DELETE", "/list/" + boardid + "/" + listid, {}, null)
     .then((board) => {
-        // console.log(board);
         boardGetLists(board._id, true);
     })
     .catch((err) => {
         console.log(err);
     })
 }
+
+// Modify task
+function taskModify(taskid){
+    console.log("this is task: " + taskid)
+    let listid = document.getElementById(taskid).parentNode.id;
+    let boardid = document.querySelector("main").id;
+    let date = new Date(document.getElementById("task-date-box").value);
+    console.log(date);
+    return fetch("/task/" + taskid, {
+        method: "PUT", 
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            boardId: boardid,
+            listId: listid,
+            taskName: document.getElementById("task-name-box").value,
+            taskDescription: document.getElementById("task-desc-box").value,
+            taskDueDate: date
+        }), // body data type must match "Content-Type" header
+    }).then((data)=>{
+        console.log(data);
+
+    })
+    // doFetchRequest("PUT", "/task/" +  boardid + "/" + listid + "/" + taskid, 
+    //     {'Content-Type': 'application/json'}, 
+    //     {   
+    //         taskName: document.getElementById("task-name-box").value,
+    //         taskDescription: document.getElementById("task-desc-box").value,
+    //         taskDueDate: "today"
+    //     }
+    // )
+    .then((data) => {
+        //need to re-render the list or board
+        closeModPP(taskid);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+};
+
+// Delete task
+function taskDelete(taskid){
+    let listid = document.getElementById(taskid).parentNode.id;
+    let boardid = document.querySelector("main").id;
+    console.log(taskid);
+    doJSONRequest("DELETE", "/task/" +  boardid + "/" + listid + "/" + taskid, {}, null)
+    .then((data) => {
+        console.log(data);
+        //need to re-render the list or board
+        //need to close the popup
+        closeModPP(taskid);
+        boardGetLists(boardid);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+};
 
