@@ -238,6 +238,7 @@ router.put('/:taskid', function(req, res){
     let taskName = req.body.taskName; 
     let taskDescription = req.body.taskDescription;
     let taskDueData = req.body.taskDueDate;
+    let taskColor = req.body.taskColor;
 
     let task = {}
 
@@ -246,11 +247,12 @@ router.put('/:taskid', function(req, res){
     }
     if (taskDescription){
         task.description = taskDescription; 
-
     }
     if (taskDueData){
         task.dueDate = new Date(taskDueData); 
-
+    }
+    if (taskColor) {
+        task.color = taskColor;
     }
 
     req.auth.then(function(payload){
@@ -276,8 +278,6 @@ router.put('/:taskid', function(req, res){
                             res.status(403).end(); 
                             return; 
                         }
-                        console.log(task); 
-                        console.log(taskId);
 
                         Task.findByIdAndUpdate(taskId, task, function(err, updated){
 
@@ -316,15 +316,13 @@ router.post('/', function(req, res) {
     
     let taskName = req.body.taskName; 
     let taskDescription = req.body.taskDescription;
-    //let taskDueData = req.body.taskDueDate;
-    //let taskAssignedUsers = req.body.taskAssigndeUsers;
+    let taskColor = req.body.taskColor;
 
     const task = new Task({
         name: taskName ,
-        description: taskDescription
-        //dueDate: taskDueData,
-        //assignedUsers = taskAssignedUsers
-    })
+        description: taskDescription,
+        color: taskColor
+    });
 
     req.auth.then(function(payload){
 

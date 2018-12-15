@@ -36,6 +36,10 @@
                 <label> Due date: </label>
                 <input type="date" id="task-date-box">
             </div>
+            <div class="form-line">
+                    <label> Color: </label>
+                    <input type="color" id="task-color-box">
+            </div>
         </form>
         </br>
         <input type="submit" class="button" id="save-task-btn" value="Save changes." onclick="taskModify('{_id}')">

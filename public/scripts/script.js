@@ -52,7 +52,6 @@ function addListeners () {
         {username: document.getElementById("log-usr-box").value, 
         password: document.getElementById("log-psw-box").value})
         .then((data) =>{
-            console.log(data);
             if (data.errorMessage){
                 document.getElementById('error').innerHTML = data.errorMessage;
             }
@@ -183,7 +182,6 @@ function addListeners2 () {
         {boardId: boardId,
         listName: "New List"})
         .then((data) => {
-            console.log(data);
             let len = data.lists.length;
             div.id = data.lists[len - 1];
             h1.innerHTML = "New List";
@@ -283,18 +281,17 @@ function newTaskButton (div) {
         let taskDesc = taskDiv.firstChild.nextElementSibling.firstChild.nextElementSibling.innerHTML;
         let listId = target.parentNode.parentNode.id;
         let boardId = document.querySelector("main").id;
+
         doJSONRequest('POST', "/task", {'Content-Type': 'application/json'}, 
             {boardId: boardId,
             listId: listId,
             taskName: taskName,
-            taskDescription: taskDesc
+            taskDescription: taskDesc,
+            taskColor: taskDiv.style.backgroundColor
             }
         )
         .then((data) => {
-            //taskDiv.id = data._id;
-            //taskDiv.firstChild.innerHTML = "New Task";
             boardGetLists(boardId);
-            
         })
         .catch((error) => {
             console.log(error);
@@ -342,8 +339,8 @@ function getColor () {
     }
 }
 
-function setColor (id) {
-    let color = getColor();
+function setColor (id, taskColor=undefined) {
+    let color = taskColor ? taskColor : getColor();
     let element = document.getElementById(id);
     element.style.backgroundColor = color;
 }
@@ -667,13 +664,6 @@ function addListeners3() {
         user.boards.forEach((element)=>{
             getBoardPrev(element);
         });
-
-        // document.getElementById('posted-boards').addEventListener('click', function(e) {
-        //     const board_id = e.target.dataset.board || e.target.parentNode.dataset.board;
-        //     if(board_id) {
-        //         //window.location.href = "/board/" + board_id;
-        //     }                        
-        // });
     });
 
     //update the user onload();
@@ -732,12 +722,11 @@ function taskModify(taskid){
         taskName: document.getElementById(taskid).querySelector("#task-name-box").value,
         taskDescription: document.getElementById(taskid).querySelector("#task-desc-box").value,
         taskDueDate: document.getElementById(taskid).querySelector("#task-date-box").value,
-        taskColor: null
+        taskColor: document.getElementById(taskid).querySelector("#task-color-box").value
     }
 
     doJSONRequest("PUT", "/task/" + queryObject.taskId, {}, queryObject)
     .then(function(task) {
-        console.log(task);
         closeModPP(queryObject.taskId);
         taskGet(queryObject.taskId, queryObject.listId, queryObject.boardId);
     })
@@ -750,7 +739,6 @@ function taskModify(taskid){
 function taskDelete(taskid){
     let listid = document.getElementById(taskid).parentNode.id;
     let boardid = document.querySelector("main").id;
-    console.log(taskid);
     doJSONRequest("DELETE", "/task/" +  boardid + "/" + listid + "/" + taskid, {}, null)
     .then((data) => {
         closeModPP(taskid);

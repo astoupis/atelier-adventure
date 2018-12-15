@@ -1,5 +1,4 @@
 /** @constructor
- * // change Task
 * @augments TaskSchemaInstance
 * @param {Object} definition
 */
@@ -19,11 +18,9 @@ const UserSchema = new Schema({
     dateCreated : {type: Date, default: Date.now, required:true},
     avatar : {type: String},
     boards : [{type: Schema.Types.ObjectId, ref: 'Board', default:[], required:true}],
-    //assignedTasks : {type: Array, default:[], required:true}
 });
 
 UserSchema.plugin(uniqueValidator);
 
-// TODO
-// change Model
+
 mongoose.model('User', UserSchema);

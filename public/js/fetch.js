@@ -478,8 +478,8 @@ function taskGet(taskId, listId, boardId) {
                         hiddenTask, 
                         document.getElementById(listId).lastChild
                     );
-                    setColor(taskId);
                 }
+                setColor(taskId, task.color);
                 taskDiv.innerHTML = dataOut;
 
                 resolve(task);
