@@ -230,9 +230,9 @@ router.put('/list', function(req, res) {
 });
 
 //Modify the name and the description of a specific task
-router.put('/:boardid/:listid/:taskid', function(req, res){
-    let boardId = req.params.boardid;
-    let listId = req.params.listid;
+router.put('/:taskid', function(req, res){
+    let boardId = req.body.boardId;
+    let listId = req.body.listId;
     let taskId = req.params.taskid
     
     let taskName = req.body.taskName; 

@@ -719,13 +719,27 @@ function listDelete(listid){
 function taskModify(taskid){
     let listid = document.getElementById(taskid).parentNode.id;
     let boardid = document.querySelector("main").id;
-    doFetchRequest("PUT", "/task/" +  boardid + "/" + listid + "/" + taskid, {'Content-Type': 'application/json'}, 
-        {   
+    return fetch("/task/" + taskid, {
+        method: "PUT", 
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            boardId: boardid,
+            listId: listid,
             taskName: document.getElementById("task-name-box").value,
             taskDescription: document.getElementById("task-desc-box").value,
             taskDueDate: "today"
-        }
-    )
+        }), // body data type must match "Content-Type" header
+    })
+    // doFetchRequest("PUT", "/task/" +  boardid + "/" + listid + "/" + taskid, 
+    //     {'Content-Type': 'application/json'}, 
+    //     {   
+    //         taskName: document.getElementById("task-name-box").value,
+    //         taskDescription: document.getElementById("task-desc-box").value,
+    //         taskDueDate: "today"
+    //     }
+    // )
     .then((data) => {
         //need to re-render the list or board
         document.querySelector(".pp-mod-task").style.display = "none";
