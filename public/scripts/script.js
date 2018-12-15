@@ -717,7 +717,22 @@ function listDelete(listid){
 
 // Modify task
 function taskModify(taskid){
-    //
+    let listid = document.getElementById(taskid).parentNode.id;
+    let boardid = document.querySelector("main").id;
+    doFetchRequest("PUT", "/task/" +  boardid + "/" + listid + "/" + taskid, {'Content-Type': 'application/json'}, 
+        {   
+            taskName: document.getElementById("task-name-box").value,
+            taskDescription: document.getElementById("task-desc-box").value,
+            taskDueDate: "today"
+        }
+    )
+    .then((data) => {
+        //need to re-render the list or board
+        document.querySelector(".pp-mod-task").style.display = "none";
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 };
 
 // Delete task
@@ -728,6 +743,7 @@ function taskDelete(taskid){
     .then((data) => {
         //need to re-render the list or board
         //need to close the popup 
+        document.querySelector(".pp-mod-task").style.display = "none";
     })
     .catch((err) => {
         console.log(err);

@@ -230,8 +230,76 @@ router.put('/list', function(req, res) {
 });
 
 //Modify the name and the description of a specific task
-router.put('/:taskid', function(req, res){
-    return; 
+router.put('/:boardid/:listid/:taskid', function(req, res){
+    let boardId = req.params.boardid;
+    let listId = req.params.listid;
+    let taskId = req.params.taskid
+    
+    let taskName = req.body.taskName; 
+    let taskDescription = req.body.taskDescription;
+    let taskDueData = req.body.taskDueDate;
+
+    let task = {}
+
+    if (taskName){
+        task.name = taskName; 
+    }
+    if (taskDescription){
+        task.description = taskDescription; 
+
+    }
+    if (taskDueData){
+        task.dueDate = new Date(taskDueData); 
+
+    }
+
+    req.auth.then(function(payload){
+    
+        Board.findById(boardId, function(err, boardFound){
+
+            if (!err && boardFound){
+
+                if(checkup(boardFound.users, payload._id)) {
+                    res.status(403).end(); 
+                    return; 
+                }
+
+                if(checkup(boardFound.lists, listId)) {
+                    res.status(403).end(); 
+                    return; 
+                }
+                
+                List.findById(listId, function(err, listFound){
+                    if (!err && listFound){
+
+                        if(checkup(listFound.tasks, taskId)) {
+                            res.status(403).end(); 
+                            return; 
+                        }
+
+                        Task.findByIdAndUpdate(taskId, task, function(err, updated){
+
+                            if (!err && listFound){
+                                res.json(updated);
+                            }else{
+                                res.status(400).end(); 
+                            } 
+                        }); 
+
+                    }else{
+                        res.status(400).end();
+                    }
+                }); 
+
+            }else{
+                res.status(400).end();
+            }
+        }); 
+
+    }).catch(function(error) {
+        res.json(error);
+    }); 
+
 });
 
 //POST METHOD 
