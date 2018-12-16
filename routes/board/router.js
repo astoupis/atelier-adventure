@@ -125,6 +125,10 @@ router.put('/name', function(req, res){
                         boardId: boardId,
                         wipe: false
                     });
+                    eventBus.emit("BOT.BOARD.UPDATE", {
+                        id: boardId,
+                        boardId: boardId,
+                    });
                 }); 
 
             }else{
@@ -289,6 +293,10 @@ router.post('/', function(req, res) {
                             
                             User.findByIdAndUpdate(payload._id, {boards:userBoards}).then(function(){
                                 res.json(savedBoard); 
+                                eventBus.emit("BOT.BOARD.CREATE", {
+                                    id: savedBoard._id,
+                                    boardId: savedBoard._id,
+                                });
                             });
                         }
                         else{
@@ -395,7 +403,11 @@ router.delete('/:boardid', function(req, res) {
                             });
 
                             Promise.all(promises3).then(()=>{
-                                res.status(200).end();     
+                                res.status(200).end();
+                                eventBus.emit("BOT.BOARD.DELETE", {
+                                    id: boardId,
+                                    boardId: boardId,
+                                });
                             }); 
 
 

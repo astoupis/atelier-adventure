@@ -76,39 +76,39 @@ if(config.https.useHTTPS) {
 const bot = require('./bot/bot');
 
 eventBus.on("BOT.TASK.CREATE", function(queryObject) {
-	bot("TASK.CREATE");
+	bot("EVERYBODY RUN, THERE IS A NEW TASK IN TOWN. Buckle up! It's gun is loaded with " + queryObject.taskId + " bullets");
 });
 
 eventBus.on("BOT.TASK.UPDATE", function(queryObject) {
-	bot("TASK.UPDATE");
+	bot("We updated the task with id " + queryObject + " .");
 });
 
 eventBus.on("BOT.TASK.DELETE", function(queryObject) {
-	bot("TASK.DELETE");
+	bot(":wave: " + "Task with id " + queryObject.taskId + " has been deleted. Ciao!");
 });
 
 eventBus.on("BOT.LIST.CREATE", function(queryObject) {
-	bot("LIST.CREATE");
+	bot("Would you look at that!!! A new list has been created. It's id is " + queryObject.listId);
 });
 
 eventBus.on("BOT.LIST.UPDATE", function(queryObject) {
-	bot("LIST.UPDATE");
+	bot("The list with id " + queryObject.listId + " has been updated. TIGHT");
 });
 
 eventBus.on("BOT.LIST.DELETE", function(queryObject) {
-	bot("LIST.DELETE");
+	bot(":wave: " + "List with id " + queryObject.listId + " has been deleted. Adios!");
 });
 
 eventBus.on("BOT.BOARD.CREATE", function(queryObject) {
-	bot("BOARD.CREATE");
+	bot("A new board has been created with id " + queryObject.boardId);
 });
 
 eventBus.on("BOT.BOARD.UPDATE", function(queryObject) {
-	bot("BOARD.UPDATE");
+	bot("The board with id " + queryObject.boardId + " has been updated ... . Don't forget to take a look.");
 });
 
 eventBus.on("BOT.BOARD.DELETE", function(queryObject) {
-	bot("BOARD.DELETE");
+	bot(":wave: " + "List with id " + queryObject.listId + " has walked the plank! :skull_crossbones: ");
 });
 
 
