@@ -596,7 +596,13 @@ function userDesc(data){
 // onclick function triggered when clicking the task
 // open/show the popup page for modifications 
 function showModPP(id){
-    document.getElementById(id).querySelector('.pp-mod-task').style.display = 'flex';
+    let evTar = document.getElementById(id).querySelector('.pp-mod-task')
+    evTar.style.display = 'flex';
+    window.onclick = function(event) {
+        if(event.target === evTar){
+            evTar.style.display = "none";
+        }
+    }
 }
 // onclick function triggered when clicking on X button of the mod-task popup
 function closeModPP(id){
