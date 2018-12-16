@@ -41,7 +41,7 @@ app.use(loginMiddleware);
 app.use(bodyParser.json({type: 'application/json', limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({type: 'application/x-www-form-urlencoded', limit: '50mb', extended: true}));
 
-//Method override//dbfdiufhdaudfghfufdvbcu<bdffiusdbvdiuvb
+//Method override
 app.use(methodOverride('method'));
 
 const routers = require('./routes/routers');
@@ -59,6 +59,7 @@ app.use('/logout', routers.logout);
 
 let httpServer = http.createServer(app);
 httpServer.listen(process.env.PORT || 3000);
+makeIO(httpServer);
 
 
 if(config.https.useHTTPS) {
@@ -69,6 +70,7 @@ if(config.https.useHTTPS) {
 
 	let httpsServer = https.createServer(credentials , app);
 	httpsServer.listen(process.env.PORT || 3001);
+	makeIO(httpsServer);
 }
 
 
@@ -157,30 +159,33 @@ class SocketSubscriptions {
 
 
 const socketSubscriptions = new SocketSubscriptions();
-const io = require('socket.io')(httpServer);
-io.on("connection", function(socket) {
-	let subscriptionIdArray;
+function makeIO(server) {
+	const io = require('socket.io')(server);
+	io.on("connection", function(socket) {
+		let subscriptionIdArray;
 
-	socket.on("CONNECT", function(idArray) {
-		console.log("Client connected to the socket system");
-		subscriptionIdArray = idArray;
+		socket.on("CONNECT", function(idArray) {
+			console.log("Client connected to the socket system");
+			subscriptionIdArray = idArray;
 
 
-		if(!(subscriptionIdArray instanceof Array)) return;
-		subscriptionIdArray.forEach(function(id) {
-			socketSubscriptions.subscribe(id, socket);
+			if(!(subscriptionIdArray instanceof Array)) return;
+			subscriptionIdArray.forEach(function(id) {
+				socketSubscriptions.subscribe(id, socket);
+			});
 		});
-	});
 
-	socket.on("disconnect", function() {
-		console.log("Client disconnected from the socket system");
+		socket.on("disconnect", function() {
+			console.log("Client disconnected from the socket system");
 
-		if(!(subscriptionIdArray instanceof Array)) return;
-		subscriptionIdArray.forEach(function(id) {
-			socketSubscriptions.unsubscribe(id, socket);
+			if(!(subscriptionIdArray instanceof Array)) return;
+			subscriptionIdArray.forEach(function(id) {
+				socketSubscriptions.unsubscribe(id, socket);
+			});
 		});
-	});
-})
+	})
+}
+
 
 eventBus.on("TASK.UPDATE", function(queryObject) {
 	socketSubscriptions.forEach(queryObject.id, function(socket) {
