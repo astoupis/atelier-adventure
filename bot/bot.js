@@ -163,3 +163,7 @@ client.on('message', async (message) => {
 
 
 client.login(token);
+
+module.exports = function(message) {
+    client.channels.get(config.channelId).send(message);
+};

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const mongoose = require('mongoose');
-require('../../models');
+const eventBus = require('../../eventBus');
 
 const Task = mongoose.model('Task');
 const List = mongoose.model('List');
@@ -96,7 +96,19 @@ router.put('/', function(req, res){
                 let modifiedList = {name:newName}
 
                 List.findByIdAndUpdate(listId, modifiedList).then(data => {
-                    res.json(data); 
+                    res.json(data);
+                    eventBus.emit("LIST.UPDATE", {
+                        id: boardId,
+                        boardId: boardId,
+                        listId: listId,
+                        wipe: false
+                    });
+                    eventBus.emit("BOT.LIST.UPDATE", {
+                        id: boardId,
+                        boardId: boardId,
+                        listId: listId,
+                        wipe: false,
+                    });
                 }); 
                         
             } else {
@@ -111,7 +123,7 @@ router.put('/', function(req, res){
 });
 
 //POST METHOD 
-//Creat a new list for an existing project
+//Create a new list for an existing project
 router.post('/', function(req, res) {
     
 
@@ -146,9 +158,20 @@ router.post('/', function(req, res) {
                         lists.push(saved._id);
                         
                         Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
-                            res.json(data); 
+                            res.json(data);
                         }); 
-                        
+                        eventBus.emit("BOARD.UPDATE", {
+                            id: boardId,
+                            boardId: boardId,
+                            listId: saved._id,
+                            wipe: false
+                        });
+                        eventBus.emit("BOT.LIST.CREATE", {
+                            id: boardId,
+                            boardId: boardId,
+                            listId: saved._id,
+                            wipe: false,
+                        });
                     } else {
                         res.status(400).end();
                     }
@@ -225,7 +248,6 @@ router.delete('/:boardid/:listid', function(req, res) {
                                         });
             
                                     } else {
-                                        console.log('here1')
                                         res.status(400).end();
                                     }
                                 });
@@ -244,9 +266,20 @@ router.delete('/:boardid/:listid', function(req, res) {
 
                                     Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
                                         Board.findById(boardId, function(err, boardFound2){
-                                            res.json(boardFound2); 
+                                            res.json(boardFound2);
+                                            eventBus.emit("BOARD.UPDATE", {
+                                                id: boardId,
+                                                boardId: boardId,
+                                                listId: listId,
+                                                wipe: true
+                                            });
+                                            eventBus.emit("BOT.LIST.DELETE", {
+                                                id: boardId,
+                                                boardId: boardId,
+                                                listId: listId,
+                                                wipe: false,
+                                            });
                                         })
-                                         
                                     }); 
                                     
                                 } else {
