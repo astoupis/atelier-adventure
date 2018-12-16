@@ -96,11 +96,13 @@ function newId () {
     return id++;
 }
 
-function addListeners2 () {
-    activateSocket();
-    
+function addListeners2 () {    
     //assign the id of the board to variable boardId
     let boardId = document.querySelector("main").id;
+    
+    //call function to start the socket connection and set up socket handlers
+    activateSocket([boardId]);
+    
     //call function to renser user avatar on board 
     renderAvatar(boardId);
 

@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 const https = require('https');
 
-
 const bodyParser = require('body-parser');
 const dust = require('klei-dust');
 const methodOverride = require('method-override');
@@ -17,7 +16,7 @@ const fs = require('fs');
 
 
 // EVENT BUS
-const eventBus = require('./pubsub');
+const eventBus = require('./eventBus');
 
 
 //Mongoose Server
@@ -84,16 +83,37 @@ if(config.https.useHTTPS) {
 // SOCKETS (TO BE MOVED TO ANOTHER MODULE)
 
 class SocketSubscriptions {
-	append(id, socket) {
+	/**
+	 * Subscribes the given socket to the given id
+	 * @param {string} id the id to which the socket will be appended
+	 * @param {SocketIO.Socket} socket the socket, which should be subscribed to id
+	 */
+	subscribe(id, socket) {
 		(this[id] === undefined ? (this[id] = new Set()) : this[id]).add(socket);
 	}
 
-	remove(id, socket) {
+	/**
+	 * Unsibscribes the given socket from the given id
+	 * @param {string} id the id to which the socket will be removed
+	 * @param {SocketIO.Socket} socket the socket, which should be unsubscribed from id
+	 */
+	unsubscribe(id, socket) {
 		if(!this[id]) return;
 		if(this[id].size === 1) delete this[id];
-		else this[id].remove();
+		else this[id].delete(socket);
 	}
 
+	/**
+	 * This callback is used to perform some action on the socket-subscribers of this id
+	 * @callback consumerFunction
+	 * @param {SocketIO.Socket} socket the socket, which is subscribed to the given id
+	 */
+
+	/**
+	 * Given the id and a consumer function, iterates through the subscribers of the id
+	 * @param {string} id the id, through whose subscribers should iterate the consumer
+	 * @param {consumerFunction} consumerFunction 
+	 */
 	forEach(id, consumerFunction) {
 		if(!this[id] || this[id].size === 0) return;
 		this[id].forEach(consumerFunction);
@@ -108,19 +128,40 @@ io.on("connection", function(socket) {
 
 	socket.on("CONNECT", function(idArray) {
 		console.log("Client connected to the socket system");
-		subscriptionIdArray = idArray === null ? [] : idArray;
-		if(!(idArray instanceof Array)) return;
+		subscriptionIdArray = idArray;
+
+
+		if(!(subscriptionIdArray instanceof Array)) return;
 		subscriptionIdArray.forEach(function(id) {
-			socketSubscriptions.append(id, socket);
+			socketSubscriptions.subscribe(id, socket);
 		});
 	});
 
 	socket.on("disconnect", function() {
 		console.log("Client disconnected from the socket system");
+
+		if(!(subscriptionIdArray instanceof Array)) return;
 		subscriptionIdArray.forEach(function(id) {
-			socketSubscriptions.remove(id, socket)
+			socketSubscriptions.unsubscribe(id, socket);
 		});
 	});
 })
 
+eventBus.on("TASK.UPDATE", function(queryObject) {
+	socketSubscriptions.forEach(queryObject.id, function(socket) {
+		socket.emit("TASK.UPDATE", queryObject);
+	});
+});
+
+eventBus.on("LIST.UPDATE", function(queryObject) {	
+	socketSubscriptions.forEach(queryObject.id, function(socket) {
+		socket.emit("LIST.UPDATE", queryObject);
+	});
+});
+
+eventBus.on("BOARD.UPDATE", function(queryObject) {
+	socketSubscriptions.forEach(queryObject.id, function(socket) {
+		socket.emit("BOARD.UPDATE", queryObject);
+	});
+});
 

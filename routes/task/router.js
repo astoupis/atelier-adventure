@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const mongoose = require('mongoose');
-require('../../models');
 
 const Task = mongoose.model('Task');
 const List = mongoose.model('List');
 const Board = mongoose.model('Board');
+
+const eventBus = require('../../eventBus');
+
 
 function checkup(checkedValue, value){
 
@@ -100,6 +102,25 @@ router.put('/list', function(req, res) {
     let taskId = req.body.taskId;
     let desiredPosition = req.body.desiredPosition;
 
+    const onSuccess = function() {
+        eventBus.emit("LIST.UPDATE", {
+            id: boardId,
+            boardId: boardId,
+            listId: fromListId,
+            taskId: taskId,
+            wipe: true
+        });
+        if(fromListId !== toListId) {
+            eventBus.emit("LIST.UPDATE", {
+                id: boardId,
+                boardId: boardId,
+                listId: toListId,
+                taskId: taskId,
+                wipe: true
+            });
+        }
+    }
+
     req.auth.then(function(payload){
     
         Board.findById(boardId, function(err, boardFound){
@@ -145,7 +166,7 @@ router.put('/list', function(req, res) {
                             List.findByIdAndUpdate(fromListId, {tasks:listTasks}, function(err, updated1){
                                 if (!err && updated1) {
                                     res.json(updated1).end();
-
+                                    onSuccess();
                                 }else{
                                     res.status(500).end();
                                 }
@@ -193,6 +214,7 @@ router.put('/list', function(req, res) {
                                                         
                                                         if (!err && updated2){
                                                             res.json(updated2); 
+                                                            onSuccess();
                                                         }else{
                                                             res.status(500).end();
                                                         }
@@ -282,6 +304,13 @@ router.put('/:taskid', function(req, res){
 
                             if (!err && updated){
                                 res.json(updated);
+                                eventBus.emit("TASK.UPDATE", {
+                                    id: boardId,
+                                    taskId: taskId,
+                                    listId: listId,
+                                    boardId: boardId,
+                                    wipe: false,
+                                });
                             }else{
                                
                                 res.status(400).end(); 
@@ -365,6 +394,13 @@ router.post('/', function(req, res) {
                                 
                                 List.findByIdAndUpdate(listId, {tasks:tasks}).then(data => {
                                     res.json(saved); 
+                                    eventBus.emit("LIST.UPDATE", {
+                                        id: boardId,
+                                        boardId: boardId,
+                                        listId: listId,
+                                        taskId: saved._id,
+                                        wipe: false,
+                                    })
                                 }); 
                                 
                             } else {
@@ -454,7 +490,14 @@ router.delete('/:boardid/:listid/:taskid', function(req, res) {
 
                                     taskFounded.remove(function (err, removed) {
                                         if (!err) {
-                                        res.json(removed);  
+                                            res.json(removed);
+                                            eventBus.emit("LIST.UPDATE", {
+                                                id: boardId,
+                                                taskId: taskId,
+                                                listId: listId,
+                                                boardId: boardId,
+                                                wipe: true,
+                                            });
                                         } else {
                                             res.status(400).end();
                                         }

@@ -395,8 +395,13 @@ function listGetTasks(listId, boardId, wipe=false) {
         )
         .then(function(list) {
             if(wipe) {
-                document.getElementById(listId).innerHTML = "";
-                // TODO: ADD BUTTON AND TITLE OF LIST
+                document.getElementById(listId).querySelectorAll(".sticker.movable-task").forEach(function(list) {
+                    list.parentNode.removeChild(list);
+                });
+                let array = document.getElementById(listId).querySelectorAll(".hidden-task");
+                for(let i = 1; i < array.length; i++) {
+                    array[i].parentElement.removeChild(array[i]);
+                }
             }
             if(list.tasks.length == 0) {
                 resolve();
