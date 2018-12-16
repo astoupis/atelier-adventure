@@ -153,6 +153,9 @@ function addListeners2 () {
         {boardName: actualTitle,
         boardId: boardId
         })
+        .catch(function(error) {
+            console.log(error);
+        })
     });
 
     // adds functionality to the add list button

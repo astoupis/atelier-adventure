@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
-//const auth = require("../../util/auth");
-
+const eventBus = require('../../eventBus');
 
 const mongoose = require('mongoose');
 require('../../models');
@@ -121,6 +120,11 @@ router.put('/name', function(req, res){
         
                 Board.findByIdAndUpdate(boardId, board).then(data => {
                     res.json(data); 
+                    eventBus.emit("BOARD.UPDATE", {
+                        id: boardId,
+                        boardId: boardId,
+                        wipe: false
+                    });
                 }); 
 
             }else{
@@ -207,7 +211,12 @@ router.put('/list-move', function (req,res) {
                 lists.splice(desiredPosition, 0, listId);
 
                 Board.findByIdAndUpdate(boardId, {lists:lists}).then(data => {
-                    res.json(data); 
+                    res.json(data);
+                    eventBus.emit("BOARD.UPDATE", {
+                        id: boardId,
+                        boardId: boardId,
+                        wipe: true
+                    });
                 });
                 
 

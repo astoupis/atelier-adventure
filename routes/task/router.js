@@ -311,6 +311,13 @@ router.put('/:taskid', function(req, res){
                                     boardId: boardId,
                                     wipe: false,
                                 });
+                                eventBus.emit("BOT.TASK.UPDATE", {
+                                    id: boardId,
+                                    boardId: boardId,
+                                    listId: listId,
+                                    taskId: taskId,
+                                    wipe: false,
+                                });
                             }else{
                                
                                 res.status(400).end(); 
@@ -400,7 +407,14 @@ router.post('/', function(req, res) {
                                         listId: listId,
                                         taskId: saved._id,
                                         wipe: false,
-                                    })
+                                    });
+                                    eventBus.emit("BOT.TASK.CREATE", {
+                                        id: boardId,
+                                        boardId: boardId,
+                                        listId: listId,
+                                        taskId: saved._id,
+                                        wipe: false,
+                                    });
                                 }); 
                                 
                             } else {
@@ -497,6 +511,13 @@ router.delete('/:boardid/:listid/:taskid', function(req, res) {
                                                 listId: listId,
                                                 boardId: boardId,
                                                 wipe: true,
+                                            });
+                                            eventBus.emit("BOT.TASK.DELETE", {
+                                                id: boardId,
+                                                boardId: boardId,
+                                                listId: listId,
+                                                taskId: taskId,
+                                                wipe: false,
                                             });
                                         } else {
                                             res.status(400).end();

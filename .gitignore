@@ -62,7 +62,7 @@ typings/
 
 # next.js build output
 .next
-bot/config.json
+#bot/config.json
 bot/yarn.lock
 yarn.lock
 

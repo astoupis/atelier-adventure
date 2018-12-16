@@ -275,6 +275,7 @@ function renderAvatar(boardId){
  */
 function boardGetLists(boardId, wipe=false) {
     return new Promise(function(resolve, reject) {
+
         doJSONRequest(
             "GET", 
             "/board/" + boardId,
@@ -282,6 +283,7 @@ function boardGetLists(boardId, wipe=false) {
             undefined
         )
         .then(function(board) {
+            document.getElementById("project-title").innerText = board.name;
             const lists = board.lists;
             function renderLists(pointerToCurrent=0) {
                 if(wipe) {
@@ -350,6 +352,7 @@ function boardGetLists(boardId, wipe=false) {
         .then(function(board) {
             if(board.lists.length == 0) {
                 resolve();
+                return;
             }
             const promise = listGetTasks(
                 board.lists[0]._id,
@@ -394,6 +397,8 @@ function listGetTasks(listId, boardId, wipe=false) {
             undefined
         )
         .then(function(list) {
+            document.getElementById(listId).querySelector(".state-head").innerText = list.name;
+
             if(wipe) {
                 document.getElementById(listId).querySelectorAll(".sticker.movable-task").forEach(function(list) {
                     list.parentNode.removeChild(list);

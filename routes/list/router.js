@@ -97,6 +97,18 @@ router.put('/', function(req, res){
 
                 List.findByIdAndUpdate(listId, modifiedList).then(data => {
                     res.json(data);
+                    eventBus.emit("LIST.UPDATE", {
+                        id: boardId,
+                        boardId: boardId,
+                        listId: listId,
+                        wipe: false
+                    });
+                    eventBus.emit("BOT.LIST.UPDATE", {
+                        id: boardId,
+                        boardId: boardId,
+                        listId: listId,
+                        wipe: false,
+                    });
                 }); 
                         
             } else {
@@ -111,7 +123,7 @@ router.put('/', function(req, res){
 });
 
 //POST METHOD 
-//Creat a new list for an existing project
+//Create a new list for an existing project
 router.post('/', function(req, res) {
     
 
@@ -153,6 +165,12 @@ router.post('/', function(req, res) {
                             boardId: boardId,
                             listId: saved._id,
                             wipe: false
+                        });
+                        eventBus.emit("BOT.LIST.CREATE", {
+                            id: boardId,
+                            boardId: boardId,
+                            listId: saved._id,
+                            wipe: false,
                         });
                     } else {
                         res.status(400).end();
@@ -254,6 +272,12 @@ router.delete('/:boardid/:listid', function(req, res) {
                                                 boardId: boardId,
                                                 listId: listId,
                                                 wipe: true
+                                            });
+                                            eventBus.emit("BOT.LIST.DELETE", {
+                                                id: boardId,
+                                                boardId: boardId,
+                                                listId: listId,
+                                                wipe: false,
                                             });
                                         })
                                     }); 

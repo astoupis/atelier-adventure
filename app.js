@@ -54,11 +54,6 @@ app.use('/list', routers.list);
 app.use('/task', routers.task); 
 app.use('/logout', routers.logout);
 
-// app.set('port', process.env.PORT || 3000);
-// var server = app.listen(app.get('port'), function() {
-//   console.log('Express server listening on port ' + server.address().port);
-// });
-
 
 
 
@@ -75,6 +70,46 @@ if(config.https.useHTTPS) {
 	let httpsServer = https.createServer(credentials , app);
 	httpsServer.listen(process.env.PORT || 3001);
 }
+
+
+// BOT
+const bot = require('./bot/bot');
+
+eventBus.on("BOT.TASK.CREATE", function(queryObject) {
+	bot("TASK.CREATE");
+});
+
+eventBus.on("BOT.TASK.UPDATE", function(queryObject) {
+	bot("TASK.UPDATE");
+});
+
+eventBus.on("BOT.TASK.DELETE", function(queryObject) {
+	bot("TASK.DELETE");
+});
+
+eventBus.on("BOT.LIST.CREATE", function(queryObject) {
+	bot("LIST.CREATE");
+});
+
+eventBus.on("BOT.LIST.UPDATE", function(queryObject) {
+	bot("LIST.UPDATE");
+});
+
+eventBus.on("BOT.LIST.DELETE", function(queryObject) {
+	bot("LIST.DELETE");
+});
+
+eventBus.on("BOT.BOARD.CREATE", function(queryObject) {
+	bot("BOARD.CREATE");
+});
+
+eventBus.on("BOT.BOARD.UPDATE", function(queryObject) {
+	bot("BOARD.UPDATE");
+});
+
+eventBus.on("BOT.BOARD.DELETE", function(queryObject) {
+	bot("BOARD.DELETE");
+});
 
 
 
@@ -157,6 +192,7 @@ eventBus.on("LIST.UPDATE", function(queryObject) {
 	socketSubscriptions.forEach(queryObject.id, function(socket) {
 		socket.emit("LIST.UPDATE", queryObject);
 	});
+	
 });
 
 eventBus.on("BOARD.UPDATE", function(queryObject) {
