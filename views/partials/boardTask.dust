@@ -32,21 +32,20 @@
             <div class="form-line">
                 <label> Description: </label>
                 <textarea id="task-desc-box" placeholder="{description}"></textarea>
-                <!-- <input type="text" id="task-desc-box" placeholder="{description}"> -->
             </div>
             <div class="form-line">
                 <label> Due date: </label>
                 <input type="date" id="task-date-box">
             </div>
             <div class="form-line">
-                    <label> Color: </label>
-                    <input type="color" id="task-color-box" value="{color}">
+                <label> Color: </label>
+                <input type="color" id="task-color-box" value="{color}">
             </div>
         </form>
         </br>
         <input type="submit" class="button" id="save-task-btn" value="Save changes." onclick="taskModify('{_id}')">
         </br>
         <input type="button" class="button" id="delete-task-btn" value="Delete task." onclick="taskDelete('{_id}')">
-        <p>{_id}</p>
+        <!-- <p>{_id}</p> -->
     </div>
 </div>

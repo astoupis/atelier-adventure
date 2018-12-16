@@ -105,7 +105,8 @@ function addListeners2 () {
 
     //go back to profile button 
     document.getElementById("go-back-btn").addEventListener('click', function(){
-        userGoBack();
+        //userGoBack();
+        window.location.href = "/";
     });
 
     //Search event listener
