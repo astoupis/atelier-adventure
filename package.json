@@ -17,8 +17,8 @@
     "mongoose": "^5.3.13",
     "mongoose-unique-validator": "^2.0.2",
     "node-fetch": "^2.3.0",
-    "password-validator": "^4.1.1",
-    "path": "^0.12.7"
+    "socket.io": "^2.2.0",
+    "password-validator": "^4.1.1"
   },
   "scripts": {
     "dustc": "cd ./views; dustc *.dust partials/*.dust -o ../public/js/views.js"

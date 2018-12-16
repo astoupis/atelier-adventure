@@ -282,6 +282,7 @@ function renderAvatar(boardId){
  */
 function boardGetLists(boardId, wipe=false) {
     return new Promise(function(resolve, reject) {
+
         doJSONRequest(
             "GET", 
             "/board/" + boardId,
@@ -289,6 +290,7 @@ function boardGetLists(boardId, wipe=false) {
             undefined
         )
         .then(function(board) {
+            document.getElementById("project-title").innerText = board.name;
             const lists = board.lists;
             function renderLists(pointerToCurrent=0) {
                 if(wipe) {
@@ -333,10 +335,10 @@ function boardGetLists(boardId, wipe=false) {
                     let hiddenDiv = document.createElement('div');
                     hiddenDiv.className = "hidden-div";
                     listSpace.parentElement.insertBefore(hiddenDiv, listSpace);
-                    child.firstElementChild.addEventListener('blur', (element) => {
+                    child.querySelector("h1.state-head").addEventListener('blur', (element) => {
                         element = element.srcElement;
                         let listName = element.innerHTML;
-                        let listId = element.parentNode.id;
+                        let listId = element.parentNode.parentNode.id;
                         let boardId = document.querySelector(".droptarget-column").id;
                         doJSONRequest('PUT', "/list", {'Content-Type': 'application/json'}, 
                         {boardId: boardId,
@@ -357,6 +359,7 @@ function boardGetLists(boardId, wipe=false) {
         .then(function(board) {
             if(board.lists.length == 0) {
                 resolve();
+                return;
             }
             const promise = listGetTasks(
                 board.lists[0]._id,
@@ -401,9 +404,16 @@ function listGetTasks(listId, boardId, wipe=false) {
             undefined
         )
         .then(function(list) {
+            document.getElementById(listId).querySelector(".state-head").innerText = list.name;
+
             if(wipe) {
-                document.getElementById(listId).innerHTML = "";
-                // TODO: ADD BUTTON AND TITLE OF LIST
+                document.getElementById(listId).querySelectorAll(".sticker.movable-task").forEach(function(list) {
+                    list.parentNode.removeChild(list);
+                });
+                let array = document.getElementById(listId).querySelectorAll(".hidden-task");
+                for(let i = 1; i < array.length; i++) {
+                    array[i].parentElement.removeChild(array[i]);
+                }
             }
             if(list.tasks.length == 0) {
                 resolve();
@@ -460,7 +470,7 @@ function taskGet(taskId, listId, boardId) {
                     + "."
                     + task.dueDate.getMonth()
                     + "."
-                    + task.dueDate.getYear()
+                    + task.dueDate.getFullYear()
                 );
             }
 
