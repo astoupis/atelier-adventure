@@ -1,6 +1,4 @@
 <div class="usr-image" id="usr-img">
-    <!-- <p id="usr-img-f">{firstname}</p>
-    <p id="usr-img-l">{lastname}</p> -->
     {avatarLetters}
 </div>
 <div class="usr-info-line">

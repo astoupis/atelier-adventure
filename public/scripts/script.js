@@ -53,9 +53,11 @@ function addListeners () {
         password: document.getElementById("log-psw-box").value})
         .then((data) =>{
             if (data.errorMessage){
-                document.getElementById('error').innerHTML = data.errorMessage;
+                document.getElementById('error-login').innerHTML = data.errorMessage;
+                document.getElementById('err-login').style.display = "flex";
             }
             else{
+                document.getElementById('err-login').style.display = "none";
                 window.location.href = "/";
             }
         })
@@ -72,13 +74,16 @@ function addListeners () {
         password: document.getElementById("reg-psw-box").value})
         .then((data)=>{
             if (data.message){
-                //create popup for mistake 
-                document.getElementById('error').innerHTML = data.message;
+                console.log(data.message);
+                document.getElementById('error-reg').innerHTML = data.message;
+                document.getElementById('err-reg').style.display = "flex";
+            }else{
+                document.getElementById('err-reg').style.display = "none";
+                document.querySelector(".pp-register").style.display = "none";
             }
-            document.querySelector(".pp-register").style.display = "none";
         })
         .catch((error)=>{
-            //
+            //console.log(error);
         });
     });
 }
@@ -105,8 +110,7 @@ function addListeners2 () {
 
     //go back to profile button 
     document.getElementById("go-back-btn").addEventListener('click', function(){
-        //userGoBack();
-        window.location.href = "/";
+        userGoBack();
     });
 
     //Search event listener
@@ -599,13 +603,10 @@ function closeModPP(id){
 function addListeners3() {
     //show passaword for modification
     document.getElementById("mod-psw-checkbox").addEventListener('click', function(){
-        let oldPswText = document.getElementById("old-psw-box");
         let newPswText = document.getElementById("new-psw-box");
-        if (oldPswText.type === "password" || newPswText.type == "password") {
-            oldPswText.type = "text";
+        if (newPswText.type == "password") {
             newPswText.type = "text";
         } else {
-            oldPswText.type = "password";
             newPswText.type = "password";
         }
     });
@@ -628,7 +629,7 @@ function addListeners3() {
         }
     } 
 
-    //saving modifications
+    //saving user profile modifications
     document.getElementById("save-mod-btn").addEventListener('click', function(){
         doJSONRequest('PUT', "/user", {'Content-Type': 'application/json'},
         {firstname: document.getElementById("mod-fnm-box").value, 
@@ -638,10 +639,13 @@ function addListeners3() {
         password: document.getElementById("new-psw-box").value})
         .then((data)=>{
             if(data.message){
-                document.getElementById('error').innerHTML = data.message;
+                document.getElementById('error-usr-mod').innerHTML = data.message;
+                document.getElementById('err-usr-mod').style.display = "flex";
+            } else{
+                document.querySelector(".pp-register").style.display = "none";
+                userUpdate();
+                document.getElementById('err-usr-mod').style.display = "none";
             }
-            document.querySelector(".pp-register").style.display = "none";
-            userUpdate();  
         })
         .catch((error)=>{
             console.log(error);

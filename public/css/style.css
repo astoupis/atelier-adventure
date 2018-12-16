@@ -48,6 +48,9 @@ header>h1{
   height: auto;
   min-height: 25px;
 }
+#go-back-btn:hover{
+  cursor: pointer;
+}
 /* Container */
 #board-users-div{
   position: absolute;
@@ -80,7 +83,7 @@ main{
   overflow-x: auto; /* [1] */
 }
 
-/* Main columns */
+/* Main lists */
 /* Column div */
 div.droptarget {
   max-width: 25vw;
@@ -101,6 +104,20 @@ h1.state-head{
   color: #FFFEFF
 }
 
+.list-options{
+  text-align: right;
+}
+
+.list-options img{
+  margin: 5px;
+  width: 4vw;
+  min-width: 20px;
+  height: auto;
+  min-height: 20px;
+}
+.list-options img:hover{
+  cursor: pointer;
+}
 
 /*
  * TASK / SICKER 
@@ -146,9 +163,9 @@ img.sticker{
  */
 
 footer{
-  height: 5vh;
-  margin-top: -5vh;
-  padding-top: 8px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
 .footer-credits{
@@ -465,6 +482,7 @@ h1.mod-usr{
 .usr-info-line{
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .usr-info-line label{
@@ -479,7 +497,11 @@ h1.mod-usr{
 .usr-info{
   position: absolute;
   top:5px;
-  right: 15px;
+  right: 10px;
+  width: 10vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .my_avatar{
@@ -533,6 +555,7 @@ h1.mod-usr{
 
 /* BOARD PREVIEW */
 #posted-boards{
+  width: 90vw;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -657,4 +680,28 @@ div.hidden-div{
   cursor: pointer;
 }
 
-
+/* Error messages */
+.err-div{
+  margin-left: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: 550px;
+}
+.error{
+  border: 2px solid red;
+  padding: 5px;
+  margin: 0 auto;
+  text-align: center;
+}
+#err-login{
+  color: #FFFEFF;
+  display: none;
+}
+#err-reg{
+  color: black;
+  display: none;
+}
+#err-usr-mod{
+  color: black;
+  display: none;
+}

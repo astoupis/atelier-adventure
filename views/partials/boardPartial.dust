@@ -1,6 +1,6 @@
 <div>
     <div class="list-options">
-        <img src="/images/garbage.png" width="35px" height="35px" onclick="listDelete('{_id}')">
+        <img src="/images/garbage.png" onclick="listDelete('{_id}')">
     </div>
     <h1 class="state-head" contenteditable="true">
         {name}

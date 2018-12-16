@@ -85,10 +85,7 @@ function doJSONRequest(method, url, headers, body){
 }
 
 
-  /***************************/
- /**Board preview rendering**/
-/***************************/ 
-
+/**Board preview rendering**/
 function getBoardPrev(id){
     // take all the the board ids and render all the boards 
     doJSONRequest('GET', "/board/" + id,{}, undefined)
@@ -120,10 +117,7 @@ function boardPrevUpdate(){
     });
 }
 
-  /***************************/
  /**User update and render **/
-/***************************/ 
-
 function userUpdate(){
     doJSONRequest('GET', "/user", {}, undefined)
     .then(function(user) {
@@ -145,9 +139,22 @@ function userUpdate(){
     });
 }
 
-  /***************************/
- /****** Create new board ***/
-/***************************/ 
+ /** User Logout **/
+function userLogout(){
+    doJSONRequest('GET', '/logout', {}, undefined);
+    window.location.href = "/logout";
+}
+
+ /* User GoBack to profile button */
+function userGoBack(){
+    doJSONRequest('GET', '/user', {}, undefined)
+    .then((user) => {
+        let user_id = user._id;
+        window.location.href = '/user/' + user_id;   
+    })
+}
+
+/**Crate new board **/ 
 function boardCreate(){
     doJSONRequest('POST', "/board", {}, {name: document.getElementById('board-name').value})
     .then(function(board) {

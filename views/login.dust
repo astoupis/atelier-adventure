@@ -12,9 +12,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body onload="addListeners()">
-        <div class="error">
-            <p id='error'></p>
-        </div>
         <header class="login">
             <h1>Welcome!</h1>
             </br>
@@ -35,6 +32,9 @@
                     <input type="button" class="button" id="login-btn" value="Login">
                     <!-- <input type="submit" class="button" id="login-btn" name="login-btn" value="Login"> -->
                 </form>
+                <div class="err-div" id="err-login">
+                    <p class="error" id="error-login"></p>
+                </div>
                 <!-- Open registration popup -->
                 <div class="signup">
                     <p>Not registered yet?</p>
@@ -55,8 +55,10 @@
                             <div class="form-line">
                                 <label class="login">Show password</label><input id="reg-psw-checkbox" type="checkbox">
                             </div>
-                            <!-- <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up"> -->
                         </form>
+                        <div class="err-div" id="err-reg">
+                            <p class="error" id="error-reg"></p>
+                        </div>
                         <input type="submit" class="button" id="register-btn" name="register-btn" value="Sign Up">
                 </div>
             </div>
