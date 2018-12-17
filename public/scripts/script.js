@@ -499,7 +499,7 @@ document.addEventListener("drop", function(event) {
                 
                 for(let i = 0; i < array.length; i++) {
                     if(array[i] === destinationHiddenDiv && destinationHiddenDiv !== hiddenDiv) {
-                        return i + 1;
+                        return i;
                     }
                 }
                 return -1;
