@@ -37,6 +37,9 @@
                         <!-- add new board -->
                         <input type="text" id="board-name" placeholder="Board name">
                         <input type="button" id="new-board-btn" class="button" value="New board">
+                        <div class="err-div-2" id="err-new-brd">
+                            <p class="error" id="error-new-brd"></p>
+                        </div>
                     </div>
                 </div>
             </div>

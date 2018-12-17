@@ -687,6 +687,12 @@ div.hidden-div{
   margin-bottom: 10px;
   max-width: 550px;
 }
+.err-div-2{
+  position: absolute;
+  margin-left: 5px;
+  margin-bottom: 10px;
+  max-width: 550px;
+}
 .error{
   border: 2px solid red;
   padding: 5px;
@@ -703,5 +709,9 @@ div.hidden-div{
 }
 #err-usr-mod{
   color: black;
+  display: none;
+}
+#err-new-brd{
+  color: #FFFEFF;
   display: none;
 }

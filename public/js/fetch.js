@@ -159,8 +159,10 @@ function boardCreate(){
     doJSONRequest('POST', "/board", {}, {name: document.getElementById('board-name').value})
     .then(function(board) {
         getBoardPrev(board._id);
+        document.getElementById("err-new-brd").style.display = "none";
     }).catch((err)=>{
-        alert("Invalid board name");
+        document.getElementById("error-new-brd").innerHTML = "Invalid board name";
+        document.getElementById("err-new-brd").style.display = "flex";
     });
 }
 
