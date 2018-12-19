@@ -470,7 +470,7 @@ function taskGet(taskId, listId, boardId) {
                 task.dueDate = ( 
                     task.dueDate.getDate() 
                     + "."
-                    + task.dueDate.getMonth()
+                    + (task.dueDate.getMonth() + 1)
                     + "."
                     + task.dueDate.getFullYear()
                 );
