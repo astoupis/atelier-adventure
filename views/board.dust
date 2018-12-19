@@ -51,9 +51,9 @@
         </main>
         <!-- FOOTER -->
         <footer>
-            <p class='footer-credits'>
+            <!-- <p class='footer-credits'>
                 © Created and Designed by TRemindxD. 
-            </p>
+            </p> -->
             <!-- Need to add a legenda -->
         </footer>
     </body>
